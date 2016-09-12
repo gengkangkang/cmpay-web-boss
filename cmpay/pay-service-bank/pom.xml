@@ -8,9 +8,9 @@
   </parent>
   <groupId>com.cmpay</groupId>
   <artifactId>pay-service-bank</artifactId>
-  <name>pay-service-trade</name>
+  <version>${pay-service-bank.version}</version>
+  <name>pay-service-bank</name>
   <url>http://maven.apache.org</url>
-  <version>0.0.1-SNAPSHOT</version>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
