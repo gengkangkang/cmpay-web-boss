@@ -30,6 +30,8 @@
 		<pay-common-utils.version>0.0.1-SNAPSHOT</pay-common-utils.version>
 		<pay-web-gateway.version>0.0.1-SNAPSHOT</pay-web-gateway.version>
 		<pay-facade-trade.version>0.0.1-SNAPSHOT</pay-facade-trade.version>
+		<pay-service-trade.version>0.0.1-SNAPSHOT</pay-service-trade.version>
+		
 		
 		
 		<org.springframework.version>4.3.2.RELEASE</org.springframework.version>
