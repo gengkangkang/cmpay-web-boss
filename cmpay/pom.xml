@@ -31,6 +31,16 @@
 		<pay-web-gateway.version>0.0.1-SNAPSHOT</pay-web-gateway.version>
 		<pay-facade-trade.version>0.0.1-SNAPSHOT</pay-facade-trade.version>
 		<pay-service-trade.version>0.0.1-SNAPSHOT</pay-service-trade.version>
+		<pay-service-bank.version>0.0.1-SNAPSHOT</pay-service-bank.version>
+		<pay-service-chinapay.version>0.0.1-SNAPSHOT</pay-service-chinapay.version>
+		<pay-service-fee.version>0.0.1-SNAPSHOT</pay-service-fee.version>
+		<pay-service-jytpay.version>0.0.1-SNAPSHOT</pay-service-jytpay.version>
+		<pay-service-llpay.version>0.0.1-SNAPSHOT</pay-service-llpay.version>
+		<pay-service-quartz.version>0.0.1-SNAPSHOT</pay-service-quartz.version>
+		<pay-service-rule.version>0.0.1-SNAPSHOT</pay-service-rule.version>
+		<pay-web-boss.version>0.0.1-SNAPSHOT</pay-web-boss.version>
+		<pay-web-cashier.version>0.0.1-SNAPSHOT</pay-web-cashier.version>
+		
 		
 		
 		
@@ -344,17 +354,19 @@
  
   <modules>
   	<module>pay-common-utils</module>
-  	<module>pay-web-gateway</module>
-  	<module>pay-facade-trade</module>
-    <module>pay-service-trade</module>
-    <module>pay-web-cashier</module>
-    <module>pay-web-boss</module>
-    <module>pay-service-fee</module>
-    <module>pay-service-rule</module>
-    <module>pay-service-bank</module>
-    <module>pay-service-chinapay</module>
+  	<module>pay-service-chinapay</module>
     <module>pay-service-llpay</module>
     <module>pay-service-jytpay</module>
+    <module>pay-service-trade</module>  
+    <module>pay-service-fee</module>
+    <module>pay-service-rule</module>
+    <module>pay-service-bank</module>  
+    <module>pay-facade-trade</module>    
+  	<module>pay-web-gateway</module>
+    <module>pay-web-cashier</module>
+    <module>pay-web-boss</module>
+
+    
     <module>pay-service-quartz</module>
   </modules>
 </project>

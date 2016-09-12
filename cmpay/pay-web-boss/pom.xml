@@ -9,7 +9,7 @@
   <artifactId>pay-web-boss</artifactId>
   <groupId>com.cmpay</groupId>
   <packaging>war</packaging>
-  
+  <version>${pay-web-boss.version}</version>
   <dependencies>
   
 <dependency>
@@ -212,7 +212,6 @@
     
   </dependencies>
   
-  <version>0.0.1-SNAPSHOT</version>
   
   <build>
     <plugins>
