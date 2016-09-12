@@ -9,7 +9,7 @@
   <artifactId>pay-web-cashier</artifactId>
   <groupId>com.cmpay</groupId>
   <packaging>war</packaging>
-  
+  <version>${pay-web-cashier.version}</version>
   <dependencies>
   
 <dependency>
@@ -211,9 +211,7 @@
       </dependency> 
     
   </dependencies>
-  
-  <version>0.0.1-SNAPSHOT</version>
-  
+    
   <build>
     <plugins>
        <plugin>  
