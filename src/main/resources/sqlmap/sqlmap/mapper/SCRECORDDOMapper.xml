@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cmpay.boss.mapper.SCRECORDDOMapper">
+  <resultMap id="BaseResultMap" type="com.cmpay.boss.entity.SCRECORDDO">
+    <id column="SCHEDULER_ID" jdbcType="VARCHAR" property="schedulerId" />
+    <result column="SYSTEM_NAME" jdbcType="VARCHAR" property="systemName" />
+    <result column="TASK_NAME" jdbcType="VARCHAR" property="taskName" />
+    <result column="CRON_EXP" jdbcType="VARCHAR" property="cronExp" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="INCHANNEL" jdbcType="VARCHAR" property="inchannel" />
+    <result column="MESSAGE_TYPE" jdbcType="VARCHAR" property="messageType" />
+    <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+    <result column="CREATE_TIME" jdbcType="DATE" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="DATE" property="updateTime" />
+    <result column="END_TIME" jdbcType="DATE" property="endTime" />
+    <result column="DELETE_STATUS" jdbcType="VARCHAR" property="deleteStatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    SCHEDULER_ID, SYSTEM_NAME, TASK_NAME, CRON_EXP, STATUS, INCHANNEL, MESSAGE_TYPE, 
+    REMARKS, CREATE_TIME, UPDATE_TIME, END_TIME, DELETE_STATUS
+  </sql>
+  <select id="selectByExample" parameterType="com.cmpay.boss.entity.SCRECORDDOExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from SCHEDULER_SC_RECORD
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SCHEDULER_SC_RECORD
+    where SCHEDULER_ID = #{schedulerId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from SCHEDULER_SC_RECORD
+    where SCHEDULER_ID = #{schedulerId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cmpay.boss.entity.SCRECORDDOExample">
+    delete from SCHEDULER_SC_RECORD
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cmpay.boss.entity.SCRECORDDO">
+    insert into SCHEDULER_SC_RECORD (SCHEDULER_ID, SYSTEM_NAME, TASK_NAME, 
+      CRON_EXP, STATUS, INCHANNEL, 
+      MESSAGE_TYPE, REMARKS, CREATE_TIME, 
+      UPDATE_TIME, END_TIME, DELETE_STATUS
+      )
+    values (#{schedulerId,jdbcType=VARCHAR}, #{systemName,jdbcType=VARCHAR}, #{taskName,jdbcType=VARCHAR}, 
+      #{cronExp,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{inchannel,jdbcType=VARCHAR}, 
+      #{messageType,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, 
+      #{updateTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, #{deleteStatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cmpay.boss.entity.SCRECORDDO">
+    insert into SCHEDULER_SC_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="schedulerId != null">
+        SCHEDULER_ID,
+      </if>
+      <if test="systemName != null">
+        SYSTEM_NAME,
+      </if>
+      <if test="taskName != null">
+        TASK_NAME,
+      </if>
+      <if test="cronExp != null">
+        CRON_EXP,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="inchannel != null">
+        INCHANNEL,
+      </if>
+      <if test="messageType != null">
+        MESSAGE_TYPE,
+      </if>
+      <if test="remarks != null">
+        REMARKS,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="endTime != null">
+        END_TIME,
+      </if>
+      <if test="deleteStatus != null">
+        DELETE_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="schedulerId != null">
+        #{schedulerId,jdbcType=VARCHAR},
+      </if>
+      <if test="systemName != null">
+        #{systemName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskName != null">
+        #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="cronExp != null">
+        #{cronExp,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="inchannel != null">
+        #{inchannel,jdbcType=VARCHAR},
+      </if>
+      <if test="messageType != null">
+        #{messageType,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=DATE},
+      </if>
+      <if test="deleteStatus != null">
+        #{deleteStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cmpay.boss.entity.SCRECORDDOExample" resultType="java.lang.Integer">
+    select count(*) from SCHEDULER_SC_RECORD
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update SCHEDULER_SC_RECORD
+    <set>
+      <if test="record.schedulerId != null">
+        SCHEDULER_ID = #{record.schedulerId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.systemName != null">
+        SYSTEM_NAME = #{record.systemName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskName != null">
+        TASK_NAME = #{record.taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cronExp != null">
+        CRON_EXP = #{record.cronExp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inchannel != null">
+        INCHANNEL = #{record.inchannel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.messageType != null">
+        MESSAGE_TYPE = #{record.messageType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null">
+        REMARKS = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=DATE},
+      </if>
+      <if test="record.updateTime != null">
+        UPDATE_TIME = #{record.updateTime,jdbcType=DATE},
+      </if>
+      <if test="record.endTime != null">
+        END_TIME = #{record.endTime,jdbcType=DATE},
+      </if>
+      <if test="record.deleteStatus != null">
+        DELETE_STATUS = #{record.deleteStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update SCHEDULER_SC_RECORD
+    set SCHEDULER_ID = #{record.schedulerId,jdbcType=VARCHAR},
+      SYSTEM_NAME = #{record.systemName,jdbcType=VARCHAR},
+      TASK_NAME = #{record.taskName,jdbcType=VARCHAR},
+      CRON_EXP = #{record.cronExp,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      INCHANNEL = #{record.inchannel,jdbcType=VARCHAR},
+      MESSAGE_TYPE = #{record.messageType,jdbcType=VARCHAR},
+      REMARKS = #{record.remarks,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=DATE},
+      UPDATE_TIME = #{record.updateTime,jdbcType=DATE},
+      END_TIME = #{record.endTime,jdbcType=DATE},
+      DELETE_STATUS = #{record.deleteStatus,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cmpay.boss.entity.SCRECORDDO">
+    update SCHEDULER_SC_RECORD
+    <set>
+      <if test="systemName != null">
+        SYSTEM_NAME = #{systemName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskName != null">
+        TASK_NAME = #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="cronExp != null">
+        CRON_EXP = #{cronExp,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="inchannel != null">
+        INCHANNEL = #{inchannel,jdbcType=VARCHAR},
+      </if>
+      <if test="messageType != null">
+        MESSAGE_TYPE = #{messageType,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null">
+        END_TIME = #{endTime,jdbcType=DATE},
+      </if>
+      <if test="deleteStatus != null">
+        DELETE_STATUS = #{deleteStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SCHEDULER_ID = #{schedulerId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cmpay.boss.entity.SCRECORDDO">
+    update SCHEDULER_SC_RECORD
+    set SYSTEM_NAME = #{systemName,jdbcType=VARCHAR},
+      TASK_NAME = #{taskName,jdbcType=VARCHAR},
+      CRON_EXP = #{cronExp,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      INCHANNEL = #{inchannel,jdbcType=VARCHAR},
+      MESSAGE_TYPE = #{messageType,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=DATE},
+      UPDATE_TIME = #{updateTime,jdbcType=DATE},
+      END_TIME = #{endTime,jdbcType=DATE},
+      DELETE_STATUS = #{deleteStatus,jdbcType=VARCHAR}
+    where SCHEDULER_ID = #{schedulerId,jdbcType=VARCHAR}
+  </update>
+</mapper>

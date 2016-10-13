@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cmpay.boss.mapper.SYSUSRDOMapper">
+  <resultMap id="BaseResultMap" type="com.cmpay.boss.entity.SYSUSRDO">
+    <id column="USR_ID" jdbcType="VARCHAR" property="usrId" />
+    <result column="USR_NAME" jdbcType="VARCHAR" property="usrName" />
+    <result column="USR_PWD" jdbcType="VARCHAR" property="usrPwd" />
+    <result column="USR_REMARK" jdbcType="VARCHAR" property="usrRemark" />
+    <result column="USR_DISABLE_TAG" jdbcType="CHAR" property="usrDisableTag" />
+    <result column="USR_EMAIL" jdbcType="VARCHAR" property="usrEmail" />
+    <result column="USR_TYPE" jdbcType="VARCHAR" property="usrType" />
+    <result column="USR_CREATE_BY" jdbcType="VARCHAR" property="usrCreateBy" />
+    <result column="CREATE_TIME" jdbcType="DATE" property="createTime" />
+    <result column="USR_UPDATE_BY" jdbcType="VARCHAR" property="usrUpdateBy" />
+    <result column="UPDATE_TIME" jdbcType="DATE" property="updateTime" />
+    <result column="END_TIME" jdbcType="DATE" property="endTime" />
+    <result column="DELETE_STATUS" jdbcType="VARCHAR" property="deleteStatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    USR_ID, USR_NAME, USR_PWD, USR_REMARK, USR_DISABLE_TAG, USR_EMAIL, USR_TYPE, USR_CREATE_BY, 
+    CREATE_TIME, USR_UPDATE_BY, UPDATE_TIME, END_TIME, DELETE_STATUS
+  </sql>
+  <select id="selectByExample" parameterType="com.cmpay.boss.entity.SYSUSRDOExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from SCHEDULER_SYS_USR
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SCHEDULER_SYS_USR
+    where USR_ID = #{usrId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from SCHEDULER_SYS_USR
+    where USR_ID = #{usrId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cmpay.boss.entity.SYSUSRDOExample">
+    delete from SCHEDULER_SYS_USR
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cmpay.boss.entity.SYSUSRDO">
+    insert into SCHEDULER_SYS_USR (USR_ID, USR_NAME, USR_PWD, 
+      USR_REMARK, USR_DISABLE_TAG, USR_EMAIL, 
+      USR_TYPE, USR_CREATE_BY, CREATE_TIME, 
+      USR_UPDATE_BY, UPDATE_TIME, END_TIME, 
+      DELETE_STATUS)
+    values (#{usrId,jdbcType=VARCHAR}, #{usrName,jdbcType=VARCHAR}, #{usrPwd,jdbcType=VARCHAR}, 
+      #{usrRemark,jdbcType=VARCHAR}, #{usrDisableTag,jdbcType=CHAR}, #{usrEmail,jdbcType=VARCHAR}, 
+      #{usrType,jdbcType=VARCHAR}, #{usrCreateBy,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, 
+      #{usrUpdateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, 
+      #{deleteStatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cmpay.boss.entity.SYSUSRDO">
+    insert into SCHEDULER_SYS_USR
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="usrId != null">
+        USR_ID,
+      </if>
+      <if test="usrName != null">
+        USR_NAME,
+      </if>
+      <if test="usrPwd != null">
+        USR_PWD,
+      </if>
+      <if test="usrRemark != null">
+        USR_REMARK,
+      </if>
+      <if test="usrDisableTag != null">
+        USR_DISABLE_TAG,
+      </if>
+      <if test="usrEmail != null">
+        USR_EMAIL,
+      </if>
+      <if test="usrType != null">
+        USR_TYPE,
+      </if>
+      <if test="usrCreateBy != null">
+        USR_CREATE_BY,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="usrUpdateBy != null">
+        USR_UPDATE_BY,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="endTime != null">
+        END_TIME,
+      </if>
+      <if test="deleteStatus != null">
+        DELETE_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="usrId != null">
+        #{usrId,jdbcType=VARCHAR},
+      </if>
+      <if test="usrName != null">
+        #{usrName,jdbcType=VARCHAR},
+      </if>
+      <if test="usrPwd != null">
+        #{usrPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="usrRemark != null">
+        #{usrRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="usrDisableTag != null">
+        #{usrDisableTag,jdbcType=CHAR},
+      </if>
+      <if test="usrEmail != null">
+        #{usrEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="usrType != null">
+        #{usrType,jdbcType=VARCHAR},
+      </if>
+      <if test="usrCreateBy != null">
+        #{usrCreateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="usrUpdateBy != null">
+        #{usrUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=DATE},
+      </if>
+      <if test="deleteStatus != null">
+        #{deleteStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cmpay.boss.entity.SYSUSRDOExample" resultType="java.lang.Integer">
+    select count(*) from SCHEDULER_SYS_USR
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update SCHEDULER_SYS_USR
+    <set>
+      <if test="record.usrId != null">
+        USR_ID = #{record.usrId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usrName != null">
+        USR_NAME = #{record.usrName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usrPwd != null">
+        USR_PWD = #{record.usrPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usrRemark != null">
+        USR_REMARK = #{record.usrRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usrDisableTag != null">
+        USR_DISABLE_TAG = #{record.usrDisableTag,jdbcType=CHAR},
+      </if>
+      <if test="record.usrEmail != null">
+        USR_EMAIL = #{record.usrEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usrType != null">
+        USR_TYPE = #{record.usrType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usrCreateBy != null">
+        USR_CREATE_BY = #{record.usrCreateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=DATE},
+      </if>
+      <if test="record.usrUpdateBy != null">
+        USR_UPDATE_BY = #{record.usrUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        UPDATE_TIME = #{record.updateTime,jdbcType=DATE},
+      </if>
+      <if test="record.endTime != null">
+        END_TIME = #{record.endTime,jdbcType=DATE},
+      </if>
+      <if test="record.deleteStatus != null">
+        DELETE_STATUS = #{record.deleteStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update SCHEDULER_SYS_USR
+    set USR_ID = #{record.usrId,jdbcType=VARCHAR},
+      USR_NAME = #{record.usrName,jdbcType=VARCHAR},
+      USR_PWD = #{record.usrPwd,jdbcType=VARCHAR},
+      USR_REMARK = #{record.usrRemark,jdbcType=VARCHAR},
+      USR_DISABLE_TAG = #{record.usrDisableTag,jdbcType=CHAR},
+      USR_EMAIL = #{record.usrEmail,jdbcType=VARCHAR},
+      USR_TYPE = #{record.usrType,jdbcType=VARCHAR},
+      USR_CREATE_BY = #{record.usrCreateBy,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=DATE},
+      USR_UPDATE_BY = #{record.usrUpdateBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.updateTime,jdbcType=DATE},
+      END_TIME = #{record.endTime,jdbcType=DATE},
+      DELETE_STATUS = #{record.deleteStatus,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cmpay.boss.entity.SYSUSRDO">
+    update SCHEDULER_SYS_USR
+    <set>
+      <if test="usrName != null">
+        USR_NAME = #{usrName,jdbcType=VARCHAR},
+      </if>
+      <if test="usrPwd != null">
+        USR_PWD = #{usrPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="usrRemark != null">
+        USR_REMARK = #{usrRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="usrDisableTag != null">
+        USR_DISABLE_TAG = #{usrDisableTag,jdbcType=CHAR},
+      </if>
+      <if test="usrEmail != null">
+        USR_EMAIL = #{usrEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="usrType != null">
+        USR_TYPE = #{usrType,jdbcType=VARCHAR},
+      </if>
+      <if test="usrCreateBy != null">
+        USR_CREATE_BY = #{usrCreateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="usrUpdateBy != null">
+        USR_UPDATE_BY = #{usrUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null">
+        END_TIME = #{endTime,jdbcType=DATE},
+      </if>
+      <if test="deleteStatus != null">
+        DELETE_STATUS = #{deleteStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USR_ID = #{usrId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cmpay.boss.entity.SYSUSRDO">
+    update SCHEDULER_SYS_USR
+    set USR_NAME = #{usrName,jdbcType=VARCHAR},
+      USR_PWD = #{usrPwd,jdbcType=VARCHAR},
+      USR_REMARK = #{usrRemark,jdbcType=VARCHAR},
+      USR_DISABLE_TAG = #{usrDisableTag,jdbcType=CHAR},
+      USR_EMAIL = #{usrEmail,jdbcType=VARCHAR},
+      USR_TYPE = #{usrType,jdbcType=VARCHAR},
+      USR_CREATE_BY = #{usrCreateBy,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=DATE},
+      USR_UPDATE_BY = #{usrUpdateBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=DATE},
+      END_TIME = #{endTime,jdbcType=DATE},
+      DELETE_STATUS = #{deleteStatus,jdbcType=VARCHAR}
+    where USR_ID = #{usrId,jdbcType=VARCHAR}
+  </update>
+</mapper>

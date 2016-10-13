@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cmpay.boss.mapper.SYSROLEFUNCDOMapper">
+  <resultMap id="BaseResultMap" type="com.cmpay.boss.entity.SYSROLEFUNCDO">
+    <id column="ROLE_ID" jdbcType="VARCHAR" property="roleId" />
+    <id column="FUNC_ID" jdbcType="VARCHAR" property="funcId" />
+    <result column="ROLE_FUNC_REMARK" jdbcType="VARCHAR" property="roleFuncRemark" />
+    <result column="ROLE_FUNC_CREATE_BY" jdbcType="VARCHAR" property="roleFuncCreateBy" />
+    <result column="CREATE_TIME" jdbcType="DATE" property="createTime" />
+    <result column="ROLE_FUNC_UPDATE_BY" jdbcType="VARCHAR" property="roleFuncUpdateBy" />
+    <result column="UPDATE_TIME" jdbcType="DATE" property="updateTime" />
+    <result column="END_TIME" jdbcType="DATE" property="endTime" />
+    <result column="DELETE_STATUS" jdbcType="VARCHAR" property="deleteStatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ROLE_ID, FUNC_ID, ROLE_FUNC_REMARK, ROLE_FUNC_CREATE_BY, CREATE_TIME, ROLE_FUNC_UPDATE_BY, 
+    UPDATE_TIME, END_TIME, DELETE_STATUS
+  </sql>
+  <select id="selectByExample" parameterType="com.cmpay.boss.entity.SYSROLEFUNCDOExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from SCHEDULER_SYS_ROLE_FUNC
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.cmpay.boss.entity.SYSROLEFUNCDOKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SCHEDULER_SYS_ROLE_FUNC
+    where ROLE_ID = #{roleId,jdbcType=VARCHAR}
+      and FUNC_ID = #{funcId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.cmpay.boss.entity.SYSROLEFUNCDOKey">
+    delete from SCHEDULER_SYS_ROLE_FUNC
+    where ROLE_ID = #{roleId,jdbcType=VARCHAR}
+      and FUNC_ID = #{funcId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cmpay.boss.entity.SYSROLEFUNCDOExample">
+    delete from SCHEDULER_SYS_ROLE_FUNC
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cmpay.boss.entity.SYSROLEFUNCDO">
+    insert into SCHEDULER_SYS_ROLE_FUNC (ROLE_ID, FUNC_ID, ROLE_FUNC_REMARK, 
+      ROLE_FUNC_CREATE_BY, CREATE_TIME, ROLE_FUNC_UPDATE_BY, 
+      UPDATE_TIME, END_TIME, DELETE_STATUS
+      )
+    values (#{roleId,jdbcType=VARCHAR}, #{funcId,jdbcType=VARCHAR}, #{roleFuncRemark,jdbcType=VARCHAR}, 
+      #{roleFuncCreateBy,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, #{roleFuncUpdateBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, #{deleteStatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cmpay.boss.entity.SYSROLEFUNCDO">
+    insert into SCHEDULER_SYS_ROLE_FUNC
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        ROLE_ID,
+      </if>
+      <if test="funcId != null">
+        FUNC_ID,
+      </if>
+      <if test="roleFuncRemark != null">
+        ROLE_FUNC_REMARK,
+      </if>
+      <if test="roleFuncCreateBy != null">
+        ROLE_FUNC_CREATE_BY,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="roleFuncUpdateBy != null">
+        ROLE_FUNC_UPDATE_BY,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="endTime != null">
+        END_TIME,
+      </if>
+      <if test="deleteStatus != null">
+        DELETE_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="funcId != null">
+        #{funcId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleFuncRemark != null">
+        #{roleFuncRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="roleFuncCreateBy != null">
+        #{roleFuncCreateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="roleFuncUpdateBy != null">
+        #{roleFuncUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=DATE},
+      </if>
+      <if test="deleteStatus != null">
+        #{deleteStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cmpay.boss.entity.SYSROLEFUNCDOExample" resultType="java.lang.Integer">
+    select count(*) from SCHEDULER_SYS_ROLE_FUNC
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update SCHEDULER_SYS_ROLE_FUNC
+    <set>
+      <if test="record.roleId != null">
+        ROLE_ID = #{record.roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.funcId != null">
+        FUNC_ID = #{record.funcId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleFuncRemark != null">
+        ROLE_FUNC_REMARK = #{record.roleFuncRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleFuncCreateBy != null">
+        ROLE_FUNC_CREATE_BY = #{record.roleFuncCreateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=DATE},
+      </if>
+      <if test="record.roleFuncUpdateBy != null">
+        ROLE_FUNC_UPDATE_BY = #{record.roleFuncUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        UPDATE_TIME = #{record.updateTime,jdbcType=DATE},
+      </if>
+      <if test="record.endTime != null">
+        END_TIME = #{record.endTime,jdbcType=DATE},
+      </if>
+      <if test="record.deleteStatus != null">
+        DELETE_STATUS = #{record.deleteStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update SCHEDULER_SYS_ROLE_FUNC
+    set ROLE_ID = #{record.roleId,jdbcType=VARCHAR},
+      FUNC_ID = #{record.funcId,jdbcType=VARCHAR},
+      ROLE_FUNC_REMARK = #{record.roleFuncRemark,jdbcType=VARCHAR},
+      ROLE_FUNC_CREATE_BY = #{record.roleFuncCreateBy,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=DATE},
+      ROLE_FUNC_UPDATE_BY = #{record.roleFuncUpdateBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.updateTime,jdbcType=DATE},
+      END_TIME = #{record.endTime,jdbcType=DATE},
+      DELETE_STATUS = #{record.deleteStatus,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cmpay.boss.entity.SYSROLEFUNCDO">
+    update SCHEDULER_SYS_ROLE_FUNC
+    <set>
+      <if test="roleFuncRemark != null">
+        ROLE_FUNC_REMARK = #{roleFuncRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="roleFuncCreateBy != null">
+        ROLE_FUNC_CREATE_BY = #{roleFuncCreateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="roleFuncUpdateBy != null">
+        ROLE_FUNC_UPDATE_BY = #{roleFuncUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null">
+        END_TIME = #{endTime,jdbcType=DATE},
+      </if>
+      <if test="deleteStatus != null">
+        DELETE_STATUS = #{deleteStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ROLE_ID = #{roleId,jdbcType=VARCHAR}
+      and FUNC_ID = #{funcId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cmpay.boss.entity.SYSROLEFUNCDO">
+    update SCHEDULER_SYS_ROLE_FUNC
+    set ROLE_FUNC_REMARK = #{roleFuncRemark,jdbcType=VARCHAR},
+      ROLE_FUNC_CREATE_BY = #{roleFuncCreateBy,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=DATE},
+      ROLE_FUNC_UPDATE_BY = #{roleFuncUpdateBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=DATE},
+      END_TIME = #{endTime,jdbcType=DATE},
+      DELETE_STATUS = #{deleteStatus,jdbcType=VARCHAR}
+    where ROLE_ID = #{roleId,jdbcType=VARCHAR}
+      and FUNC_ID = #{funcId,jdbcType=VARCHAR}
+  </update>
+</mapper>

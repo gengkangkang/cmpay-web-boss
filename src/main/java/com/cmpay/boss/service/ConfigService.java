@@ -1,0 +1,25 @@
+package com.cmpay.boss.service;
+
+import java.util.Map;
+
+import com.cmpay.boss.domain.IpBO;
+import com.cmpay.boss.util.Pagination;
+
+/**
+ * @author gengkangkang
+ * @E-mail gengkangkang@cm-inv.com
+ *
+ * 2016年10月11日 下午2:46:42
+ *
+ */
+public interface ConfigService {
+
+    Pagination<IpBO> getAllIp(IpBO ipBO);
+    Map addNewIp(String ip,String inchannel,String remark);
+    IpBO getById(String ip);
+    Map updateIpInfo(IpBO ipBO);
+    Pagination<IpBO> getIpByPara(IpBO ipBO);
+
+
+
+}
