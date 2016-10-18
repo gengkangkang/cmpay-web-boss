@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cmpay.service.bank.mapping.PayChannelDOMapper">
+
+	<resultMap type="com.cmpay.service.bank.model.PayChannelDO" id="PayChannelDOResultMap">
+		<id column="ID" property="id" />
+        <result column="CODE" property="code"/>
+        <result column="NAME" property="name"/>
+        <result column="OPEN_STATUS" property="openStatus"/>
+        <result column="IN_OUT_SUPPORT" property="inOutSupport"/>
+        <result column="CARD_TYPE_SUPPORT" property="cardTypeSupport"/>
+        <result column="CARD_AUTH_OPEN_STATUS" property="cardAuthOpenStatus"/>
+        <result column="IN_METHOD" property="inMethod"/>
+        <result column="MERCH_NO" property="merchNo"/>
+        <result column="PRIORITY" property="priority"/>
+        <result column="CREATOR" property="creator"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="MODIFIER" property="modifier"/>
+        <result column="MODIFY_TIME" property="modifyTime"/>
+        <result column="VERSION" property="version"/>
+        <result column="REMARK" property="remark"/>
+	
+	</resultMap>
+
+	<sql id="AllColumnFields">
+	      ID,CODE,NAME,OPEN_STATUS,IN_OUT_SUPPORT,CARD_TYPE_SUPPORT,CARD_AUTH_OPEN_STATUS,IN_METHOD,MERCH_NO,PRIORITY,
+	      CREATOR,CREATE_TIME,MODIFIER,MODIFY_TIME,VERSION,REMARK
+ 	</sql>
+ 	
+	<!-- 只有varchar char text类型 做 !='' 判断，生成代码时,其他类型时只做!=null 决断 0或fasle与空''是相同的，在mybatis中的动态语句中 -->
+	<sql id="dynamic_where_fields"><!-- xml转义字符需要 <![CDATA[   ]]> 标签-->
+		<where>
+			<if test="code != null  and code != '' "> AND CODE=#{code} </if>
+			<if test="name != null  and name != '' "> AND NAME=#{name} </if>
+			<if test="openStatus != null  and openStatus != '' "> AND OPEN_STATUS=#{openStatus} </if>
+			<if test="inOutSupport != null  and inOutSupport != '' "> AND IN_OUT_SUPPORT=#{inOutSupport} </if>
+			<if test="cardTypeSupport != null  and cardTypeSupport != '' "> AND CARD_TYPE_SUPPORT=#{cardTypeSupport} </if>
+			<if test="cardAuthOpenStatus != null  and cardAuthOpenStatus != '' "> AND CARD_TYPE_SUPPORT=#{cardAuthOpenStatus} </if>
+			<if test="inMethod != null  and inMethod != '' "> AND IN_METHOD=#{inMethod} </if>
+			<if test="merchNo != null  and merchNo != '' "> AND MERCH_NO=#{merchNo} </if>
+		</where>
+ 	</sql>
+
+	<sql id="dynamic_fuzzy_where_fields"><!-- xml转义字符需要 <![CDATA[   ]]> 标签-->
+		<where>
+			<if test="code != null  and code != '' "> AND CODE like CONCAT(CONCAT('%', #{code}), '%') </if>
+			<if test="name != null  and name != '' "> AND NAME like CONCAT(CONCAT('%', #{name}), '%')  </if>
+			<if test="openStatus != null  and openStatus != '' "> AND OPEN_STATUS CONCAT(CONCAT('%', #{openStatus}), '%')  </if>
+			<if test="inOutSupport != null  and inOutSupport != '' "> AND IN_OUT_SUPPORT CONCAT(CONCAT('%', #{inOutSupport}), '%') </if>
+			<if test="cardTypeSupport != null  and cardTypeSupport != '' "> AND CARD_TYPE_SUPPORT CONCAT(CONCAT('%', #{cardTypeSupport}), '%')</if>
+			<if test="cardAuthOpenStatus != null  and cardAuthOpenStatus != '' "> AND CARD_TYPE_SUPPORT CONCAT(CONCAT('%', #{cardAuthOpenStatus}), '%') </if>
+			<if test="inMethod != null  and inMethod != '' "> AND IN_METHOD CONCAT(CONCAT('%', #{inMethod}), '%')</if>
+			<if test="merchNo != null  and merchNo != '' "> AND MERCH_NO CONCAT(CONCAT('%', #{merchNo}), '%')</if>
+			
+		</where>
+ 	</sql>
+ 	
+	<select id="selectById" parameterType="java.lang.String" resultMap="PayChannelDOResultMap">
+	SELECT
+		<include refid="AllColumnFields" />
+	FROM
+		CMPAY_PAY_CHANNEL
+	WHERE
+		 ID = #{id}
+	</select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.cmpay.service.bank.model.PayChannelDO">
+        INSERT INTO CMPAY_PAY_CHANNEL(
+				ID,CODE,NAME,OPEN_STATUS,IN_OUT_SUPPORT,CARD_TYPE_SUPPORT,CARD_AUTH_OPEN_STATUS,IN_METHOD,MERCH_NO,PRIORITY,
+	      	    CREATOR,CREATE_TIME,MODIFIER,MODIFY_TIME,VERSION,REMARK
+		)values(
+				#{id},
+				#{code},
+				#{name},
+				#{openStatus},
+				#{inOutSupport},
+				#{cardTypeSupport},
+				#{cardAuthOpenStatus},
+				#{inMethod},
+				#{merchNo},
+				#{priority},
+				#{creator},
+				#{createTime},
+				#{modifier},
+				#{modifyTime},
+				#{version},
+				#{remark}     
+		)
+    </insert>
+
+	<update id="updateById" parameterType="com.cmpay.service.bank.model.PayChannelDO">
+		UPDATE CMPAY_PAY_CHANNEL
+		SET
+			CODE = #{code},
+			NAME = #{name},
+			OPEN_STATUS  = #{openStatus},
+			IN_OUT_SUPPORT  = #{inOutSupport},
+			CARD_TYPE_SUPPORT  = #{cardTypeSupport},
+			CARD_AUTH_OPEN_STATUS  = #{cardAuthOpenStatus},
+			IN_METHOD  = #{inMethod},
+			MERCH_NO  = #{merchNo},
+			PRIORITY  = #{priority},
+			CREATOR  = #{creator},
+			CREATE_TIME  = #{createTime},
+			MODIFIER  = #{modifier},
+			MODIFY_TIME  = #{modifyTime},
+			VERSION  = #{version},
+			REMARK  = #{remark}
+		WHERE
+			ID = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="java.lang.String">
+		DELETE FROM CMPAY_PAY_CHANNEL WHERE ID = #{id}
+	</delete>
+
+	<update id="updateDynamic" parameterType="com.cmpay.service.bank.model.PayChannelDO">
+		UPDATE CMPAY_PAY_CHANNEL
+		<set>
+			<if test="code != null  and code != '' ">CODE = #{code},</if>
+			<if test="name != null and name != '' ">NAME = #{name},</if>
+			<if test="openStatus != null and openStatus != '' ">OPEN_STATUS  = #{openStatus},</if>
+			<if test="inOutSupport != null  and inOutSupport != '' ">IN_OUT_SUPPORT  = #{inOutSupport},</if>
+			<if test="cardTypeSupport != null and cardTypeSupport != '' ">CARD_TYPE_SUPPORT  = #{cardTypeSupport},</if>
+			<if test="cardAuthOpenStatus != null and cardAuthOpenStatus != '' ">CARD_AUTH_OPEN_STATUS  = #{cardAuthOpenStatus},</if>
+			<if test="inMethod != null  and inMethod != '' ">IN_METHOD  = #{inMethod},</if>
+			<if test="merchNo != null and merchNo != '' ">MERCH_NO  = #{merchNo},</if>
+			<if test="priority != null and priority != '' ">PRIORITY  = #{priority},</if>
+			<if test="creator != null and creator != '' ">CREATOR  = #{creator},</if>
+			<if test="createTime != null and createTime != '' ">CREATE_TIME  = #{createTime},</if>
+			<if test="modifier != null  and modifier != '' ">MODIFIER  = #{modifier},</if>
+			<if test="modifyTime != null and modifyTime != '' ">MODIFY_TIME  = #{modifyTime},</if>
+			<if test="version != null and version != '' ">VERSION  = #{version},</if>
+			<if test="remark != null  and remark != '' ">REMARK  = #{remark}</if>
+			
+		</set>
+		WHERE ID = #{id}
+	</update>
+
+ 	<select id="selectDynamic" resultMap="PayChannelDOResultMap" parameterType="com.cmpay.service.bank.condition.PayChannelQCond">
+	     SELECT
+	     	<include refid="AllColumnFields" />
+		 FROM
+		 	CMPAY_PAY_CHANNEL
+			<include refid="dynamic_where_fields" />
+ 	</select>
+
+
+	<select id="selectDynamicFuzzy" resultMap="PayChannelDOResultMap" parameterType="com.cmpay.service.bank.condition.PayChannelQCond">
+	     SELECT
+	     	<include refid="AllColumnFields" />
+		 FROM
+		 	CMPAY_PAY_CHANNEL
+			<include refid="dynamic_fuzzy_where_fields" />
+			
+ 	</select>
+ 	
+ 	<select id="selectCountDynamic" resultType="java.lang.Long" parameterType="com.cmpay.service.bank.condition.PayChannelQCond">
+	     SELECT
+	     	count(1)
+		 FROM
+		 	CMPAY_PAY_CHANNEL
+			<include refid="dynamic_where_fields" />
+ 	</select>
+
+	<select id="selectCountDynamicFuzzy" resultType="java.lang.Long" parameterType="com.cmpay.service.bank.condition.PayChannelQCond">
+	     SELECT
+	     	count(1)
+		 FROM
+		 	CMPAY_PAY_CHANNEL
+			<include refid="dynamic_fuzzy_where_fields" />
+ 	</select>
+ 	
+ 	<select id="selectDynamicPageQuery" resultMap="PayChannelDOResultMap" parameterType="com.cmpay.service.bank.condition.PayChannelQCond">
+ 		
+		SELECT 
+		<include refid="AllColumnFields" />
+    		FROM  
+    		( 	SELECT 
+    			<include refid="AllColumnFields" />, ROWNUM RNUM
+     			FROM 
+     			(
+     				SELECT ID
+     				FROM CMPAY_PAY_CHANNEL  
+     				<include refid="dynamic_where_fields" />
+     				ORDER BY ROWID)
+    			WHERE ROWNUM <![CDATA[ < ]]>= #{endRow} )
+   			WHERE RNUM <![CDATA[ > ]]>= #{startRow}
+   		
+ 	</select>
+   
+	<select id="selectDynamicFuzzyPageQuery" resultMap="PayChannelDOResultMap" parameterType="com.cmpay.service.bank.condition.PayChannelQCond">
+ 		
+		SELECT 
+		<include refid="AllColumnFields" />
+    		FROM  
+    		( 	SELECT 
+    			<include refid="AllColumnFields" />, ROWNUM RNUM
+     			FROM 
+     			(
+     				SELECT ID
+     				FROM CMPAY_PAY_CHANNEL  
+     				<include refid="dynamic_fuzzy_where_fields" />
+     				ORDER BY ROWID)
+    			WHERE ROWNUM <![CDATA[ < ]]>= #{endRow} )
+   			WHERE RNUM <![CDATA[ > ]]>= #{startRow}
+   			
+ 	</select>
+ 	
+</mapper>
