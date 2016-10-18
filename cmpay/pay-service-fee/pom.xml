@@ -9,6 +9,7 @@
   <groupId>com.cmpay</groupId>
   <artifactId>pay-service-fee</artifactId>
   <name>pay-service-fee</name>
+  <version>${pay-service-fee.version}</version>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
