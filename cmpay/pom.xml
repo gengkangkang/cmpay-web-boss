@@ -310,6 +310,7 @@
     <version>19.0</version>
 </dependency>
  
+<<<<<<< HEAD
  <!-- 生成二维码 -->
  <dependency>
     <groupId>com.google.zxing</groupId>
@@ -321,6 +322,8 @@
     <artifactId>javase</artifactId>
     <version>3.3.0</version>
 </dependency>
+=======
+>>>>>>> branch 'master' of http://git.cm-pro.cn/cm/cmpay.git
      <dependency>
 		<groupId>dom4j</groupId>
 		<artifactId>dom4j</artifactId>

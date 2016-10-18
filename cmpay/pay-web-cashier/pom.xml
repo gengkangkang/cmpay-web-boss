@@ -8,6 +8,7 @@
   </parent>
   <artifactId>pay-web-cashier</artifactId>
   <groupId>com.cmpay</groupId>
+  <name>pay-web-cashier</name>
   <packaging>war</packaging>
   <version>${pay-web-cashier.version}</version>
   <dependencies>
@@ -197,6 +198,16 @@
     <groupId>com.101tec</groupId>
     <artifactId>zkclient</artifactId>
   </dependency> 
+
+<!-- 生成二维码 -->  
+  <dependency>
+    <groupId>com.google.zxing</groupId>
+    <artifactId>core</artifactId>
+</dependency>
+<dependency>
+    <groupId>com.google.zxing</groupId>
+    <artifactId>javase</artifactId>
+</dependency>
      
       <!-- 引入相关模块 -->
       <dependency>
