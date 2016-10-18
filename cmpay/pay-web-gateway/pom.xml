@@ -145,12 +145,7 @@
         <dependency>  
             <groupId>com.alibaba</groupId>  
             <artifactId>fastjson</artifactId>  
-        </dependency>  
-        
-       <dependency>
-          <groupId>org.projectlombok</groupId>
-          <artifactId>lombok</artifactId>
-     </dependency>
+        </dependency>          
      
          <dependency>  
             <groupId>commons-io</groupId>  
@@ -196,6 +191,11 @@
     <groupId>com.101tec</groupId>
     <artifactId>zkclient</artifactId>
   </dependency> 
+  
+   <dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+</dependency> 
      
       <!-- 引入相关模块 -->
       <dependency>
@@ -207,6 +207,12 @@
         <groupId>com.cmpay</groupId>
         <artifactId>pay-common-utils</artifactId>
         <version>${pay-common-utils.version}</version>        
+      </dependency> 
+      
+      <dependency>
+        <groupId>com.cmpay</groupId>
+        <artifactId>pay-common-security</artifactId>
+        <version>${pay-common-security.version}</version>        
       </dependency> 
     
   </dependencies>

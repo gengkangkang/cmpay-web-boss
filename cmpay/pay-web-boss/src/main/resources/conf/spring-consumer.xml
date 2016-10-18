@@ -18,7 +18,7 @@
  
      <!-- 生成远程服务代理，可以像使用本地bean一样使用demoService -->  
     <dubbo:reference id="testService"  
-        interface="com.cmpay.web.boss.facade.trade.TestService" />  
+        interface="com.cmpay.facade.trade.TestService" />  
    
  
 </beans>
