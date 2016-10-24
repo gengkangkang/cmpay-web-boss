@@ -3,7 +3,12 @@ package com.cmpay.boss.util;
 import java.util.UUID;
 
 /**
- * Created by Administrator on 2014/12/15.
+ *
+ * @author gengkangkang
+ * @E-mail gengkangkang@cm-inv.com
+ *
+ * 2016年10月21日 下午2:39:21
+ *
  */
 public class UUIDGenerator {
     public UUIDGenerator() {
@@ -12,9 +17,11 @@ public class UUIDGenerator {
     public static String getUUID() {
         UUID uuid = UUID.randomUUID();
         String str = uuid.toString();
+        System.out.println(str);
         // 去掉"-"符号
-        String temp = str.substring(0, 8) + str.substring(9, 13) + str.substring(14, 18) + str.substring(19, 23) + str.substring(24);
-        return temp;
+//        String temp = str.substring(0, 8) + str.substring(9, 13) + str.substring(14, 18) + str.substring(19, 23) + str.substring(24);
+        String u=StringUtils.replace(str, "-", "");
+        return u;
     }
 
     //获得指定数量的UUID
@@ -30,9 +37,6 @@ public class UUIDGenerator {
     }
 
     public static void main(String[] args) {
-        String[] ss = getUUID(16);
-        for (int i = 0; i < ss.length; i++) {
-            System.out.println("ss[" + i + "]=====" + ss[i]);
-        }
+          System.out.println(getUUID());
     }
 }

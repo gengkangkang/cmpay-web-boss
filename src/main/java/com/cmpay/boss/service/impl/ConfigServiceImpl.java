@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,13 +14,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cmpay.boss.domain.IpBO;
+import com.cmpay.boss.domain.MerchantBO;
 import com.cmpay.boss.entity.CMPAYIPBINDING;
+import com.cmpay.boss.entity.CmpayMerchant;
+import com.cmpay.boss.entity.CmpayMerchantExample;
 import com.cmpay.boss.enums.InchannelEnum;
 import com.cmpay.boss.mapper.CMPAYIPBINDINGMapper;
+import com.cmpay.boss.mapper.CmpayMerchantMapper;
 import com.cmpay.boss.service.ConfigService;
 import com.cmpay.boss.service.MonitorRealm;
 import com.cmpay.boss.util.DateUtil;
 import com.cmpay.boss.util.Pagination;
+import com.cmpay.boss.util.UUIDGenerator;
 import com.github.pagehelper.PageHelper;
 
 /**
@@ -35,6 +42,8 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Autowired
     CMPAYIPBINDINGMapper    cMPAYIPBINDINGMapper;
+    @Autowired
+    CmpayMerchantMapper cmpayMerchantMapper;
 
 
 	@Override
@@ -62,6 +71,31 @@ public class ConfigServiceImpl implements ConfigService {
 		return pagination;
 	}
 
+	@Override
+	public Pagination<MerchantBO> getAllMer(MerchantBO merchantBO) {
+
+		CmpayMerchantExample cmpayMerchantExample=new CmpayMerchantExample();
+        int count=cmpayMerchantMapper.countByExample(cmpayMerchantExample);
+
+        Pagination pagination = new Pagination(count, merchantBO.getPageCurrent(),merchantBO.getPageSize());
+        PageHelper.startPage(merchantBO.getPageCurrent(), merchantBO.getPageSize());
+        List<CmpayMerchant> mers=cmpayMerchantMapper.selectByExample(cmpayMerchantExample);
+        List<MerchantBO> merchantBOList=new ArrayList<MerchantBO>();
+        for(CmpayMerchant cmpayMerchant:mers){
+        	MerchantBO merBO=new MerchantBO();
+        	try {
+				BeanUtils.copyProperties(merBO, cmpayMerchant);
+			} catch (Exception e) {
+				logger.error("cope cmpayMerchant异常！！！！！！");
+				e.printStackTrace();
+			}
+        	merchantBOList.add(merBO);
+
+        }
+        pagination.addResult(merchantBOList);
+
+		return pagination;
+	}
 
 	@Override
 	public Map addNewIp(String ip, String inchannel, String remark) {
@@ -96,6 +130,42 @@ public class ConfigServiceImpl implements ConfigService {
 
 
 	@Override
+	public Map addNewMer(MerchantBO merchantBO) {
+
+        Map resultMap = new HashMap();
+		try{
+			CmpayMerchant cmpayMerchant=new CmpayMerchant();
+			BeanUtils.copyProperties(cmpayMerchant, merchantBO);
+			cmpayMerchant.setId(UUIDGenerator.getUUID());
+			cmpayMerchant.setStatus("OFF");
+			cmpayMerchant.setCreatetime(DateUtil.getCurrTime());
+	        MonitorRealm.ShiroUser shiroUser = (MonitorRealm.ShiroUser) SecurityUtils.getSubject()
+	                .getPrincipal();
+	        String loginName=shiroUser.getLoginName();
+	        cmpayMerchant.setOperator(loginName);
+	        logger.info("新增商户参数："+cmpayMerchant.toString());
+
+	        int r=cmpayMerchantMapper.insert(cmpayMerchant);
+
+	        if (r != 0) {
+	            resultMap.put("statusCode", 200);
+	            resultMap.put("message", "操作成功!");
+	            resultMap.put("closeCurrent", true);
+	        } else {
+	            resultMap.put("statusCode", 300);
+	            resultMap.put("message", "操作失败!");
+	            resultMap.put("closeCurrent", false);
+	        }
+
+		}catch(Exception e){
+			logger.error("新增商户出现异常！！！");
+			e.printStackTrace();
+		}
+		return resultMap;
+	}
+
+
+	@Override
 	public IpBO getById(String ip) {
 		CMPAYIPBINDING _CMPAYIPBINDING=cMPAYIPBINDINGMapper.selectByPrimaryKey(ip);
 		return convertCMPAYIPBINDINGToIpBO(_CMPAYIPBINDING);
@@ -110,6 +180,18 @@ public class ConfigServiceImpl implements ConfigService {
 		ipBO.setOperator(_CMPAYIPBINDING.getOperator());
 		return ipBO;
 
+	}
+
+	@Override
+	public MerchantBO getMerById(String id) {
+		CmpayMerchant cmpayMerchant=cmpayMerchantMapper.selectByPrimaryKey(id);
+		MerchantBO merchantBO=new MerchantBO();
+		try {
+			BeanUtils.copyProperties(merchantBO, cmpayMerchant);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return merchantBO;
 	}
 
 
@@ -145,6 +227,35 @@ public class ConfigServiceImpl implements ConfigService {
 
 	}
 
+	@Override
+	public Map updateMerInfo(MerchantBO merchantBO) {
+		 Map resultMap = new HashMap();
+		try{
+			CmpayMerchant cmpayMerchant=new CmpayMerchant();
+			BeanUtils.copyProperties(cmpayMerchant, merchantBO);
+			 MonitorRealm.ShiroUser shiroUser = (MonitorRealm.ShiroUser) SecurityUtils.getSubject()
+		                .getPrincipal();
+		        String loginName=shiroUser.getLoginName();
+		        cmpayMerchant.setOperator(loginName);
+		        cmpayMerchant.setUpdatetime(DateUtil.getCurrTime());
+		        logger.info("更新商户信息参数为："+cmpayMerchant.toString());
+		        int r=cmpayMerchantMapper.updateByPrimaryKeySelective(cmpayMerchant);
+		        if (r != 0) {
+		            resultMap.put("statusCode", 200);
+		            resultMap.put("message", "操作成功!");
+		            resultMap.put("closeCurrent", true);
+		        } else {
+		            resultMap.put("statusCode", 300);
+		            resultMap.put("message", "操作失败!");
+		            resultMap.put("closeCurrent", false);
+		        }
+
+		}catch(Exception e){
+			logger.error("更新商户信息异常！！！");
+			e.printStackTrace();
+		}
+		return resultMap;
+	}
 
 	@Override
 	public Pagination<IpBO> getIpByPara(IpBO ipBO) {
@@ -169,6 +280,42 @@ public class ConfigServiceImpl implements ConfigService {
 
 		return pagination;
 	}
+
+	@Override
+	public Pagination<MerchantBO> getMerByPara(MerchantBO merchantBO) {
+		CmpayMerchantExample cmpayMerchantExample=new CmpayMerchantExample();
+		if(StringUtils.isNotBlank(merchantBO.getMerchantid())){
+			cmpayMerchantExample.createCriteria().andMerchantidEqualTo(merchantBO.getMerchantid());
+		}
+        int count=cmpayMerchantMapper.countByExample(cmpayMerchantExample);
+
+        Pagination pagination = new Pagination(count, merchantBO.getPageCurrent(),merchantBO.getPageSize());
+        PageHelper.startPage(merchantBO.getPageCurrent(), merchantBO.getPageSize());
+        List<CmpayMerchant> mers=cmpayMerchantMapper.selectByExample(cmpayMerchantExample);
+        List<MerchantBO> merchantBOList=new ArrayList<MerchantBO>();
+        for(CmpayMerchant cmpayMerchant:mers){
+        	MerchantBO merBO=new MerchantBO();
+        	try {
+				BeanUtils.copyProperties(merBO, cmpayMerchant);
+			} catch (Exception e) {
+				logger.error("cope cmpayMerchant异常！！！！！！");
+				e.printStackTrace();
+			}
+        	merchantBOList.add(merBO);
+
+        }
+        pagination.addResult(merchantBOList);
+
+		return pagination;
+	}
+
+
+
+
+
+
+
+
 
 
 

@@ -3,6 +3,7 @@ package com.cmpay.boss.service;
 import java.util.Map;
 
 import com.cmpay.boss.domain.IpBO;
+import com.cmpay.boss.domain.MerchantBO;
 import com.cmpay.boss.util.Pagination;
 
 /**
@@ -14,11 +15,20 @@ import com.cmpay.boss.util.Pagination;
  */
 public interface ConfigService {
 
+	//IP相关
     Pagination<IpBO> getAllIp(IpBO ipBO);
     Map addNewIp(String ip,String inchannel,String remark);
     IpBO getById(String ip);
     Map updateIpInfo(IpBO ipBO);
     Pagination<IpBO> getIpByPara(IpBO ipBO);
+
+    //商户相关sql
+    Pagination<MerchantBO> getAllMer(MerchantBO merchantBO);
+    Pagination<MerchantBO> getMerByPara(MerchantBO merchantBO);
+    Map addNewMer(MerchantBO merchantBO);
+    MerchantBO getMerById(String id);
+    Map updateMerInfo(MerchantBO merchantBO);
+
 
 
 

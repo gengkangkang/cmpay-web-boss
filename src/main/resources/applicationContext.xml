@@ -14,7 +14,7 @@
      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
 
-	<bean id="propertyConfigurer"
+<!-- 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
@@ -23,6 +23,13 @@
 				<value>classpath:log4j.properties</value>
 			</list>
 		</property>
+	</bean> -->
+	
+	<bean id="env"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations"
+			value="#{systemProperties['env.files'] ?: 'classpath:/conf/*.properties'}" />
+		<property name="fileEncoding" value="UTF-8" ></property>
 	</bean>
 
 	<context:annotation-config />
@@ -31,12 +38,26 @@
 			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+<!-- 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		  destroy-method="close">
 		<property name="driverClassName" value="${db.driverClass}" />
 		<property name="url" value="${db.jdbcUrl}" />
 		<property name="username" value="${db.username}" />
 		<property name="password" value="${db.password}" />
+		<property name="initialSize" value="10" />
+		<property name="maxActive" value="30" />
+		<property name="validationQuery" value="select 1 from dual"/>
+		<property name="testOnBorrow" value="true"/>
+
+	</bean> -->
+	
+	
+		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		  destroy-method="close">
+		<property name="driverClassName" value="#{env['db.driverClass']}" />
+		<property name="url" value="#{env['db.jdbcUrl']}" />
+		<property name="username" value="#{env['db.username']}" />
+		<property name="password" value="#{env['db.password']}" />
 		<property name="initialSize" value="10" />
 		<property name="maxActive" value="30" />
 		<property name="validationQuery" value="select 1 from dual"/>

@@ -8,6 +8,9 @@
 <title>支付中心管理控台</title>
 <meta name="Keywords" content="中民物业支付中心"/>
 <meta name="Description" content="提供管理，对账、查询等功能"/>
+<link rel="bookmark"  type="image/x-icon"  href="${pageContext.request.contextPath}/resources/image/favicon.ico"/>
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/image/favicon.ico">
+
 <!-- bootstrap - css -->
 <link href="${pageContext.request.contextPath}/resources/BJUI/themes/css/bootstrap.css" rel="stylesheet">
 <!-- core - css -->

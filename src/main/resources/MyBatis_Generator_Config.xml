@@ -42,8 +42,8 @@
           
          <!--  <table tableName="TEST_USER" domainObjectName="TestUser" />  -->
           
-        <table tableName="CMPAY_IP_BINDING" domainObjectName="CMPAYIPBINDING" enableSelectByExample="false" enableDeleteByExample="false"  
-            enableCountByExample="false" enableUpdateByExample="false" />  
+        <table tableName="CMPAY_MERCHANT" domainObjectName="CmpayMerchant" enableSelectByExample="true" enableDeleteByExample="true"  
+            enableCountByExample="true" enableUpdateByExample="true" />  
   
     </context>  
 </generatorConfiguration>  

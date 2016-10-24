@@ -6,6 +6,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>支付中心管理控台</title>
+<link rel="bookmark"  type="image/x-icon"  href="${pageContext.request.contextPath}/resources/image/favicon.ico"/>
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/image/favicon.ico">
 <link href="${pageContext.request.contextPath}/resources/css/login.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <script src="${pageContext.request.contextPath}/resources/BJUI/js/jquery-1.7.2.min.js"></script>
