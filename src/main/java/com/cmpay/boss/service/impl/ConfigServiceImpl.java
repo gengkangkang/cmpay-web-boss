@@ -1,6 +1,7 @@
 package com.cmpay.boss.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,14 +16,19 @@ import org.springframework.stereotype.Service;
 
 import com.cmpay.boss.domain.IpBO;
 import com.cmpay.boss.domain.MerchantBO;
+import com.cmpay.boss.domain.PayChannelBO;
 import com.cmpay.boss.entity.CMPAYIPBINDING;
+import com.cmpay.boss.entity.CmpayChannel;
+import com.cmpay.boss.entity.CmpayChannelExample;
 import com.cmpay.boss.entity.CmpayMerchant;
 import com.cmpay.boss.entity.CmpayMerchantExample;
 import com.cmpay.boss.enums.InchannelEnum;
 import com.cmpay.boss.mapper.CMPAYIPBINDINGMapper;
+import com.cmpay.boss.mapper.CmpayChannelMapper;
 import com.cmpay.boss.mapper.CmpayMerchantMapper;
 import com.cmpay.boss.service.ConfigService;
 import com.cmpay.boss.service.MonitorRealm;
+import com.cmpay.boss.util.Constant;
 import com.cmpay.boss.util.DateUtil;
 import com.cmpay.boss.util.Pagination;
 import com.cmpay.boss.util.UUIDGenerator;
@@ -44,6 +50,8 @@ public class ConfigServiceImpl implements ConfigService {
     CMPAYIPBINDINGMapper    cMPAYIPBINDINGMapper;
     @Autowired
     CmpayMerchantMapper cmpayMerchantMapper;
+    @Autowired
+    CmpayChannelMapper cmpayChannelMapper;
 
 
 	@Override
@@ -164,6 +172,40 @@ public class ConfigServiceImpl implements ConfigService {
 		return resultMap;
 	}
 
+	@Override
+	public Map addNewChannel(PayChannelBO payChannelBO) {
+        Map resultMap = new HashMap();
+		try{
+			CmpayChannel cmpayChannel=new CmpayChannel();
+			BeanUtils.copyProperties(cmpayChannel, payChannelBO);
+			cmpayChannel.setId(UUIDGenerator.getUUID());
+			cmpayChannel.setOpenStatus(Constant.OFF);
+			cmpayChannel.setCreateTime(new Date());
+			cmpayChannel.setVersion(0);
+	        MonitorRealm.ShiroUser shiroUser = (MonitorRealm.ShiroUser) SecurityUtils.getSubject()
+	                .getPrincipal();
+	        String loginName=shiroUser.getLoginName();
+	        cmpayChannel.setCreator(loginName);
+	        logger.info("新增渠道参数："+cmpayChannel.toString());
+
+	        int r=cmpayChannelMapper.insert(cmpayChannel);
+
+	        if (r != 0) {
+	            resultMap.put("statusCode", 200);
+	            resultMap.put("message", "操作成功!");
+	            resultMap.put("closeCurrent", true);
+	        } else {
+	            resultMap.put("statusCode", 300);
+	            resultMap.put("message", "操作失败!");
+	            resultMap.put("closeCurrent", false);
+	        }
+
+		}catch(Exception e){
+			logger.error("新增支付渠道出现异常！！！");
+			e.printStackTrace();
+		}
+		return resultMap;
+	}
 
 	@Override
 	public IpBO getById(String ip) {
@@ -192,6 +234,19 @@ public class ConfigServiceImpl implements ConfigService {
 			e.printStackTrace();
 		}
 		return merchantBO;
+	}
+
+
+	@Override
+	public PayChannelBO getChannelById(String id) {
+		CmpayChannel cmpayChannel=cmpayChannelMapper.selectByPrimaryKey(id);
+		PayChannelBO payChannelBO=new PayChannelBO();
+		try {
+			BeanUtils.copyProperties(payChannelBO, cmpayChannel);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return payChannelBO;
 	}
 
 
@@ -258,6 +313,36 @@ public class ConfigServiceImpl implements ConfigService {
 	}
 
 	@Override
+	public Map updateChannelInfo(PayChannelBO payChannelBO) {
+		 Map resultMap = new HashMap();
+			try{
+				CmpayChannel cmpayChannel=new CmpayChannel();
+				BeanUtils.copyProperties(cmpayChannel, payChannelBO);
+				 MonitorRealm.ShiroUser shiroUser = (MonitorRealm.ShiroUser) SecurityUtils.getSubject()
+			                .getPrincipal();
+			        String loginName=shiroUser.getLoginName();
+			        cmpayChannel.setModifier(loginName);
+			        cmpayChannel.setModifyTime(new Date());
+			        logger.info("更新渠道信息参数为："+cmpayChannel.toString());
+			        int r=cmpayChannelMapper.updateByPrimaryKeySelective(cmpayChannel);
+			        if (r != 0) {
+			            resultMap.put("statusCode", 200);
+			            resultMap.put("message", "操作成功!");
+			            resultMap.put("closeCurrent", true);
+			        } else {
+			            resultMap.put("statusCode", 300);
+			            resultMap.put("message", "操作失败!");
+			            resultMap.put("closeCurrent", false);
+			        }
+
+			}catch(Exception e){
+				logger.error("更新渠道信息异常！！！");
+				e.printStackTrace();
+			}
+			return resultMap;
+	}
+
+	@Override
 	public Pagination<IpBO> getIpByPara(IpBO ipBO) {
 		int count =cMPAYIPBINDINGMapper.getIpCounts();
         Pagination pagination = new Pagination(count, ipBO.getPageCurrent(),ipBO.getPageSize());
@@ -296,7 +381,7 @@ public class ConfigServiceImpl implements ConfigService {
         for(CmpayMerchant cmpayMerchant:mers){
         	MerchantBO merBO=new MerchantBO();
         	try {
-				BeanUtils.copyProperties(merBO, cmpayMerchant);
+        		BeanUtils.copyProperties(merBO, cmpayMerchant);
 			} catch (Exception e) {
 				logger.error("cope cmpayMerchant异常！！！！！！");
 				e.printStackTrace();
@@ -309,12 +394,32 @@ public class ConfigServiceImpl implements ConfigService {
 		return pagination;
 	}
 
+	@Override
+	public Pagination<PayChannelBO> getPayChannelByPara(PayChannelBO payChannelBO) {
+        List<PayChannelBO> payChannelBOList=new ArrayList<PayChannelBO>();
 
+		CmpayChannelExample cmpayChannelExample=new CmpayChannelExample();
+		cmpayChannelExample.createCriteria().andMerchNoEqualTo(payChannelBO.getMerchNo());
+		int count=cmpayChannelMapper.countByExample(cmpayChannelExample);
+        Pagination pagination = new Pagination(count, payChannelBO.getPageCurrent(),payChannelBO.getPageSize());
+        PageHelper.startPage(payChannelBO.getPageCurrent(), payChannelBO.getPageSize());
+        List<CmpayChannel> channels=cmpayChannelMapper.selectByExample(cmpayChannelExample);
 
+        for(CmpayChannel cmpayChannel:channels){
+        	PayChannelBO payBO=new PayChannelBO();
+        	try {
+				BeanUtils.copyProperties(payBO, cmpayChannel);
+			} catch (Exception e) {
+				logger.error("cope CmpayChannel异常！！！！！！");
+				e.printStackTrace();
+			}
+        	payChannelBOList.add(payBO);
 
+        }
+        pagination.addResult(payChannelBOList);
 
-
-
+		return pagination;
+	}
 
 
 

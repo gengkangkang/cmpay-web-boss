@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,9 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cmpay.boss.domain.IpBO;
 import com.cmpay.boss.domain.MerchantBO;
+import com.cmpay.boss.domain.PayChannelBO;
 import com.cmpay.boss.form.IpManageForm;
 import com.cmpay.boss.form.MerchantForm;
+import com.cmpay.boss.form.PayChannelForm;
 import com.cmpay.boss.service.ConfigService;
+import com.cmpay.boss.util.EncodeUtil;
 import com.cmpay.boss.util.Pagination;
 
 /**
@@ -69,6 +73,33 @@ public class ConfigController {
         merForm.setPagination(merBOPagination);
 
         return "merchant/mermanagelist";
+
+    }
+
+    @RequestMapping(value = "/channelManagement/queryChannelByMerchantId", method = RequestMethod.GET)
+    public String getChannelByMerchantId(HttpServletRequest request,@ModelAttribute("payChannelForm") PayChannelForm payChannelForm,ModelMap paychannelModel){
+    	PayChannelBO payChannelBO = new PayChannelBO();
+        String pageCurrent = payChannelForm.getPageCurrent();
+        String pageSize = payChannelForm.getPageSize();
+
+        payChannelBO.setPageCurrent(Integer.valueOf(pageCurrent));
+        payChannelBO.setPageSize(Integer.valueOf(pageSize));
+
+        String merchantId=request.getParameter("merchantId");
+        String merchantName=EncodeUtil.getUTF8String(request.getParameter("merchantName"));
+
+        logger.info("需要查询支付渠道的商户号为："+merchantId+",商户名称为："+merchantName);
+        payChannelBO.setMerchNo(merchantId);
+
+        paychannelModel.addAttribute("merchantId", merchantId);
+        paychannelModel.addAttribute("merchantName", merchantName);
+
+
+        Pagination<PayChannelBO> payChannelBOPagination = configService.getPayChannelByPara(payChannelBO);
+
+        payChannelForm.setPagination(payChannelBOPagination);
+
+        return "merchant/paychannellist";
 
     }
 
@@ -126,6 +157,15 @@ public class ConfigController {
         return "merchant/addmer";
     }
 
+    @RequestMapping(value = "/channelManagement/addChannel", method = RequestMethod.GET)
+    public String goAddNewChannelPage(HttpServletRequest request,@ModelAttribute("payChannelForm") PayChannelForm payChannelForm) {
+
+    	String merchantId=request.getParameter("merchantId");
+    	logger.info("商户号【{}】增加支付渠道"+merchantId);
+    	payChannelForm.setMerchNo(merchantId);
+        return "merchant/addChannel";
+    }
+
 
     @ResponseBody
     @RequestMapping(value = "/ipManagement/addNewIp", method = RequestMethod.POST)
@@ -174,6 +214,30 @@ public class ConfigController {
 
         return resultMap;
     }
+    @ResponseBody
+    @RequestMapping(value = "/channelManagement/addNewChannel", method = RequestMethod.POST)
+    public Map addNewChannel(@ModelAttribute("payChannelForm") PayChannelForm payChannelForm) {
+    	Map resultMap = new HashMap();
+    	String merchantid=payChannelForm.getMerchNo();
+
+    	if(StringUtils.isBlank(merchantid)){
+    		resultMap.put("statusCode", 300);
+    		resultMap.put("message", "必须传商户号！");
+    		return resultMap;
+    	}
+    	PayChannelBO payChannelBO = new PayChannelBO();
+        try {
+			BeanUtils.copyProperties(payChannelBO, payChannelForm);
+	    	payChannelBO.setMerchNo(merchantid);
+		} catch (Exception e) {
+			logger.error("cope properties出现异常！！！！");
+			e.printStackTrace();
+		}
+
+    	resultMap = configService.addNewChannel(payChannelBO);
+
+    	return resultMap;
+    }
 
 
     @RequestMapping(value = "/ipManagement/edit", method = RequestMethod.GET)
@@ -205,6 +269,22 @@ public class ConfigController {
 		}
 
         return "merchant/updmer";
+    }
+
+    @RequestMapping(value = "/channelManagement/edit", method = RequestMethod.GET)
+    public String modifyChannelDetails(HttpServletRequest request,
+    		@ModelAttribute("payChannelForm") PayChannelForm payChannelForm) {
+
+        String sid = request.getParameter("sid");
+        PayChannelBO payChannelBO = configService.getChannelById(sid);
+        try {
+			BeanUtils.copyProperties(payChannelForm, payChannelBO);
+		} catch (Exception e) {
+			logger.error("cope properties 异常！！！！");
+			e.printStackTrace();
+		}
+
+        return "merchant/updchannel";
     }
 
     @ResponseBody
@@ -255,6 +335,31 @@ public class ConfigController {
             logger.error(ex.getMessage());
             resultMap.put("statusCode", 300);
             resultMap.put("message", "更新商户操作失败!");
+
+        }
+        return resultMap;
+
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/channelManagement/updateChannel", method = RequestMethod.POST)
+    public Map updateChannel(@ModelAttribute("payChannelForm") PayChannelForm payChannelForm) {
+        Map resultMap = new HashMap();
+        PayChannelBO payChannelBO = new PayChannelBO();
+        String id=payChannelForm.getId();
+
+        if (StringUtils.isBlank(id)) {
+            resultMap.put("statusCode", 300);
+            resultMap.put("message", "请检查更改参数ID是否完整");
+            return resultMap;
+        }
+        try {
+        	BeanUtils.copyProperties(payChannelBO, payChannelForm);
+            resultMap = configService.updateChannelInfo(payChannelBO);
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+            resultMap.put("statusCode", 300);
+            resultMap.put("message", "更新渠道操作失败!");
 
         }
         return resultMap;

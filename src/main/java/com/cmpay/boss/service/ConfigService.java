@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.cmpay.boss.domain.IpBO;
 import com.cmpay.boss.domain.MerchantBO;
+import com.cmpay.boss.domain.PayChannelBO;
 import com.cmpay.boss.util.Pagination;
 
 /**
@@ -28,6 +29,12 @@ public interface ConfigService {
     Map addNewMer(MerchantBO merchantBO);
     MerchantBO getMerById(String id);
     Map updateMerInfo(MerchantBO merchantBO);
+
+    //支付渠道相关
+    Pagination<PayChannelBO> getPayChannelByPara(PayChannelBO payChannelBO);
+    Map addNewChannel(PayChannelBO payChannelBO);
+    PayChannelBO getChannelById(String id);
+    Map updateChannelInfo(PayChannelBO payChannelBO);
 
 
 

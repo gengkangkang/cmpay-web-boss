@@ -22,6 +22,11 @@ public class DateUtil {
     	return df.format(new Date());
     }
 
+    public static String getFormatTime(Date date){
+    	SimpleDateFormat df = new SimpleDateFormat(PATTERN_STANDARD);
+    	return df.format(date);
+    }
+
 
     public static void main(String[] args){
     	 System.out.println(getCurrTime());

@@ -40,7 +40,7 @@
     <c:forEach var="record" items="${merForm.pagination.list}" varStatus="status">
     <tr data-id="<c:out value="${record.id}"/>">
         <td align="center"><c:out value="${record.id}"/></td>
-        <td align="center"><c:out value="${record.merchantid}"/></td>
+        <td align="center"><a href="${pageContext.request.contextPath}/channelManagement/queryChannelByMerchantId?merchantId=<c:out value="${record.merchantid}" />&merchantName=<c:out value="${record.merchantName}"/>" data-toggle="navtab" data-id="paychannel_tab" data-title="渠道信息"><c:out value="${record.merchantid}"/></a></td>
          <td align="center"><c:out value="${record.merchantName}"/></td>
          <td align="center"><c:out value="${record.ecode}"/></td>
          <td align="center"><c:out value="${record.linkman}"/></td>
@@ -62,7 +62,7 @@
         <td align="center"><c:out value="${record.createtime}"/></td>
         <td align="center"><c:out value="${record.updatetime}"/></td>
         <td align="center"><c:out value="${record.operator}"/></td>
-        <td align="center"><c:out value="${record.remark}"/></td>
+        <td align="center">${record.remark}</td>
         <td align="center">
             <a href="${pageContext.request.contextPath}/merchantManagement/edit?sid=<c:out value="${record.id}"/>" class="btn btn-green" data-toggle="dialog" data-width="800" data-height="400" data-id="dialog-normal" data-title="资源信息">修改</a>
         </td>
