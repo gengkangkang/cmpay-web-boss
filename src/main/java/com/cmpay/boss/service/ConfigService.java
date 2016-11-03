@@ -2,6 +2,8 @@ package com.cmpay.boss.service;
 
 import java.util.Map;
 
+import com.cmpay.boss.domain.BankBaseBO;
+import com.cmpay.boss.domain.ChannelBaseBO;
 import com.cmpay.boss.domain.IpBO;
 import com.cmpay.boss.domain.MerchantBO;
 import com.cmpay.boss.domain.PayChannelBO;
@@ -35,6 +37,18 @@ public interface ConfigService {
     Map addNewChannel(PayChannelBO payChannelBO);
     PayChannelBO getChannelById(String id);
     Map updateChannelInfo(PayChannelBO payChannelBO);
+
+    //支付渠道基础信息
+    Pagination<ChannelBaseBO> getAllChannelBase(ChannelBaseBO channelBaseBO);
+    Map addNewCB(ChannelBaseBO channelBaseBO);
+    ChannelBaseBO getChannelBaseById(String id);
+    Map updateCBInfo(ChannelBaseBO channelBaseBO);
+
+    //银行基础信息
+    Pagination<BankBaseBO> getAllBankBase(BankBaseBO bankBaseBO);
+    Map addNewBB(BankBaseBO bankBaseBO);
+    BankBaseBO getBankBaseById(String id);
+    Map updateBBInfo(BankBaseBO bankBaseBO);
 
 
 

@@ -14,16 +14,24 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cmpay.boss.domain.BankBaseBO;
+import com.cmpay.boss.domain.ChannelBaseBO;
 import com.cmpay.boss.domain.IpBO;
 import com.cmpay.boss.domain.MerchantBO;
 import com.cmpay.boss.domain.PayChannelBO;
 import com.cmpay.boss.entity.CMPAYIPBINDING;
+import com.cmpay.boss.entity.CmpayBankBase;
+import com.cmpay.boss.entity.CmpayBankBaseExample;
 import com.cmpay.boss.entity.CmpayChannel;
+import com.cmpay.boss.entity.CmpayChannelBase;
+import com.cmpay.boss.entity.CmpayChannelBaseExample;
 import com.cmpay.boss.entity.CmpayChannelExample;
 import com.cmpay.boss.entity.CmpayMerchant;
 import com.cmpay.boss.entity.CmpayMerchantExample;
 import com.cmpay.boss.enums.InchannelEnum;
 import com.cmpay.boss.mapper.CMPAYIPBINDINGMapper;
+import com.cmpay.boss.mapper.CmpayBankBaseMapper;
+import com.cmpay.boss.mapper.CmpayChannelBaseMapper;
 import com.cmpay.boss.mapper.CmpayChannelMapper;
 import com.cmpay.boss.mapper.CmpayMerchantMapper;
 import com.cmpay.boss.service.ConfigService;
@@ -52,6 +60,10 @@ public class ConfigServiceImpl implements ConfigService {
     CmpayMerchantMapper cmpayMerchantMapper;
     @Autowired
     CmpayChannelMapper cmpayChannelMapper;
+    @Autowired
+    CmpayChannelBaseMapper cmpayChannelBaseMapper;
+    @Autowired
+    CmpayBankBaseMapper cmpayBankBaseMapper;
 
 
 	@Override
@@ -101,6 +113,32 @@ public class ConfigServiceImpl implements ConfigService {
 
         }
         pagination.addResult(merchantBOList);
+
+		return pagination;
+	}
+
+	@Override
+	public Pagination<ChannelBaseBO> getAllChannelBase(ChannelBaseBO channelBaseBO) {
+		CmpayChannelBaseExample cmpayChannelBaseExample=new CmpayChannelBaseExample();
+		int count=cmpayChannelBaseMapper.countByExample(cmpayChannelBaseExample);
+
+        Pagination pagination = new Pagination(count, channelBaseBO.getPageCurrent(),channelBaseBO.getPageSize());
+        PageHelper.startPage(channelBaseBO.getPageCurrent(), channelBaseBO.getPageSize());
+
+        List<CmpayChannelBase> channels=cmpayChannelBaseMapper.selectByExample(cmpayChannelBaseExample);
+        List<ChannelBaseBO> channelBaseBOList=new ArrayList<ChannelBaseBO>();
+        for(CmpayChannelBase cmpayChannelBase:channels){
+        	ChannelBaseBO channelBO=new ChannelBaseBO();
+        	try {
+				BeanUtils.copyProperties(channelBO, cmpayChannelBase);
+			} catch (Exception e) {
+				logger.error("cope cmpayChannelBase异常！！！！！！");
+				e.printStackTrace();
+			}
+        	channelBaseBOList.add(channelBO);
+
+        }
+        pagination.addResult(channelBaseBOList);
 
 		return pagination;
 	}
@@ -208,6 +246,40 @@ public class ConfigServiceImpl implements ConfigService {
 	}
 
 	@Override
+	public Map addNewCB(ChannelBaseBO channelBaseBO) {
+		Map resultMap = new HashMap();
+		try{
+			CmpayChannelBase cmpayChannelBase=new CmpayChannelBase();
+			BeanUtils.copyProperties(cmpayChannelBase, channelBaseBO);
+			cmpayChannelBase.setId(UUIDGenerator.getUUID());
+			cmpayChannelBase.setCreateTime(new Date());
+			cmpayChannelBase.setVersion(0);
+	        MonitorRealm.ShiroUser shiroUser = (MonitorRealm.ShiroUser) SecurityUtils.getSubject()
+	                .getPrincipal();
+	        String loginName=shiroUser.getLoginName();
+	        cmpayChannelBase.setCreator(loginName);
+	        logger.info("新增基础渠道信息参数："+cmpayChannelBase.toString());
+
+	        int r=cmpayChannelBaseMapper.insert(cmpayChannelBase);
+
+	        if (r != 0) {
+	            resultMap.put("statusCode", 200);
+	            resultMap.put("message", "操作成功!");
+	            resultMap.put("closeCurrent", true);
+	        } else {
+	            resultMap.put("statusCode", 300);
+	            resultMap.put("message", "操作失败!");
+	            resultMap.put("closeCurrent", false);
+	        }
+
+		}catch(Exception e){
+			logger.error("新增基础渠道信息出现异常！！！");
+			e.printStackTrace();
+		}
+		return resultMap;
+	}
+
+	@Override
 	public IpBO getById(String ip) {
 		CMPAYIPBINDING _CMPAYIPBINDING=cMPAYIPBINDINGMapper.selectByPrimaryKey(ip);
 		return convertCMPAYIPBINDINGToIpBO(_CMPAYIPBINDING);
@@ -247,6 +319,18 @@ public class ConfigServiceImpl implements ConfigService {
 			e.printStackTrace();
 		}
 		return payChannelBO;
+	}
+
+	@Override
+	public ChannelBaseBO getChannelBaseById(String id) {
+		CmpayChannelBase cmpayChannelBase=cmpayChannelBaseMapper.selectByPrimaryKey(id);
+		ChannelBaseBO channelBaseBO=new ChannelBaseBO();
+		try {
+			BeanUtils.copyProperties(channelBaseBO, cmpayChannelBase);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return channelBaseBO;
 	}
 
 
@@ -343,6 +427,36 @@ public class ConfigServiceImpl implements ConfigService {
 	}
 
 	@Override
+	public Map updateCBInfo(ChannelBaseBO channelBaseBO) {
+		 Map resultMap = new HashMap();
+			try{
+				CmpayChannelBase cmpayChannelBase=new CmpayChannelBase();
+				BeanUtils.copyProperties(cmpayChannelBase, channelBaseBO);
+				 MonitorRealm.ShiroUser shiroUser = (MonitorRealm.ShiroUser) SecurityUtils.getSubject()
+			                .getPrincipal();
+			        String loginName=shiroUser.getLoginName();
+			        cmpayChannelBase.setModifier(loginName);
+			        cmpayChannelBase.setModifyTime(new Date());
+			        logger.info("更新基础渠道信息参数为："+cmpayChannelBase.toString());
+			        int r=cmpayChannelBaseMapper.updateByPrimaryKeySelective(cmpayChannelBase);
+			        if (r != 0) {
+			            resultMap.put("statusCode", 200);
+			            resultMap.put("message", "操作成功!");
+			            resultMap.put("closeCurrent", true);
+			        } else {
+			            resultMap.put("statusCode", 300);
+			            resultMap.put("message", "操作失败!");
+			            resultMap.put("closeCurrent", false);
+			        }
+
+			}catch(Exception e){
+				logger.error("更新渠道信息异常！！！");
+				e.printStackTrace();
+			}
+			return resultMap;
+	}
+
+	@Override
 	public Pagination<IpBO> getIpByPara(IpBO ipBO) {
 		int count =cMPAYIPBINDINGMapper.getIpCounts();
         Pagination pagination = new Pagination(count, ipBO.getPageCurrent(),ipBO.getPageSize());
@@ -420,6 +534,116 @@ public class ConfigServiceImpl implements ConfigService {
 
 		return pagination;
 	}
+
+	@Override
+	public Pagination<BankBaseBO> getAllBankBase(BankBaseBO bankBaseBO) {
+		CmpayBankBaseExample cmpayBankBaseExample=new CmpayBankBaseExample();
+		int count=cmpayBankBaseMapper.countByExample(cmpayBankBaseExample);
+
+        Pagination pagination = new Pagination(count, bankBaseBO.getPageCurrent(),bankBaseBO.getPageSize());
+        PageHelper.startPage(bankBaseBO.getPageCurrent(), bankBaseBO.getPageSize());
+
+        List<CmpayBankBase> banks=cmpayBankBaseMapper.selectByExample(cmpayBankBaseExample);
+        List<BankBaseBO> bankBaseBOList=new ArrayList<BankBaseBO>();
+        for(CmpayBankBase cmpayBankBase:banks){
+        	BankBaseBO bankBO=new BankBaseBO();
+        	try {
+				BeanUtils.copyProperties(bankBO, cmpayBankBase);
+			} catch (Exception e) {
+				logger.error("cope cmpayBankBase异常！！！！！！");
+				e.printStackTrace();
+			}
+        	bankBaseBOList.add(bankBO);
+
+        }
+        pagination.addResult(bankBaseBOList);
+
+		return pagination;
+	}
+
+	@Override
+	public Map addNewBB(BankBaseBO bankBaseBO) {
+		Map resultMap = new HashMap();
+		try{
+			CmpayBankBase cmpayBankBase=new CmpayBankBase();
+			BeanUtils.copyProperties(cmpayBankBase, bankBaseBO);
+			cmpayBankBase.setId(UUIDGenerator.getUUID());
+			cmpayBankBase.setCreateTime(new Date());
+			cmpayBankBase.setVersion(0);
+	        MonitorRealm.ShiroUser shiroUser = (MonitorRealm.ShiroUser) SecurityUtils.getSubject()
+	                .getPrincipal();
+	        String loginName=shiroUser.getLoginName();
+	        cmpayBankBase.setCreator(loginName);
+	        logger.info("新增银行渠道信息参数："+cmpayBankBase.toString());
+
+	        int r=cmpayBankBaseMapper.insert(cmpayBankBase);
+
+	        if (r != 0) {
+	            resultMap.put("statusCode", 200);
+	            resultMap.put("message", "操作成功!");
+	            resultMap.put("closeCurrent", true);
+	        } else {
+	            resultMap.put("statusCode", 300);
+	            resultMap.put("message", "操作失败!");
+	            resultMap.put("closeCurrent", false);
+	        }
+
+		}catch(Exception e){
+			logger.error("新增基础银行信息出现异常！！！");
+			e.printStackTrace();
+		}
+		return resultMap;
+	}
+
+	@Override
+	public BankBaseBO getBankBaseById(String id) {
+		CmpayBankBase cmpayBankBase=cmpayBankBaseMapper.selectByPrimaryKey(id);
+		BankBaseBO bankBaseBO=new BankBaseBO();
+		try {
+			BeanUtils.copyProperties(bankBaseBO, cmpayBankBase);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bankBaseBO;
+	}
+
+	@Override
+	public Map updateBBInfo(BankBaseBO bankBaseBO) {
+		 Map resultMap = new HashMap();
+			try{
+				CmpayBankBase cmpayBankBase=new CmpayBankBase();
+				BeanUtils.copyProperties(cmpayBankBase, bankBaseBO);
+				 MonitorRealm.ShiroUser shiroUser = (MonitorRealm.ShiroUser) SecurityUtils.getSubject()
+			                .getPrincipal();
+			        String loginName=shiroUser.getLoginName();
+			        cmpayBankBase.setModifier(loginName);
+			        cmpayBankBase.setModifyTime(new Date());
+			        logger.info("更新基础银行信息参数为："+cmpayBankBase.toString());
+			        int r=cmpayBankBaseMapper.updateByPrimaryKeySelective(cmpayBankBase);
+			        if (r != 0) {
+			            resultMap.put("statusCode", 200);
+			            resultMap.put("message", "操作成功!");
+			            resultMap.put("closeCurrent", true);
+			        } else {
+			            resultMap.put("statusCode", 300);
+			            resultMap.put("message", "操作失败!");
+			            resultMap.put("closeCurrent", false);
+			        }
+
+			}catch(Exception e){
+				logger.error("更新银行基础信息异常！！！");
+				e.printStackTrace();
+			}
+			return resultMap;
+	}
+
+
+
+
+
+
+
+
 
 
 

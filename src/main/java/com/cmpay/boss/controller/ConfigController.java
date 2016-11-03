@@ -17,9 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cmpay.boss.domain.BankBaseBO;
+import com.cmpay.boss.domain.ChannelBaseBO;
 import com.cmpay.boss.domain.IpBO;
 import com.cmpay.boss.domain.MerchantBO;
 import com.cmpay.boss.domain.PayChannelBO;
+import com.cmpay.boss.form.BankBaseForm;
+import com.cmpay.boss.form.ChannelBaseForm;
 import com.cmpay.boss.form.IpManageForm;
 import com.cmpay.boss.form.MerchantForm;
 import com.cmpay.boss.form.PayChannelForm;
@@ -73,6 +77,41 @@ public class ConfigController {
         merForm.setPagination(merBOPagination);
 
         return "merchant/mermanagelist";
+
+    }
+
+
+    @RequestMapping(value = "/channelManagement/query_all_channelBase", method = RequestMethod.GET)
+    public String getAllChannelBase(@ModelAttribute("channelBaseForm") ChannelBaseForm channelBaseForm){
+    	ChannelBaseBO channelBaseBO = new ChannelBaseBO();
+        String pageCurrent = channelBaseForm.getPageCurrent();
+        String pageSize = channelBaseForm.getPageSize();
+
+        channelBaseBO.setPageCurrent(Integer.valueOf(pageCurrent));
+        channelBaseBO.setPageSize(Integer.valueOf(pageSize));
+
+        Pagination<ChannelBaseBO> channelBOPagination = configService.getAllChannelBase(channelBaseBO);
+
+        channelBaseForm.setPagination(channelBOPagination);
+
+        return "merchant/channelBaselist";
+
+    }
+
+    @RequestMapping(value = "/bankManagement/query_all_bankBase", method = RequestMethod.GET)
+    public String getAllBankBase(@ModelAttribute("bankBaseForm") BankBaseForm bankBaseForm){
+    	BankBaseBO bankBaseBO = new BankBaseBO();
+        String pageCurrent = bankBaseForm.getPageCurrent();
+        String pageSize = bankBaseForm.getPageSize();
+
+        bankBaseBO.setPageCurrent(Integer.valueOf(pageCurrent));
+        bankBaseBO.setPageSize(Integer.valueOf(pageSize));
+
+        Pagination<BankBaseBO> bankBOPagination = configService.getAllBankBase(bankBaseBO);
+
+        bankBaseForm.setPagination(bankBOPagination);
+
+        return "merchant/bankBaselist";
 
     }
 
@@ -166,6 +205,17 @@ public class ConfigController {
         return "merchant/addChannel";
     }
 
+    @RequestMapping(value = "/channelManagement/addChannelBase", method = RequestMethod.GET)
+    public String goAddNewChannelBasePage(@ModelAttribute("channelBaseForm") ChannelBaseForm channelBaseForm) {
+
+        return "merchant/addCB";
+    }
+
+    @RequestMapping(value = "/bankManagement/addBankBase", method = RequestMethod.GET)
+    public String goAddNewBankBasePage(@ModelAttribute("bankBaseForm") BankBaseForm bankBaseForm) {
+
+        return "merchant/addBB";
+    }
 
     @ResponseBody
     @RequestMapping(value = "/ipManagement/addNewIp", method = RequestMethod.POST)
@@ -239,6 +289,43 @@ public class ConfigController {
     	return resultMap;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/channelManagement/addNewCB", method = RequestMethod.POST)
+    public Map addNewCB(@ModelAttribute("channelBaseForm") ChannelBaseForm channelBaseForm) {
+    	Map resultMap = new HashMap();
+
+    	ChannelBaseBO channelBaseBO = new ChannelBaseBO();
+        try {
+			BeanUtils.copyProperties(channelBaseBO, channelBaseForm);
+		} catch (Exception e) {
+			logger.error("cope properties出现异常！！！！");
+			e.printStackTrace();
+		}
+
+    	resultMap = configService.addNewCB(channelBaseBO);
+
+    	return resultMap;
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/bankManagement/addNewBB", method = RequestMethod.POST)
+    public Map addNewBB(@ModelAttribute("bankBaseForm") BankBaseForm bankBaseForm) {
+    	Map resultMap = new HashMap();
+
+    	BankBaseBO bankBaseBO = new BankBaseBO();
+        try {
+			BeanUtils.copyProperties(bankBaseBO, bankBaseForm);
+		} catch (Exception e) {
+			logger.error("cope properties出现异常！！！！");
+			e.printStackTrace();
+		}
+
+    	resultMap = configService.addNewBB(bankBaseBO);
+
+    	return resultMap;
+    }
+
 
     @RequestMapping(value = "/ipManagement/edit", method = RequestMethod.GET)
     public String modifyFuncDetails(HttpServletRequest request,
@@ -285,6 +372,38 @@ public class ConfigController {
 		}
 
         return "merchant/updchannel";
+    }
+
+    @RequestMapping(value = "/channelManagement/editCB", method = RequestMethod.GET)
+    public String modifyChannelBaseDetails(HttpServletRequest request,
+    		@ModelAttribute("channelBaseForm") ChannelBaseForm channelBaseForm) {
+
+        String sid = request.getParameter("sid");
+        ChannelBaseBO channelBaseBO = configService.getChannelBaseById(sid);
+        try {
+			BeanUtils.copyProperties(channelBaseForm, channelBaseBO);
+		} catch (Exception e) {
+			logger.error("cope properties 异常！！！！");
+			e.printStackTrace();
+		}
+
+        return "merchant/updchannelCB";
+    }
+
+    @RequestMapping(value = "/bankManagement/editBB", method = RequestMethod.GET)
+    public String modifyBankBaseDetails(HttpServletRequest request,
+    		@ModelAttribute("bankBaseForm") BankBaseForm bankBaseForm) {
+
+        String sid = request.getParameter("sid");
+        BankBaseBO bankBaseBO = configService.getBankBaseById(sid);
+        try {
+			BeanUtils.copyProperties(bankBaseForm, bankBaseBO);
+		} catch (Exception e) {
+			logger.error("cope properties 异常！！！！");
+			e.printStackTrace();
+		}
+
+        return "merchant/updchannelBB";
     }
 
     @ResponseBody
@@ -360,6 +479,56 @@ public class ConfigController {
             logger.error(ex.getMessage());
             resultMap.put("statusCode", 300);
             resultMap.put("message", "更新渠道操作失败!");
+
+        }
+        return resultMap;
+
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/channelManagement/updateCB", method = RequestMethod.POST)
+    public Map updateCB(@ModelAttribute("channelBaseForm") ChannelBaseForm channelBaseForm) {
+        Map resultMap = new HashMap();
+        ChannelBaseBO channelBaseBO = new ChannelBaseBO();
+        String id=channelBaseForm.getId();
+
+        if (StringUtils.isBlank(id)) {
+            resultMap.put("statusCode", 300);
+            resultMap.put("message", "请检查更改参数ID是否完整");
+            return resultMap;
+        }
+        try {
+        	BeanUtils.copyProperties(channelBaseBO, channelBaseForm);
+            resultMap = configService.updateCBInfo(channelBaseBO);
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+            resultMap.put("statusCode", 300);
+            resultMap.put("message", "更新基础渠道信息操作失败!");
+
+        }
+        return resultMap;
+
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/bankManagement/updateBB", method = RequestMethod.POST)
+    public Map updateBB(@ModelAttribute("bankBaseForm") BankBaseForm bankBaseForm) {
+        Map resultMap = new HashMap();
+        BankBaseBO bankBaseBO = new BankBaseBO();
+        String id=bankBaseForm.getId();
+
+        if (StringUtils.isBlank(id)) {
+            resultMap.put("statusCode", 300);
+            resultMap.put("message", "请检查更改参数ID是否完整");
+            return resultMap;
+        }
+        try {
+        	BeanUtils.copyProperties(bankBaseBO, bankBaseForm);
+            resultMap = configService.updateBBInfo(bankBaseBO);
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+            resultMap.put("statusCode", 300);
+            resultMap.put("message", "更新基础银行信息操作失败!");
 
         }
         return resultMap;

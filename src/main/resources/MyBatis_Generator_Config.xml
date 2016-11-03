@@ -42,7 +42,7 @@
           
          <!--  <table tableName="TEST_USER" domainObjectName="TestUser" />  -->
           
-        <table tableName="CMPAY_PAY_CHANNEL" domainObjectName="CmpayChannel" enableSelectByExample="true" enableDeleteByExample="true"  
+        <table tableName="CMPAY_BANK_BASE" domainObjectName="CmpayBankBase" enableSelectByExample="true" enableDeleteByExample="true"  
             enableCountByExample="true" enableUpdateByExample="true" />  
   
     </context>  
