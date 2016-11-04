@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.cmpay</groupId>
+  <artifactId>cmpay</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>cmpay</name>
+  <url>http://maven.apache.org</url>
+
+
+  
+  	<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<name>Nexus Release Repository</name>
+			<url>http://maven.cm-pro.cn/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>http://maven.cm-pro.cn/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+  
+   <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<pay-common-utils.version>0.0.1-SNAPSHOT</pay-common-utils.version>
+		<pay-web-gateway.version>0.0.1-SNAPSHOT</pay-web-gateway.version>
+		<pay-facade-trade.version>0.0.1-SNAPSHOT</pay-facade-trade.version>
+		<pay-service-trade.version>0.0.1-SNAPSHOT</pay-service-trade.version>
+		<pay-service-bank.version>0.0.1-SNAPSHOT</pay-service-bank.version>
+		<pay-service-chinapay.version>0.0.1-SNAPSHOT</pay-service-chinapay.version>
+		<pay-service-fee.version>0.0.1-SNAPSHOT</pay-service-fee.version>
+		<pay-service-jytpay.version>0.0.1-SNAPSHOT</pay-service-jytpay.version>
+		<pay-service-llpay.version>0.0.1-SNAPSHOT</pay-service-llpay.version>
+		<pay-service-quartz.version>0.0.1-SNAPSHOT</pay-service-quartz.version>
+		<pay-service-rule.version>0.0.1-SNAPSHOT</pay-service-rule.version>
+		<pay-web-boss.version>0.0.1-SNAPSHOT</pay-web-boss.version>
+		<pay-web-cashier.version>0.0.1-SNAPSHOT</pay-web-cashier.version>
+		<pay-common-security.version>0.0.1-SNAPSHOT</pay-common-security.version>
+		
+		
+		
+		
+		<org.springframework.version>4.3.2.RELEASE</org.springframework.version>
+		<jackson.version>2.5.0</jackson.version>
+		<dubbo.version>2.5.4-SNAPSHOT</dubbo.version>
+		
+    </properties>
+  
+  
+  
+  <dependencyManagement>
+     <dependencies>
+     
+     
+			<!-- Spring Dependency Begin -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aspects</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-expression</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-instrument</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-instrument-tomcat</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jms</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-oxm</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${org.springframework.version}</version>
+ 				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc-portlet</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<!-- Spring Dependency End -->
+
+			<!-- MyBatis Dependency Begin -->
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis</artifactId>
+				<version>3.4.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis-spring</artifactId>
+				<version>1.3.0</version>
+			</dependency>
+			<!-- MyBatis Dependency End -->
+     
+          <!-- ???? -->  
+        <dependency>  
+            <groupId>com.alibaba</groupId>  
+            <artifactId>druid</artifactId>  
+            <version>1.0.24</version>  
+        </dependency>  
+  
+        <dependency>  
+            <groupId>org.aspectj</groupId>  
+            <artifactId>aspectjweaver</artifactId>  
+            <version>1.8.9</version>  
+        </dependency>
+        
+           <!-- json -->  
+        <dependency>  
+            <groupId>org.codehaus.jackson</groupId>  
+            <artifactId>jackson-mapper-asl</artifactId>  
+            <version>1.9.13</version>  
+        </dependency> 
+        
+        <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>2.6.3</version>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.6.3</version>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-annotations</artifactId>
+        <version>2.6.3</version>
+    </dependency> 
+  
+        <dependency>  
+            <groupId>com.alibaba</groupId>  
+            <artifactId>fastjson</artifactId>  
+            <version>1.2.14</version>  
+        </dependency>  
+        
+        
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.9</version>
+        </dependency>
+        
+            <dependency>  
+            <groupId>commons-io</groupId>  
+            <artifactId>commons-io</artifactId>  
+            <version>2.4</version>  
+        </dependency>  
+  
+        <dependency>  
+            <groupId>commons-fileupload</groupId>  
+            <artifactId>commons-fileupload</artifactId>  
+            <version>1.2.2</version>  
+        </dependency> 
+
+ 
+        <dependency>
+           <groupId>org.apache.httpcomponents</groupId>
+           <artifactId>httpclient</artifactId>
+           <version>4.3.5</version>
+        </dependency>
+     
+      <dependency>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok</artifactId>
+          <version>1.16.10</version>
+     </dependency>
+     
+ 
+   <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    
+<dependency>
+    <groupId>log4j</groupId>
+    <artifactId>log4j</artifactId>
+    <version>1.2.16</version>
+</dependency>
+
+	<dependency>
+        <groupId>com.oracle</groupId>
+         <artifactId>ojdbc6</artifactId>
+         <version>11.2.0.4.1</version>
+         <scope>runtime</scope>        
+    </dependency> 
+    
+       <dependency>  
+            <groupId>javax.servlet</groupId>  
+            <artifactId>jstl</artifactId>  
+            <version>1.2</version>  
+        </dependency>  
+        
+   <dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.4</version>
+  </dependency>
+  
+  
+<!-- dubbo??? -->  
+   <dependency>  
+    <groupId>com.alibaba</groupId>  
+    <artifactId>dubbo</artifactId>  
+    <version>${dubbo.version}</version>  
+    <exclusions>  
+      <exclusion>  
+        <groupId>org.springframework</groupId>  
+        <artifactId>spring</artifactId>  
+      </exclusion> 
+    </exclusions>    
+  </dependency>
+  
+  <dependency>
+    <groupId>com.101tec</groupId>
+    <artifactId>zkclient</artifactId>
+    <version>0.9</version>
+ </dependency>
+ 
+ <!-- redis -->
+ 
+  <dependency>
+    <groupId>org.springframework.data</groupId>
+    <artifactId>spring-data-redis</artifactId>
+    <version>1.7.2.RELEASE</version>
+ </dependency>
+ <dependency>
+    <groupId>redis.clients</groupId>
+    <artifactId>jedis</artifactId>
+    <version>2.8.2</version>   
+</dependency>
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>19.0</version>
+</dependency>
+ 
+ <!-- 生成二维码 -->
+ <dependency>
+    <groupId>com.google.zxing</groupId>
+    <artifactId>core</artifactId>
+    <version>3.3.0</version>
+</dependency>
+<dependency>
+    <groupId>com.google.zxing</groupId>
+    <artifactId>javase</artifactId>
+    <version>3.3.0</version>
+</dependency>
+     <dependency>
+		<groupId>dom4j</groupId>
+		<artifactId>dom4j</artifactId>
+		<version>1.6.1</version>
+	</dependency>
+			
+     </dependencies> 
+  </dependencyManagement>  
+  
+  	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.2</version>
+				<configuration>
+					<uniqueVersion>false</uniqueVersion>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.10</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<failOnError>true</failOnError>
+					<verbose>true</verbose>
+					<fork>true</fork>
+					<compilerArgument>-nowarn</compilerArgument>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+ 
+  <modules>
+  	<module>pay-common-utils</module>
+  	<module>pay-service-chinapay</module>
+    <module>pay-service-llpay</module>
+    <module>pay-service-jytpay</module>
+    <module>pay-service-trade</module>  
+    <module>pay-service-fee</module>
+    <module>pay-service-rule</module>
+    <module>pay-service-bank</module>  
+    <module>pay-facade-trade</module>    
+  	<module>pay-web-gateway</module>
+    <module>pay-web-cashier</module>
+    <module>pay-web-boss</module>
+
+    
+    <module>pay-service-quartz</module>
+    <module>pay-common-security</module>
+  </modules>
+</project>
