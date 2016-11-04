@@ -44,7 +44,10 @@
     <c:forEach var="record" items="${payChannelForm.pagination.list}" varStatus="status">
     <tr data-id="<c:out value="${record.id}"/>">
         <td align="center"><c:out value="${record.id}"/></td>
-        <td align="center"><c:out value="${record.code}"/></td>
+<%--         <td align="center"><c:out value="${record.code}"/></td>
+ --%>         
+         <td align="center"><a href="${pageContext.request.contextPath}/channelManagement/queryBankByChannelId?payChannelId=${record.code}&payChannelName=${record.name}" data-toggle="navtab" data-id="suppbank_tab" data-title="银行信息"><c:out value="${record.code}"/></a></td>
+        
          <td align="center"><c:out value="${record.name}"/></td>
          
        <c:choose>

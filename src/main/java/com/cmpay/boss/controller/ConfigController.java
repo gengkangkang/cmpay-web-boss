@@ -22,11 +22,13 @@ import com.cmpay.boss.domain.ChannelBaseBO;
 import com.cmpay.boss.domain.IpBO;
 import com.cmpay.boss.domain.MerchantBO;
 import com.cmpay.boss.domain.PayChannelBO;
+import com.cmpay.boss.domain.SuppBankBO;
 import com.cmpay.boss.form.BankBaseForm;
 import com.cmpay.boss.form.ChannelBaseForm;
 import com.cmpay.boss.form.IpManageForm;
 import com.cmpay.boss.form.MerchantForm;
 import com.cmpay.boss.form.PayChannelForm;
+import com.cmpay.boss.form.SuppBankForm;
 import com.cmpay.boss.service.ConfigService;
 import com.cmpay.boss.util.EncodeUtil;
 import com.cmpay.boss.util.Pagination;
@@ -142,6 +144,33 @@ public class ConfigController {
 
     }
 
+    @RequestMapping(value = "/channelManagement/queryBankByChannelId", method = RequestMethod.GET)
+    public String queryBankByChannelId(HttpServletRequest request,@ModelAttribute("suppBankForm") SuppBankForm suppBankForm,ModelMap suppBankModel){
+    	SuppBankBO suppBankBO = new SuppBankBO();
+        String pageCurrent = suppBankForm.getPageCurrent();
+        String pageSize = suppBankForm.getPageSize();
+
+        suppBankBO.setPageCurrent(Integer.valueOf(pageCurrent));
+        suppBankBO.setPageSize(Integer.valueOf(pageSize));
+
+        String payChannelId=request.getParameter("payChannelId");
+        String payChannelName=EncodeUtil.getUTF8String(request.getParameter("payChannelName"));
+
+        logger.info("需要查询支持银行的支付渠道为："+payChannelId+",支付渠道名称为："+payChannelName);
+        suppBankBO.setPayChannelCode(payChannelId);
+
+        suppBankModel.addAttribute("payChannelId", payChannelId);
+        suppBankModel.addAttribute("payChannelName", payChannelName);
+
+
+        Pagination<SuppBankBO> suppBankBOPagination = configService.getSuppBankByPara(suppBankBO);
+
+        suppBankForm.setPagination(suppBankBOPagination);
+
+        return "merchant/suppbanklist";
+
+    }
+
     @RequestMapping(value = "/merchantManagement/getMerByPara", method = RequestMethod.POST)
     public String getMerByPara(@ModelAttribute("merForm") MerchantForm merForm){
     	MerchantBO merchantBO = new MerchantBO();
@@ -217,6 +246,15 @@ public class ConfigController {
         return "merchant/addBB";
     }
 
+    @RequestMapping(value = "/channelManagement/addChannelBankMap", method = RequestMethod.GET)
+    public String goAddNewChannelBankMapPage(HttpServletRequest request,@ModelAttribute("suppBankForm") SuppBankForm suppBankForm) {
+
+    	String payChannelId=request.getParameter("payChannelId");
+    	logger.info("支付渠道【{}】增加支持银行",payChannelId);
+    	suppBankForm.setPayChannelCode(payChannelId);
+        return "merchant/addSuppBank";
+    }
+
     @ResponseBody
     @RequestMapping(value = "/ipManagement/addNewIp", method = RequestMethod.POST)
     public Map addNewRole(@ModelAttribute("ipManageForm") IpManageForm ipManageForm) {
@@ -285,6 +323,30 @@ public class ConfigController {
 		}
 
     	resultMap = configService.addNewChannel(payChannelBO);
+
+    	return resultMap;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/channelManagement/addNewSuppBank", method = RequestMethod.POST)
+    public Map addNewSuppBank(@ModelAttribute("suppBankForm") SuppBankForm suppBankForm) {
+    	Map resultMap = new HashMap();
+    	String channelId=suppBankForm.getPayChannelCode();
+
+    	if(StringUtils.isBlank(channelId)){
+    		resultMap.put("statusCode", 300);
+    		resultMap.put("message", "必须传支付渠道号！");
+    		return resultMap;
+    	}
+    	SuppBankBO suppBankBO = new SuppBankBO();
+        try {
+			BeanUtils.copyProperties(suppBankBO, suppBankForm);
+		} catch (Exception e) {
+			logger.error("cope properties出现异常！！！！");
+			e.printStackTrace();
+		}
+
+    	resultMap = configService.addNewSuppBank(suppBankBO);
 
     	return resultMap;
     }
@@ -372,6 +434,22 @@ public class ConfigController {
 		}
 
         return "merchant/updchannel";
+    }
+
+    @RequestMapping(value = "/channelManagement/editSuppBank", method = RequestMethod.GET)
+    public String modifySuppBankDetails(HttpServletRequest request,
+    		@ModelAttribute("suppBankForm") SuppBankForm suppBankForm) {
+
+        String sid = request.getParameter("sid");
+        SuppBankBO suppBankBO = configService.getSuppBankById(sid);
+        try {
+			BeanUtils.copyProperties(suppBankForm, suppBankBO);
+		} catch (Exception e) {
+			logger.error("cope properties 异常！！！！");
+			e.printStackTrace();
+		}
+
+        return "merchant/updsuppbank";
     }
 
     @RequestMapping(value = "/channelManagement/editCB", method = RequestMethod.GET)
@@ -479,6 +557,31 @@ public class ConfigController {
             logger.error(ex.getMessage());
             resultMap.put("statusCode", 300);
             resultMap.put("message", "更新渠道操作失败!");
+
+        }
+        return resultMap;
+
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/channelManagement/updateSuppBank", method = RequestMethod.POST)
+    public Map updateSuppBank(@ModelAttribute("suppBankForm") SuppBankForm suppBankForm) {
+        Map resultMap = new HashMap();
+        SuppBankBO SuppBankBO = new SuppBankBO();
+        String id=suppBankForm.getId();
+
+        if (StringUtils.isBlank(id)) {
+            resultMap.put("statusCode", 300);
+            resultMap.put("message", "请检查更改参数ID是否完整");
+            return resultMap;
+        }
+        try {
+        	BeanUtils.copyProperties(SuppBankBO, suppBankForm);
+            resultMap = configService.updateSuppBankInfo(SuppBankBO);
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+            resultMap.put("statusCode", 300);
+            resultMap.put("message", "更新支持银行操作失败!");
 
         }
         return resultMap;

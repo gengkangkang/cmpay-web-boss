@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmpay.boss.mapper.CmpaySuppBankMapMapper" >
+  <resultMap id="BaseResultMap" type="com.cmpay.boss.entity.CmpaySuppBankMap" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PC_BANK_CODE" property="pcBankCode" jdbcType="VARCHAR" />
+    <result column="PC_BANK_NAME" property="pcBankName" jdbcType="VARCHAR" />
+    <result column="PAY_CHANNEL_CODE" property="payChannelCode" jdbcType="VARCHAR" />
+    <result column="PAY_BANK_CODE" property="payBankCode" jdbcType="VARCHAR" />
+    <result column="SINGLE_MAX_AMOUNT" property="singleMaxAmount" jdbcType="DECIMAL" />
+    <result column="SINGLE_MIN_AMOUNT" property="singleMinAmount" jdbcType="DECIMAL" />
+    <result column="DAY_MAX_AMOUNT" property="dayMaxAmount" jdbcType="DECIMAL" />
+    <result column="DAY_MAX_TIMES" property="dayMaxTimes" jdbcType="DECIMAL" />
+    <result column="MONTH_MAX_AMOUNT" property="monthMaxAmount" jdbcType="DECIMAL" />
+    <result column="MONTH_MAX_TIMES" property="monthMaxTimes" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="MODIFIER" property="modifier" jdbcType="VARCHAR" />
+    <result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="VERSION" property="version" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, PC_BANK_CODE, PC_BANK_NAME, PAY_CHANNEL_CODE, PAY_BANK_CODE, SINGLE_MAX_AMOUNT, 
+    SINGLE_MIN_AMOUNT, DAY_MAX_AMOUNT, DAY_MAX_TIMES, MONTH_MAX_AMOUNT, MONTH_MAX_TIMES, 
+    STATUS, CREATOR, CREATE_TIME, MODIFIER, MODIFY_TIME, VERSION, REMARK
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cmpay.boss.entity.CmpaySuppBankMapExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CMPAY_SUPP_BANK_MAP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CMPAY_SUPP_BANK_MAP
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CMPAY_SUPP_BANK_MAP
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cmpay.boss.entity.CmpaySuppBankMapExample" >
+    delete from CMPAY_SUPP_BANK_MAP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cmpay.boss.entity.CmpaySuppBankMap" >
+    insert into CMPAY_SUPP_BANK_MAP (ID, PC_BANK_CODE, PC_BANK_NAME, 
+      PAY_CHANNEL_CODE, PAY_BANK_CODE, SINGLE_MAX_AMOUNT, 
+      SINGLE_MIN_AMOUNT, DAY_MAX_AMOUNT, DAY_MAX_TIMES, 
+      MONTH_MAX_AMOUNT, MONTH_MAX_TIMES, STATUS, 
+      CREATOR, CREATE_TIME, MODIFIER, 
+      MODIFY_TIME, VERSION, REMARK
+      )
+    values (#{id,jdbcType=VARCHAR}, #{pcBankCode,jdbcType=VARCHAR}, #{pcBankName,jdbcType=VARCHAR}, 
+      #{payChannelCode,jdbcType=VARCHAR}, #{payBankCode,jdbcType=VARCHAR}, #{singleMaxAmount,jdbcType=DECIMAL}, 
+      #{singleMinAmount,jdbcType=DECIMAL}, #{dayMaxAmount,jdbcType=DECIMAL}, #{dayMaxTimes,jdbcType=DECIMAL}, 
+      #{monthMaxAmount,jdbcType=DECIMAL}, #{monthMaxTimes,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
+      #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{version,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cmpay.boss.entity.CmpaySuppBankMap" >
+    insert into CMPAY_SUPP_BANK_MAP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="pcBankCode != null" >
+        PC_BANK_CODE,
+      </if>
+      <if test="pcBankName != null" >
+        PC_BANK_NAME,
+      </if>
+      <if test="payChannelCode != null" >
+        PAY_CHANNEL_CODE,
+      </if>
+      <if test="payBankCode != null" >
+        PAY_BANK_CODE,
+      </if>
+      <if test="singleMaxAmount != null" >
+        SINGLE_MAX_AMOUNT,
+      </if>
+      <if test="singleMinAmount != null" >
+        SINGLE_MIN_AMOUNT,
+      </if>
+      <if test="dayMaxAmount != null" >
+        DAY_MAX_AMOUNT,
+      </if>
+      <if test="dayMaxTimes != null" >
+        DAY_MAX_TIMES,
+      </if>
+      <if test="monthMaxAmount != null" >
+        MONTH_MAX_AMOUNT,
+      </if>
+      <if test="monthMaxTimes != null" >
+        MONTH_MAX_TIMES,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="modifier != null" >
+        MODIFIER,
+      </if>
+      <if test="modifyTime != null" >
+        MODIFY_TIME,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="pcBankCode != null" >
+        #{pcBankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pcBankName != null" >
+        #{pcBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="payChannelCode != null" >
+        #{payChannelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="payBankCode != null" >
+        #{payBankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="singleMaxAmount != null" >
+        #{singleMaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="singleMinAmount != null" >
+        #{singleMinAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="dayMaxAmount != null" >
+        #{dayMaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="dayMaxTimes != null" >
+        #{dayMaxTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="monthMaxAmount != null" >
+        #{monthMaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="monthMaxTimes != null" >
+        #{monthMaxTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cmpay.boss.entity.CmpaySuppBankMapExample" resultType="java.lang.Integer" >
+    select count(*) from CMPAY_SUPP_BANK_MAP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CMPAY_SUPP_BANK_MAP
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcBankCode != null" >
+        PC_BANK_CODE = #{record.pcBankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcBankName != null" >
+        PC_BANK_NAME = #{record.pcBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payChannelCode != null" >
+        PAY_CHANNEL_CODE = #{record.payChannelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payBankCode != null" >
+        PAY_BANK_CODE = #{record.payBankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.singleMaxAmount != null" >
+        SINGLE_MAX_AMOUNT = #{record.singleMaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.singleMinAmount != null" >
+        SINGLE_MIN_AMOUNT = #{record.singleMinAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dayMaxAmount != null" >
+        DAY_MAX_AMOUNT = #{record.dayMaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dayMaxTimes != null" >
+        DAY_MAX_TIMES = #{record.dayMaxTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="record.monthMaxAmount != null" >
+        MONTH_MAX_AMOUNT = #{record.monthMaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.monthMaxTimes != null" >
+        MONTH_MAX_TIMES = #{record.monthMaxTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creator != null" >
+        CREATOR = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifier != null" >
+        MODIFIER = #{record.modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifyTime != null" >
+        MODIFY_TIME = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.version != null" >
+        VERSION = #{record.version,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CMPAY_SUPP_BANK_MAP
+    set ID = #{record.id,jdbcType=VARCHAR},
+      PC_BANK_CODE = #{record.pcBankCode,jdbcType=VARCHAR},
+      PC_BANK_NAME = #{record.pcBankName,jdbcType=VARCHAR},
+      PAY_CHANNEL_CODE = #{record.payChannelCode,jdbcType=VARCHAR},
+      PAY_BANK_CODE = #{record.payBankCode,jdbcType=VARCHAR},
+      SINGLE_MAX_AMOUNT = #{record.singleMaxAmount,jdbcType=DECIMAL},
+      SINGLE_MIN_AMOUNT = #{record.singleMinAmount,jdbcType=DECIMAL},
+      DAY_MAX_AMOUNT = #{record.dayMaxAmount,jdbcType=DECIMAL},
+      DAY_MAX_TIMES = #{record.dayMaxTimes,jdbcType=DECIMAL},
+      MONTH_MAX_AMOUNT = #{record.monthMaxAmount,jdbcType=DECIMAL},
+      MONTH_MAX_TIMES = #{record.monthMaxTimes,jdbcType=DECIMAL},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      CREATOR = #{record.creator,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      MODIFIER = #{record.modifier,jdbcType=VARCHAR},
+      MODIFY_TIME = #{record.modifyTime,jdbcType=TIMESTAMP},
+      VERSION = #{record.version,jdbcType=DECIMAL},
+      REMARK = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cmpay.boss.entity.CmpaySuppBankMap" >
+    update CMPAY_SUPP_BANK_MAP
+    <set >
+      <if test="pcBankCode != null" >
+        PC_BANK_CODE = #{pcBankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pcBankName != null" >
+        PC_BANK_NAME = #{pcBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="payChannelCode != null" >
+        PAY_CHANNEL_CODE = #{payChannelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="payBankCode != null" >
+        PAY_BANK_CODE = #{payBankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="singleMaxAmount != null" >
+        SINGLE_MAX_AMOUNT = #{singleMaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="singleMinAmount != null" >
+        SINGLE_MIN_AMOUNT = #{singleMinAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="dayMaxAmount != null" >
+        DAY_MAX_AMOUNT = #{dayMaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="dayMaxTimes != null" >
+        DAY_MAX_TIMES = #{dayMaxTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="monthMaxAmount != null" >
+        MONTH_MAX_AMOUNT = #{monthMaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="monthMaxTimes != null" >
+        MONTH_MAX_TIMES = #{monthMaxTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        MODIFIER = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cmpay.boss.entity.CmpaySuppBankMap" >
+    update CMPAY_SUPP_BANK_MAP
+    set PC_BANK_CODE = #{pcBankCode,jdbcType=VARCHAR},
+      PC_BANK_NAME = #{pcBankName,jdbcType=VARCHAR},
+      PAY_CHANNEL_CODE = #{payChannelCode,jdbcType=VARCHAR},
+      PAY_BANK_CODE = #{payBankCode,jdbcType=VARCHAR},
+      SINGLE_MAX_AMOUNT = #{singleMaxAmount,jdbcType=DECIMAL},
+      SINGLE_MIN_AMOUNT = #{singleMinAmount,jdbcType=DECIMAL},
+      DAY_MAX_AMOUNT = #{dayMaxAmount,jdbcType=DECIMAL},
+      DAY_MAX_TIMES = #{dayMaxTimes,jdbcType=DECIMAL},
+      MONTH_MAX_AMOUNT = #{monthMaxAmount,jdbcType=DECIMAL},
+      MONTH_MAX_TIMES = #{monthMaxTimes,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      MODIFIER = #{modifier,jdbcType=VARCHAR},
+      MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      VERSION = #{version,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

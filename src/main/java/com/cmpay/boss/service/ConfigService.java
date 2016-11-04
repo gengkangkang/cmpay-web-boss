@@ -7,6 +7,7 @@ import com.cmpay.boss.domain.ChannelBaseBO;
 import com.cmpay.boss.domain.IpBO;
 import com.cmpay.boss.domain.MerchantBO;
 import com.cmpay.boss.domain.PayChannelBO;
+import com.cmpay.boss.domain.SuppBankBO;
 import com.cmpay.boss.util.Pagination;
 
 /**
@@ -50,6 +51,11 @@ public interface ConfigService {
     BankBaseBO getBankBaseById(String id);
     Map updateBBInfo(BankBaseBO bankBaseBO);
 
+   //支付渠道支持的银行列表
+    Pagination<SuppBankBO> getSuppBankByPara(SuppBankBO suppBankBO);
+    Map addNewSuppBank(SuppBankBO suppBankBO);
+    SuppBankBO getSuppBankById(String id);
+    Map updateSuppBankInfo(SuppBankBO suppBankBO);
 
 
 

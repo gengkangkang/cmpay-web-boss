@@ -19,6 +19,7 @@ import com.cmpay.boss.domain.ChannelBaseBO;
 import com.cmpay.boss.domain.IpBO;
 import com.cmpay.boss.domain.MerchantBO;
 import com.cmpay.boss.domain.PayChannelBO;
+import com.cmpay.boss.domain.SuppBankBO;
 import com.cmpay.boss.entity.CMPAYIPBINDING;
 import com.cmpay.boss.entity.CmpayBankBase;
 import com.cmpay.boss.entity.CmpayBankBaseExample;
@@ -28,12 +29,15 @@ import com.cmpay.boss.entity.CmpayChannelBaseExample;
 import com.cmpay.boss.entity.CmpayChannelExample;
 import com.cmpay.boss.entity.CmpayMerchant;
 import com.cmpay.boss.entity.CmpayMerchantExample;
+import com.cmpay.boss.entity.CmpaySuppBankMap;
+import com.cmpay.boss.entity.CmpaySuppBankMapExample;
 import com.cmpay.boss.enums.InchannelEnum;
 import com.cmpay.boss.mapper.CMPAYIPBINDINGMapper;
 import com.cmpay.boss.mapper.CmpayBankBaseMapper;
 import com.cmpay.boss.mapper.CmpayChannelBaseMapper;
 import com.cmpay.boss.mapper.CmpayChannelMapper;
 import com.cmpay.boss.mapper.CmpayMerchantMapper;
+import com.cmpay.boss.mapper.CmpaySuppBankMapMapper;
 import com.cmpay.boss.service.ConfigService;
 import com.cmpay.boss.service.MonitorRealm;
 import com.cmpay.boss.util.Constant;
@@ -64,6 +68,8 @@ public class ConfigServiceImpl implements ConfigService {
     CmpayChannelBaseMapper cmpayChannelBaseMapper;
     @Autowired
     CmpayBankBaseMapper cmpayBankBaseMapper;
+    @Autowired
+    CmpaySuppBankMapMapper cmpaySuppBankMapMapper;
 
 
 	@Override
@@ -632,6 +638,109 @@ public class ConfigServiceImpl implements ConfigService {
 
 			}catch(Exception e){
 				logger.error("更新银行基础信息异常！！！");
+				e.printStackTrace();
+			}
+			return resultMap;
+	}
+
+	@Override
+	public Pagination<SuppBankBO> getSuppBankByPara(SuppBankBO suppBankBO) {
+		 List<SuppBankBO> suppBankBOList=new ArrayList<SuppBankBO>();
+
+			CmpaySuppBankMapExample cmpaySuppBankMapExample=new CmpaySuppBankMapExample();
+			cmpaySuppBankMapExample.createCriteria().andPayChannelCodeEqualTo(suppBankBO.getPayChannelCode());
+			int count=cmpaySuppBankMapMapper.countByExample(cmpaySuppBankMapExample);
+	        Pagination pagination = new Pagination(count, suppBankBO.getPageCurrent(),suppBankBO.getPageSize());
+	        PageHelper.startPage(suppBankBO.getPageCurrent(), suppBankBO.getPageSize());
+	        List<CmpaySuppBankMap> banks=cmpaySuppBankMapMapper.selectByExample(cmpaySuppBankMapExample);
+
+	        for(CmpaySuppBankMap cmpaySuppBankMap:banks){
+	        	SuppBankBO SuppBankBO=new SuppBankBO();
+	        	try {
+					BeanUtils.copyProperties(SuppBankBO, cmpaySuppBankMap);
+				} catch (Exception e) {
+					logger.error("cope cmpaySuppBankMap异常！！！！！！");
+					e.printStackTrace();
+				}
+	        	suppBankBOList.add(SuppBankBO);
+
+	        }
+	        pagination.addResult(suppBankBOList);
+
+			return pagination;
+	}
+
+	@Override
+	public Map addNewSuppBank(SuppBankBO suppBankBO) {
+		Map resultMap = new HashMap();
+		try{
+			CmpaySuppBankMap cmpaySuppBankMap=new CmpaySuppBankMap();
+			BeanUtils.copyProperties(cmpaySuppBankMap, suppBankBO);
+			cmpaySuppBankMap.setId(UUIDGenerator.getUUID());
+			cmpaySuppBankMap.setCreateTime(new Date());
+			cmpaySuppBankMap.setVersion(0);
+	        MonitorRealm.ShiroUser shiroUser = (MonitorRealm.ShiroUser) SecurityUtils.getSubject()
+	                .getPrincipal();
+	        String loginName=shiroUser.getLoginName();
+	        cmpaySuppBankMap.setCreator(loginName);
+	        logger.info("新增银行参数："+cmpaySuppBankMap.toString());
+
+	        int r=cmpaySuppBankMapMapper.insert(cmpaySuppBankMap);
+
+	        if (r != 0) {
+	            resultMap.put("statusCode", 200);
+	            resultMap.put("message", "操作成功!");
+	            resultMap.put("closeCurrent", true);
+	        } else {
+	            resultMap.put("statusCode", 300);
+	            resultMap.put("message", "操作失败!");
+	            resultMap.put("closeCurrent", false);
+	        }
+
+		}catch(Exception e){
+			logger.error("新增银行出现异常！！！");
+			e.printStackTrace();
+		}
+		return resultMap;
+	}
+
+	@Override
+	public SuppBankBO getSuppBankById(String id) {
+		CmpaySuppBankMap cmpaySuppBankMap=cmpaySuppBankMapMapper.selectByPrimaryKey(id);
+		SuppBankBO suppBankBO=new SuppBankBO();
+		try {
+			BeanUtils.copyProperties(suppBankBO, cmpaySuppBankMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return suppBankBO;
+	}
+
+	@Override
+	public Map updateSuppBankInfo(SuppBankBO suppBankBO) {
+		 Map resultMap = new HashMap();
+			try{
+				CmpaySuppBankMap cmpaySuppBankMap=new CmpaySuppBankMap();
+				BeanUtils.copyProperties(cmpaySuppBankMap, suppBankBO);
+				 MonitorRealm.ShiroUser shiroUser = (MonitorRealm.ShiroUser) SecurityUtils.getSubject()
+			                .getPrincipal();
+			        String loginName=shiroUser.getLoginName();
+			        cmpaySuppBankMap.setModifier(loginName);
+			        cmpaySuppBankMap.setModifyTime(new Date());
+			        logger.info("更新支持银行信息参数为："+cmpaySuppBankMap.toString());
+			        int r=cmpaySuppBankMapMapper.updateByPrimaryKeySelective(cmpaySuppBankMap);
+			        if (r != 0) {
+			            resultMap.put("statusCode", 200);
+			            resultMap.put("message", "操作成功!");
+			            resultMap.put("closeCurrent", true);
+			        } else {
+			            resultMap.put("statusCode", 300);
+			            resultMap.put("message", "操作失败!");
+			            resultMap.put("closeCurrent", false);
+			        }
+
+			}catch(Exception e){
+				logger.error("更新支持银行信息异常！！！");
 				e.printStackTrace();
 			}
 			return resultMap;
