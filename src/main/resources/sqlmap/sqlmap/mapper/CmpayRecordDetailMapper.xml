@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmpay.boss.mapper.CmpayRecordDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.cmpay.boss.entity.CmpayRecordDetail" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+    <result column="INCHANNEL" property="inchannel" jdbcType="VARCHAR" />
+    <result column="MER_NO" property="merNo" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="CARD_NO" property="cardNo" jdbcType="VARCHAR" />
+    <result column="ORIG_ORDER_NO" property="origOrderNo" jdbcType="VARCHAR" />
+    <result column="TRANS_AMT" property="transAmt" jdbcType="DECIMAL" />
+    <result column="TRANS_TYPE" property="transType" jdbcType="VARCHAR" />
+    <result column="PAY_CHANNEL" property="payChannel" jdbcType="VARCHAR" />
+    <result column="INFO_ORDER" property="infoOrder" jdbcType="VARCHAR" />
+    <result column="PERIOD" property="period" jdbcType="DECIMAL" />
+    <result column="EXPIRE_TIME" property="expireTime" jdbcType="TIMESTAMP" />
+    <result column="ORDERIP" property="orderip" jdbcType="VARCHAR" />
+    <result column="CODE_URL" property="codeUrl" jdbcType="VARCHAR" />
+    <result column="RETURN_URL" property="returnUrl" jdbcType="VARCHAR" />
+    <result column="NOTIFY_URL" property="notifyUrl" jdbcType="VARCHAR" />
+    <result column="CANCEL_ORDER_NO" property="cancelOrderNo" jdbcType="VARCHAR" />
+    <result column="THIRD_ORDER_NO" property="thirdOrderNo" jdbcType="VARCHAR" />
+    <result column="PAY_STATUS" property="payStatus" jdbcType="VARCHAR" />
+    <result column="IS_ACCT" property="isAcct" jdbcType="VARCHAR" />
+    <result column="ACCT_STATUS" property="acctStatus" jdbcType="VARCHAR" />
+    <result column="PAY_ORDER_TIME" property="payOrderTime" jdbcType="VARCHAR" />
+    <result column="RESP_CODE" property="respCode" jdbcType="VARCHAR" />
+    <result column="RESP_MSG" property="respMsg" jdbcType="VARCHAR" />
+    <result column="THIRD_RESP_CODE" property="thirdRespCode" jdbcType="VARCHAR" />
+    <result column="THIRD_MSG" property="thirdMsg" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="VERSION" property="version" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="FIELD1" property="field1" jdbcType="VARCHAR" />
+    <result column="FIELD2" property="field2" jdbcType="VARCHAR" />
+    <result column="FIELD3" property="field3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, ORDER_ID, INCHANNEL, MER_NO, USER_ID, CARD_NO, ORIG_ORDER_NO, TRANS_AMT, TRANS_TYPE, 
+    PAY_CHANNEL, INFO_ORDER, PERIOD, EXPIRE_TIME, ORDERIP, CODE_URL, RETURN_URL, NOTIFY_URL, 
+    CANCEL_ORDER_NO, THIRD_ORDER_NO, PAY_STATUS, IS_ACCT, ACCT_STATUS, PAY_ORDER_TIME, 
+    RESP_CODE, RESP_MSG, THIRD_RESP_CODE, THIRD_MSG, CREATE_TIME, MODIFY_TIME, VERSION, 
+    REMARK, FIELD1, FIELD2, FIELD3
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cmpay.boss.entity.CmpayRecordDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CMPAY_RECORD_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CMPAY_RECORD_DETAIL
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CMPAY_RECORD_DETAIL
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cmpay.boss.entity.CmpayRecordDetailExample" >
+    delete from CMPAY_RECORD_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cmpay.boss.entity.CmpayRecordDetail" >
+    insert into CMPAY_RECORD_DETAIL (ID, ORDER_ID, INCHANNEL, 
+      MER_NO, USER_ID, CARD_NO, 
+      ORIG_ORDER_NO, TRANS_AMT, TRANS_TYPE, 
+      PAY_CHANNEL, INFO_ORDER, PERIOD, 
+      EXPIRE_TIME, ORDERIP, CODE_URL, 
+      RETURN_URL, NOTIFY_URL, CANCEL_ORDER_NO, 
+      THIRD_ORDER_NO, PAY_STATUS, IS_ACCT, 
+      ACCT_STATUS, PAY_ORDER_TIME, RESP_CODE, 
+      RESP_MSG, THIRD_RESP_CODE, THIRD_MSG, 
+      CREATE_TIME, MODIFY_TIME, VERSION, 
+      REMARK, FIELD1, FIELD2, 
+      FIELD3)
+    values (#{id,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{inchannel,jdbcType=VARCHAR}, 
+      #{merNo,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR}, 
+      #{origOrderNo,jdbcType=VARCHAR}, #{transAmt,jdbcType=DECIMAL}, #{transType,jdbcType=VARCHAR}, 
+      #{payChannel,jdbcType=VARCHAR}, #{infoOrder,jdbcType=VARCHAR}, #{period,jdbcType=DECIMAL}, 
+      #{expireTime,jdbcType=TIMESTAMP}, #{orderip,jdbcType=VARCHAR}, #{codeUrl,jdbcType=VARCHAR}, 
+      #{returnUrl,jdbcType=VARCHAR}, #{notifyUrl,jdbcType=VARCHAR}, #{cancelOrderNo,jdbcType=VARCHAR}, 
+      #{thirdOrderNo,jdbcType=VARCHAR}, #{payStatus,jdbcType=VARCHAR}, #{isAcct,jdbcType=VARCHAR}, 
+      #{acctStatus,jdbcType=VARCHAR}, #{payOrderTime,jdbcType=VARCHAR}, #{respCode,jdbcType=VARCHAR}, 
+      #{respMsg,jdbcType=VARCHAR}, #{thirdRespCode,jdbcType=VARCHAR}, #{thirdMsg,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{version,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{field1,jdbcType=VARCHAR}, #{field2,jdbcType=VARCHAR}, 
+      #{field3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cmpay.boss.entity.CmpayRecordDetail" >
+    insert into CMPAY_RECORD_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="inchannel != null" >
+        INCHANNEL,
+      </if>
+      <if test="merNo != null" >
+        MER_NO,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="cardNo != null" >
+        CARD_NO,
+      </if>
+      <if test="origOrderNo != null" >
+        ORIG_ORDER_NO,
+      </if>
+      <if test="transAmt != null" >
+        TRANS_AMT,
+      </if>
+      <if test="transType != null" >
+        TRANS_TYPE,
+      </if>
+      <if test="payChannel != null" >
+        PAY_CHANNEL,
+      </if>
+      <if test="infoOrder != null" >
+        INFO_ORDER,
+      </if>
+      <if test="period != null" >
+        PERIOD,
+      </if>
+      <if test="expireTime != null" >
+        EXPIRE_TIME,
+      </if>
+      <if test="orderip != null" >
+        ORDERIP,
+      </if>
+      <if test="codeUrl != null" >
+        CODE_URL,
+      </if>
+      <if test="returnUrl != null" >
+        RETURN_URL,
+      </if>
+      <if test="notifyUrl != null" >
+        NOTIFY_URL,
+      </if>
+      <if test="cancelOrderNo != null" >
+        CANCEL_ORDER_NO,
+      </if>
+      <if test="thirdOrderNo != null" >
+        THIRD_ORDER_NO,
+      </if>
+      <if test="payStatus != null" >
+        PAY_STATUS,
+      </if>
+      <if test="isAcct != null" >
+        IS_ACCT,
+      </if>
+      <if test="acctStatus != null" >
+        ACCT_STATUS,
+      </if>
+      <if test="payOrderTime != null" >
+        PAY_ORDER_TIME,
+      </if>
+      <if test="respCode != null" >
+        RESP_CODE,
+      </if>
+      <if test="respMsg != null" >
+        RESP_MSG,
+      </if>
+      <if test="thirdRespCode != null" >
+        THIRD_RESP_CODE,
+      </if>
+      <if test="thirdMsg != null" >
+        THIRD_MSG,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="modifyTime != null" >
+        MODIFY_TIME,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="field1 != null" >
+        FIELD1,
+      </if>
+      <if test="field2 != null" >
+        FIELD2,
+      </if>
+      <if test="field3 != null" >
+        FIELD3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="inchannel != null" >
+        #{inchannel,jdbcType=VARCHAR},
+      </if>
+      <if test="merNo != null" >
+        #{merNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null" >
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="origOrderNo != null" >
+        #{origOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transAmt != null" >
+        #{transAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="transType != null" >
+        #{transType,jdbcType=VARCHAR},
+      </if>
+      <if test="payChannel != null" >
+        #{payChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="infoOrder != null" >
+        #{infoOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="period != null" >
+        #{period,jdbcType=DECIMAL},
+      </if>
+      <if test="expireTime != null" >
+        #{expireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderip != null" >
+        #{orderip,jdbcType=VARCHAR},
+      </if>
+      <if test="codeUrl != null" >
+        #{codeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="returnUrl != null" >
+        #{returnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyUrl != null" >
+        #{notifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelOrderNo != null" >
+        #{cancelOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdOrderNo != null" >
+        #{thirdOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payStatus != null" >
+        #{payStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="isAcct != null" >
+        #{isAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="acctStatus != null" >
+        #{acctStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="payOrderTime != null" >
+        #{payOrderTime,jdbcType=VARCHAR},
+      </if>
+      <if test="respCode != null" >
+        #{respCode,jdbcType=VARCHAR},
+      </if>
+      <if test="respMsg != null" >
+        #{respMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdRespCode != null" >
+        #{thirdRespCode,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdMsg != null" >
+        #{thirdMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="field1 != null" >
+        #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        #{field2,jdbcType=VARCHAR},
+      </if>
+      <if test="field3 != null" >
+        #{field3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cmpay.boss.entity.CmpayRecordDetailExample" resultType="java.lang.Integer" >
+    select count(*) from CMPAY_RECORD_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CMPAY_RECORD_DETAIL
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null" >
+        ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inchannel != null" >
+        INCHANNEL = #{record.inchannel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.merNo != null" >
+        MER_NO = #{record.merNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardNo != null" >
+        CARD_NO = #{record.cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.origOrderNo != null" >
+        ORIG_ORDER_NO = #{record.origOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transAmt != null" >
+        TRANS_AMT = #{record.transAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.transType != null" >
+        TRANS_TYPE = #{record.transType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payChannel != null" >
+        PAY_CHANNEL = #{record.payChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.infoOrder != null" >
+        INFO_ORDER = #{record.infoOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.period != null" >
+        PERIOD = #{record.period,jdbcType=DECIMAL},
+      </if>
+      <if test="record.expireTime != null" >
+        EXPIRE_TIME = #{record.expireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderip != null" >
+        ORDERIP = #{record.orderip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.codeUrl != null" >
+        CODE_URL = #{record.codeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.returnUrl != null" >
+        RETURN_URL = #{record.returnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.notifyUrl != null" >
+        NOTIFY_URL = #{record.notifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cancelOrderNo != null" >
+        CANCEL_ORDER_NO = #{record.cancelOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.thirdOrderNo != null" >
+        THIRD_ORDER_NO = #{record.thirdOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payStatus != null" >
+        PAY_STATUS = #{record.payStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isAcct != null" >
+        IS_ACCT = #{record.isAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="record.acctStatus != null" >
+        ACCT_STATUS = #{record.acctStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payOrderTime != null" >
+        PAY_ORDER_TIME = #{record.payOrderTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.respCode != null" >
+        RESP_CODE = #{record.respCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.respMsg != null" >
+        RESP_MSG = #{record.respMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.thirdRespCode != null" >
+        THIRD_RESP_CODE = #{record.thirdRespCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.thirdMsg != null" >
+        THIRD_MSG = #{record.thirdMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifyTime != null" >
+        MODIFY_TIME = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.version != null" >
+        VERSION = #{record.version,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field1 != null" >
+        FIELD1 = #{record.field1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field2 != null" >
+        FIELD2 = #{record.field2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field3 != null" >
+        FIELD3 = #{record.field3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CMPAY_RECORD_DETAIL
+    set ID = #{record.id,jdbcType=VARCHAR},
+      ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      INCHANNEL = #{record.inchannel,jdbcType=VARCHAR},
+      MER_NO = #{record.merNo,jdbcType=VARCHAR},
+      USER_ID = #{record.userId,jdbcType=VARCHAR},
+      CARD_NO = #{record.cardNo,jdbcType=VARCHAR},
+      ORIG_ORDER_NO = #{record.origOrderNo,jdbcType=VARCHAR},
+      TRANS_AMT = #{record.transAmt,jdbcType=DECIMAL},
+      TRANS_TYPE = #{record.transType,jdbcType=VARCHAR},
+      PAY_CHANNEL = #{record.payChannel,jdbcType=VARCHAR},
+      INFO_ORDER = #{record.infoOrder,jdbcType=VARCHAR},
+      PERIOD = #{record.period,jdbcType=DECIMAL},
+      EXPIRE_TIME = #{record.expireTime,jdbcType=TIMESTAMP},
+      ORDERIP = #{record.orderip,jdbcType=VARCHAR},
+      CODE_URL = #{record.codeUrl,jdbcType=VARCHAR},
+      RETURN_URL = #{record.returnUrl,jdbcType=VARCHAR},
+      NOTIFY_URL = #{record.notifyUrl,jdbcType=VARCHAR},
+      CANCEL_ORDER_NO = #{record.cancelOrderNo,jdbcType=VARCHAR},
+      THIRD_ORDER_NO = #{record.thirdOrderNo,jdbcType=VARCHAR},
+      PAY_STATUS = #{record.payStatus,jdbcType=VARCHAR},
+      IS_ACCT = #{record.isAcct,jdbcType=VARCHAR},
+      ACCT_STATUS = #{record.acctStatus,jdbcType=VARCHAR},
+      PAY_ORDER_TIME = #{record.payOrderTime,jdbcType=VARCHAR},
+      RESP_CODE = #{record.respCode,jdbcType=VARCHAR},
+      RESP_MSG = #{record.respMsg,jdbcType=VARCHAR},
+      THIRD_RESP_CODE = #{record.thirdRespCode,jdbcType=VARCHAR},
+      THIRD_MSG = #{record.thirdMsg,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      MODIFY_TIME = #{record.modifyTime,jdbcType=TIMESTAMP},
+      VERSION = #{record.version,jdbcType=DECIMAL},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      FIELD1 = #{record.field1,jdbcType=VARCHAR},
+      FIELD2 = #{record.field2,jdbcType=VARCHAR},
+      FIELD3 = #{record.field3,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cmpay.boss.entity.CmpayRecordDetail" >
+    update CMPAY_RECORD_DETAIL
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="inchannel != null" >
+        INCHANNEL = #{inchannel,jdbcType=VARCHAR},
+      </if>
+      <if test="merNo != null" >
+        MER_NO = #{merNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null" >
+        CARD_NO = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="origOrderNo != null" >
+        ORIG_ORDER_NO = #{origOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transAmt != null" >
+        TRANS_AMT = #{transAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="transType != null" >
+        TRANS_TYPE = #{transType,jdbcType=VARCHAR},
+      </if>
+      <if test="payChannel != null" >
+        PAY_CHANNEL = #{payChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="infoOrder != null" >
+        INFO_ORDER = #{infoOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="period != null" >
+        PERIOD = #{period,jdbcType=DECIMAL},
+      </if>
+      <if test="expireTime != null" >
+        EXPIRE_TIME = #{expireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderip != null" >
+        ORDERIP = #{orderip,jdbcType=VARCHAR},
+      </if>
+      <if test="codeUrl != null" >
+        CODE_URL = #{codeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="returnUrl != null" >
+        RETURN_URL = #{returnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyUrl != null" >
+        NOTIFY_URL = #{notifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelOrderNo != null" >
+        CANCEL_ORDER_NO = #{cancelOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdOrderNo != null" >
+        THIRD_ORDER_NO = #{thirdOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payStatus != null" >
+        PAY_STATUS = #{payStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="isAcct != null" >
+        IS_ACCT = #{isAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="acctStatus != null" >
+        ACCT_STATUS = #{acctStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="payOrderTime != null" >
+        PAY_ORDER_TIME = #{payOrderTime,jdbcType=VARCHAR},
+      </if>
+      <if test="respCode != null" >
+        RESP_CODE = #{respCode,jdbcType=VARCHAR},
+      </if>
+      <if test="respMsg != null" >
+        RESP_MSG = #{respMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdRespCode != null" >
+        THIRD_RESP_CODE = #{thirdRespCode,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdMsg != null" >
+        THIRD_MSG = #{thirdMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="field1 != null" >
+        FIELD1 = #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        FIELD2 = #{field2,jdbcType=VARCHAR},
+      </if>
+      <if test="field3 != null" >
+        FIELD3 = #{field3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cmpay.boss.entity.CmpayRecordDetail" >
+    update CMPAY_RECORD_DETAIL
+    set ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      INCHANNEL = #{inchannel,jdbcType=VARCHAR},
+      MER_NO = #{merNo,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=VARCHAR},
+      CARD_NO = #{cardNo,jdbcType=VARCHAR},
+      ORIG_ORDER_NO = #{origOrderNo,jdbcType=VARCHAR},
+      TRANS_AMT = #{transAmt,jdbcType=DECIMAL},
+      TRANS_TYPE = #{transType,jdbcType=VARCHAR},
+      PAY_CHANNEL = #{payChannel,jdbcType=VARCHAR},
+      INFO_ORDER = #{infoOrder,jdbcType=VARCHAR},
+      PERIOD = #{period,jdbcType=DECIMAL},
+      EXPIRE_TIME = #{expireTime,jdbcType=TIMESTAMP},
+      ORDERIP = #{orderip,jdbcType=VARCHAR},
+      CODE_URL = #{codeUrl,jdbcType=VARCHAR},
+      RETURN_URL = #{returnUrl,jdbcType=VARCHAR},
+      NOTIFY_URL = #{notifyUrl,jdbcType=VARCHAR},
+      CANCEL_ORDER_NO = #{cancelOrderNo,jdbcType=VARCHAR},
+      THIRD_ORDER_NO = #{thirdOrderNo,jdbcType=VARCHAR},
+      PAY_STATUS = #{payStatus,jdbcType=VARCHAR},
+      IS_ACCT = #{isAcct,jdbcType=VARCHAR},
+      ACCT_STATUS = #{acctStatus,jdbcType=VARCHAR},
+      PAY_ORDER_TIME = #{payOrderTime,jdbcType=VARCHAR},
+      RESP_CODE = #{respCode,jdbcType=VARCHAR},
+      RESP_MSG = #{respMsg,jdbcType=VARCHAR},
+      THIRD_RESP_CODE = #{thirdRespCode,jdbcType=VARCHAR},
+      THIRD_MSG = #{thirdMsg,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      VERSION = #{version,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      FIELD1 = #{field1,jdbcType=VARCHAR},
+      FIELD2 = #{field2,jdbcType=VARCHAR},
+      FIELD3 = #{field3,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
