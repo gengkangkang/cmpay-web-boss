@@ -4,7 +4,7 @@
       "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">  
   
 <generatorConfiguration>  
-    <properties  resource="jdbc.properties"/>  
+    <properties  resource="conf/jdbc.properties"/>  
     
     <!-- 指定数据库驱动jar的位置，同上，使用绝对路径  -->  
     <classPathEntry location="D:/ojdbc6.jar" />  
@@ -42,7 +42,7 @@
           
          <!--  <table tableName="TEST_USER" domainObjectName="TestUser" />  -->
           
-        <table tableName="CMPAY_SUPP_BANK_MAP" domainObjectName="CmpaySuppBankMap" enableSelectByExample="true" enableDeleteByExample="true"  
+        <table tableName="CMPAY_CHANNEL_CONFIG" domainObjectName="CmpayChannelConfig" enableSelectByExample="true" enableDeleteByExample="true"  
             enableCountByExample="true" enableUpdateByExample="true" />  
   
     </context>  

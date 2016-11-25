@@ -353,7 +353,7 @@
 		</plugins>
 	</build>
 
-	<profiles>
+<!-- 	<profiles>
 		<profile>
 			<id>dev</id>
 			<activation>
@@ -408,5 +408,5 @@
 				</resources>
 			</build>
 		</profile>
-	</profiles>
+	</profiles> -->
 </project>
