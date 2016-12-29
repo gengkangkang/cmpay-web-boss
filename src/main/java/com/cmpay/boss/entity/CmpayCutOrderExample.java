@@ -2975,6 +2975,266 @@ public class CmpayCutOrderExample {
             addCriterion("FIELD3 not between", value1, value2, "field3");
             return (Criteria) this;
         }
+
+        public Criteria andPreAuditorIsNull() {
+            addCriterion("PRE_AUDITOR is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditorIsNotNull() {
+            addCriterion("PRE_AUDITOR is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditorEqualTo(String value) {
+            addCriterion("PRE_AUDITOR =", value, "preAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditorNotEqualTo(String value) {
+            addCriterion("PRE_AUDITOR <>", value, "preAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditorGreaterThan(String value) {
+            addCriterion("PRE_AUDITOR >", value, "preAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditorGreaterThanOrEqualTo(String value) {
+            addCriterion("PRE_AUDITOR >=", value, "preAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditorLessThan(String value) {
+            addCriterion("PRE_AUDITOR <", value, "preAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditorLessThanOrEqualTo(String value) {
+            addCriterion("PRE_AUDITOR <=", value, "preAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditorLike(String value) {
+            addCriterion("PRE_AUDITOR like", value, "preAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditorNotLike(String value) {
+            addCriterion("PRE_AUDITOR not like", value, "preAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditorIn(List<String> values) {
+            addCriterion("PRE_AUDITOR in", values, "preAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditorNotIn(List<String> values) {
+            addCriterion("PRE_AUDITOR not in", values, "preAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditorBetween(String value1, String value2) {
+            addCriterion("PRE_AUDITOR between", value1, value2, "preAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditorNotBetween(String value1, String value2) {
+            addCriterion("PRE_AUDITOR not between", value1, value2, "preAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditTimeIsNull() {
+            addCriterion("PRE_AUDIT_TIME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditTimeIsNotNull() {
+            addCriterion("PRE_AUDIT_TIME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditTimeEqualTo(Date value) {
+            addCriterion("PRE_AUDIT_TIME =", value, "preAuditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditTimeNotEqualTo(Date value) {
+            addCriterion("PRE_AUDIT_TIME <>", value, "preAuditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditTimeGreaterThan(Date value) {
+            addCriterion("PRE_AUDIT_TIME >", value, "preAuditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("PRE_AUDIT_TIME >=", value, "preAuditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditTimeLessThan(Date value) {
+            addCriterion("PRE_AUDIT_TIME <", value, "preAuditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditTimeLessThanOrEqualTo(Date value) {
+            addCriterion("PRE_AUDIT_TIME <=", value, "preAuditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditTimeIn(List<Date> values) {
+            addCriterion("PRE_AUDIT_TIME in", values, "preAuditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditTimeNotIn(List<Date> values) {
+            addCriterion("PRE_AUDIT_TIME not in", values, "preAuditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditTimeBetween(Date value1, Date value2) {
+            addCriterion("PRE_AUDIT_TIME between", value1, value2, "preAuditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreAuditTimeNotBetween(Date value1, Date value2) {
+            addCriterion("PRE_AUDIT_TIME not between", value1, value2, "preAuditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditorIsNull() {
+            addCriterion("RECHECK_AUDITOR is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditorIsNotNull() {
+            addCriterion("RECHECK_AUDITOR is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditorEqualTo(String value) {
+            addCriterion("RECHECK_AUDITOR =", value, "recheckAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditorNotEqualTo(String value) {
+            addCriterion("RECHECK_AUDITOR <>", value, "recheckAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditorGreaterThan(String value) {
+            addCriterion("RECHECK_AUDITOR >", value, "recheckAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditorGreaterThanOrEqualTo(String value) {
+            addCriterion("RECHECK_AUDITOR >=", value, "recheckAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditorLessThan(String value) {
+            addCriterion("RECHECK_AUDITOR <", value, "recheckAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditorLessThanOrEqualTo(String value) {
+            addCriterion("RECHECK_AUDITOR <=", value, "recheckAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditorLike(String value) {
+            addCriterion("RECHECK_AUDITOR like", value, "recheckAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditorNotLike(String value) {
+            addCriterion("RECHECK_AUDITOR not like", value, "recheckAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditorIn(List<String> values) {
+            addCriterion("RECHECK_AUDITOR in", values, "recheckAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditorNotIn(List<String> values) {
+            addCriterion("RECHECK_AUDITOR not in", values, "recheckAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditorBetween(String value1, String value2) {
+            addCriterion("RECHECK_AUDITOR between", value1, value2, "recheckAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditorNotBetween(String value1, String value2) {
+            addCriterion("RECHECK_AUDITOR not between", value1, value2, "recheckAuditor");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditTimeIsNull() {
+            addCriterion("RECHECK_AUDIT_TIME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditTimeIsNotNull() {
+            addCriterion("RECHECK_AUDIT_TIME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditTimeEqualTo(Date value) {
+            addCriterion("RECHECK_AUDIT_TIME =", value, "recheckAuditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditTimeNotEqualTo(Date value) {
+            addCriterion("RECHECK_AUDIT_TIME <>", value, "recheckAuditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditTimeGreaterThan(Date value) {
+            addCriterion("RECHECK_AUDIT_TIME >", value, "recheckAuditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("RECHECK_AUDIT_TIME >=", value, "recheckAuditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditTimeLessThan(Date value) {
+            addCriterion("RECHECK_AUDIT_TIME <", value, "recheckAuditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditTimeLessThanOrEqualTo(Date value) {
+            addCriterion("RECHECK_AUDIT_TIME <=", value, "recheckAuditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditTimeIn(List<Date> values) {
+            addCriterion("RECHECK_AUDIT_TIME in", values, "recheckAuditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditTimeNotIn(List<Date> values) {
+            addCriterion("RECHECK_AUDIT_TIME not in", values, "recheckAuditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditTimeBetween(Date value1, Date value2) {
+            addCriterion("RECHECK_AUDIT_TIME between", value1, value2, "recheckAuditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecheckAuditTimeNotBetween(Date value1, Date value2) {
+            addCriterion("RECHECK_AUDIT_TIME not between", value1, value2, "recheckAuditTime");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

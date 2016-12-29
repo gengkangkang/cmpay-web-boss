@@ -44,6 +44,10 @@
     <result column="FIELD1" property="field1" jdbcType="VARCHAR" />
     <result column="FIELD2" property="field2" jdbcType="VARCHAR" />
     <result column="FIELD3" property="field3" jdbcType="VARCHAR" />
+    <result column="PRE_AUDITOR" property="preAuditor" jdbcType="VARCHAR" />
+    <result column="PRE_AUDIT_TIME" property="preAuditTime" jdbcType="TIMESTAMP" />
+    <result column="RECHECK_AUDITOR" property="recheckAuditor" jdbcType="VARCHAR" />
+    <result column="RECHECK_AUDIT_TIME" property="recheckAuditTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -109,7 +113,7 @@
     NOTIFY_COUNT, HASNOTIFY, RETURN_URL, NAME_GOODS, ORDER_DESC, ORDER_DT, PAY_CHANEL_INTERACCTNO, 
     THIRD_ORDER_NO, TO_ACCT_NO, USERREG_DT, RESP_CODE, RESP_MSG, THIRD_RESP_CODE, THIRD_RESP_MSG, 
     PERIOD, EXPIRE_TIME, ORDERIP, CREATE_TIME, MODIFY_TIME, VERSION, REMARK, FIELD1, 
-    FIELD2, FIELD3
+    FIELD2, FIELD3, PRE_AUDITOR, PRE_AUDIT_TIME, RECHECK_AUDITOR, RECHECK_AUDIT_TIME
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cmpay.boss.entity.CmpayCutOrderExample" >
     select
@@ -155,8 +159,9 @@
       THIRD_RESP_CODE, THIRD_RESP_MSG, PERIOD, 
       EXPIRE_TIME, ORDERIP, CREATE_TIME, 
       MODIFY_TIME, VERSION, REMARK, 
-      FIELD1, FIELD2, FIELD3
-      )
+      FIELD1, FIELD2, FIELD3, 
+      PRE_AUDITOR, PRE_AUDIT_TIME, RECHECK_AUDITOR, 
+      RECHECK_AUDIT_TIME)
     values (#{id,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{inchannel,jdbcType=VARCHAR}, 
       #{merNo,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{origOrderNo,jdbcType=VARCHAR}, 
       #{transAmt,jdbcType=DECIMAL}, #{transType,jdbcType=VARCHAR}, #{payChannel,jdbcType=VARCHAR}, 
@@ -170,8 +175,9 @@
       #{thirdRespCode,jdbcType=VARCHAR}, #{thirdRespMsg,jdbcType=VARCHAR}, #{period,jdbcType=DECIMAL}, 
       #{expireTime,jdbcType=TIMESTAMP}, #{orderip,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{modifyTime,jdbcType=TIMESTAMP}, #{version,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
-      #{field1,jdbcType=VARCHAR}, #{field2,jdbcType=VARCHAR}, #{field3,jdbcType=VARCHAR}
-      )
+      #{field1,jdbcType=VARCHAR}, #{field2,jdbcType=VARCHAR}, #{field3,jdbcType=VARCHAR}, 
+      #{preAuditor,jdbcType=VARCHAR}, #{preAuditTime,jdbcType=TIMESTAMP}, #{recheckAuditor,jdbcType=VARCHAR}, 
+      #{recheckAuditTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.cmpay.boss.entity.CmpayCutOrder" >
     insert into CMPAY_CUT_ORDER
@@ -302,6 +308,18 @@
       <if test="field3 != null" >
         FIELD3,
       </if>
+      <if test="preAuditor != null" >
+        PRE_AUDITOR,
+      </if>
+      <if test="preAuditTime != null" >
+        PRE_AUDIT_TIME,
+      </if>
+      <if test="recheckAuditor != null" >
+        RECHECK_AUDITOR,
+      </if>
+      <if test="recheckAuditTime != null" >
+        RECHECK_AUDIT_TIME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -429,6 +447,18 @@
       </if>
       <if test="field3 != null" >
         #{field3,jdbcType=VARCHAR},
+      </if>
+      <if test="preAuditor != null" >
+        #{preAuditor,jdbcType=VARCHAR},
+      </if>
+      <if test="preAuditTime != null" >
+        #{preAuditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recheckAuditor != null" >
+        #{recheckAuditor,jdbcType=VARCHAR},
+      </if>
+      <if test="recheckAuditTime != null" >
+        #{recheckAuditTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -567,6 +597,18 @@
       <if test="record.field3 != null" >
         FIELD3 = #{record.field3,jdbcType=VARCHAR},
       </if>
+      <if test="record.preAuditor != null" >
+        PRE_AUDITOR = #{record.preAuditor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.preAuditTime != null" >
+        PRE_AUDIT_TIME = #{record.preAuditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.recheckAuditor != null" >
+        RECHECK_AUDITOR = #{record.recheckAuditor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recheckAuditTime != null" >
+        RECHECK_AUDIT_TIME = #{record.recheckAuditTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -615,7 +657,11 @@
       REMARK = #{record.remark,jdbcType=VARCHAR},
       FIELD1 = #{record.field1,jdbcType=VARCHAR},
       FIELD2 = #{record.field2,jdbcType=VARCHAR},
-      FIELD3 = #{record.field3,jdbcType=VARCHAR}
+      FIELD3 = #{record.field3,jdbcType=VARCHAR},
+      PRE_AUDITOR = #{record.preAuditor,jdbcType=VARCHAR},
+      PRE_AUDIT_TIME = #{record.preAuditTime,jdbcType=TIMESTAMP},
+      RECHECK_AUDITOR = #{record.recheckAuditor,jdbcType=VARCHAR},
+      RECHECK_AUDIT_TIME = #{record.recheckAuditTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -746,6 +792,18 @@
       <if test="field3 != null" >
         FIELD3 = #{field3,jdbcType=VARCHAR},
       </if>
+      <if test="preAuditor != null" >
+        PRE_AUDITOR = #{preAuditor,jdbcType=VARCHAR},
+      </if>
+      <if test="preAuditTime != null" >
+        PRE_AUDIT_TIME = #{preAuditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recheckAuditor != null" >
+        RECHECK_AUDITOR = #{recheckAuditor,jdbcType=VARCHAR},
+      </if>
+      <if test="recheckAuditTime != null" >
+        RECHECK_AUDIT_TIME = #{recheckAuditTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -791,7 +849,11 @@
       REMARK = #{remark,jdbcType=VARCHAR},
       FIELD1 = #{field1,jdbcType=VARCHAR},
       FIELD2 = #{field2,jdbcType=VARCHAR},
-      FIELD3 = #{field3,jdbcType=VARCHAR}
+      FIELD3 = #{field3,jdbcType=VARCHAR},
+      PRE_AUDITOR = #{preAuditor,jdbcType=VARCHAR},
+      PRE_AUDIT_TIME = #{preAuditTime,jdbcType=TIMESTAMP},
+      RECHECK_AUDITOR = #{recheckAuditor,jdbcType=VARCHAR},
+      RECHECK_AUDIT_TIME = #{recheckAuditTime,jdbcType=TIMESTAMP}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

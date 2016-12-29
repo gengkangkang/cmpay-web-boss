@@ -1,9 +1,9 @@
-package com.cmpay.boss.entity;
+package com.cmpay.boss.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class CmpayCutOrder {
+public class CutOrderBO extends BaseBO {
     private String id;
 
     private String orderId;
@@ -95,6 +95,10 @@ public class CmpayCutOrder {
     private String recheckAuditor;
 
     private Date recheckAuditTime;
+
+    //参数时间
+    private Date startTime;
+    private Date endTime;
 
     public String getId() {
         return id;
@@ -464,21 +468,19 @@ public class CmpayCutOrder {
         this.recheckAuditTime = recheckAuditTime;
     }
 
-	@Override
-	public String toString() {
-		return "CmpayCutOrder [id=" + id + ", orderId=" + orderId + ", inchannel=" + inchannel + ", merNo=" + merNo
-				+ ", userId=" + userId + ", origOrderNo=" + origOrderNo + ", transAmt=" + transAmt + ", transType="
-				+ transType + ", payChannel=" + payChannel + ", payStatus=" + payStatus + ", custName=" + custName
-				+ ", idNo=" + idNo + ", idType=" + idType + ", cardNo=" + cardNo + ", bankCode=" + bankCode
-				+ ", inAcct=" + inAcct + ", isAcct=" + isAcct + ", notifyUrl=" + notifyUrl + ", notifyCount="
-				+ notifyCount + ", hasnotify=" + hasnotify + ", returnUrl=" + returnUrl + ", nameGoods=" + nameGoods
-				+ ", orderDesc=" + orderDesc + ", orderDt=" + orderDt + ", payChanelInteracctno=" + payChanelInteracctno
-				+ ", thirdOrderNo=" + thirdOrderNo + ", toAcctNo=" + toAcctNo + ", userregDt=" + userregDt
-				+ ", respCode=" + respCode + ", respMsg=" + respMsg + ", thirdRespCode=" + thirdRespCode
-				+ ", thirdRespMsg=" + thirdRespMsg + ", period=" + period + ", expireTime=" + expireTime + ", orderip="
-				+ orderip + ", createTime=" + createTime + ", modifyTime=" + modifyTime + ", version=" + version
-				+ ", remark=" + remark + ", field1=" + field1 + ", field2=" + field2 + ", field3=" + field3
-				+ ", preAuditor=" + preAuditor + ", preAuditTime=" + preAuditTime + ", recheckAuditor=" + recheckAuditor
-				+ ", recheckAuditTime=" + recheckAuditTime + "]";
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 }

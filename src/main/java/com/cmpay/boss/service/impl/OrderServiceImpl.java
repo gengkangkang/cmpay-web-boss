@@ -1,0 +1,154 @@
+package com.cmpay.boss.service.impl;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cmpay.boss.domain.CutOrderBO;
+import com.cmpay.boss.entity.CmpayCutOrder;
+import com.cmpay.boss.entity.CmpayCutOrderExample;
+import com.cmpay.boss.mapper.CmpayCutOrderMapper;
+import com.cmpay.boss.service.MonitorRealm;
+import com.cmpay.boss.service.OrderService;
+import com.cmpay.boss.util.Pagination;
+import com.cmpay.common.enums.PayWayEnum;
+import com.github.pagehelper.PageHelper;
+
+/**
+ * 代扣订单管理
+ * @author gengkangkang
+ * @E-mail gengkangkang@cm-inv.com
+ *
+ * 2016年12月27日 下午5:15:39
+ *
+ */
+@Service
+public class OrderServiceImpl implements OrderService {
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
+    @Autowired
+    CmpayCutOrderMapper cmpayCutOrderMapper;
+
+	@Override
+	public Pagination<CutOrderBO> getAllCutOrder(CutOrderBO cutOrderBO) {
+		CmpayCutOrderExample cmpayCutOrderExample=new CmpayCutOrderExample();
+        int count=cmpayCutOrderMapper.countByExample(cmpayCutOrderExample);
+
+        Pagination pagination = new Pagination(count, cutOrderBO.getPageCurrent(),cutOrderBO.getPageSize());
+        PageHelper.startPage(cutOrderBO.getPageCurrent(), cutOrderBO.getPageSize());
+        cmpayCutOrderExample.setOrderByClause("CREATE_TIME DESC");
+        List<CmpayCutOrder> ccos=cmpayCutOrderMapper.selectByExample(cmpayCutOrderExample);
+        List<CutOrderBO> cutOrderBOList=new ArrayList<CutOrderBO>();
+        for(CmpayCutOrder cmpayCutOrder:ccos){
+        	CutOrderBO merBO=new CutOrderBO();
+        	try {
+				BeanUtils.copyProperties(merBO, cmpayCutOrder);
+				if(StringUtils.isNotBlank(cmpayCutOrder.getPayChannel())){
+					PayWayEnum payWayEnum=PayWayEnum.getByCode(cmpayCutOrder.getPayChannel());
+					if(payWayEnum!=null){
+						merBO.setPayChannel(payWayEnum.getValue());
+					}
+				}
+			} catch (Exception e) {
+				logger.error("cope cmpayMerchant异常！！！！！！");
+				e.printStackTrace();
+			}
+        	cutOrderBOList.add(merBO);
+
+        }
+        pagination.addResult(cutOrderBOList);
+
+		return pagination;
+	}
+
+	@Override
+	public Pagination<CutOrderBO> getCutOrderByPara(CutOrderBO cutOrderBO) {
+		CmpayCutOrderExample cmpayCutOrderExample=new CmpayCutOrderExample();
+		if(StringUtils.isNotBlank(cutOrderBO.getOrderId())){
+			cmpayCutOrderExample.or().andOrderIdEqualTo(cutOrderBO.getOrderId());
+		}
+		if(StringUtils.isNotBlank(cutOrderBO.getCardNo())){
+			cmpayCutOrderExample.or().andCardNoEqualTo(cutOrderBO.getCardNo());
+		}
+		if(cutOrderBO.getStartTime() !=null && cutOrderBO.getEndTime() ==null){
+			cmpayCutOrderExample.or().andCreateTimeGreaterThan(cutOrderBO.getStartTime());
+		}
+		if(cutOrderBO.getEndTime() !=null && cutOrderBO.getStartTime() ==null){
+			cmpayCutOrderExample.or().andCreateTimeLessThan(cutOrderBO.getEndTime());
+		}
+		if(cutOrderBO.getStartTime() !=null && cutOrderBO.getEndTime() !=null){
+			cmpayCutOrderExample.or().andCreateTimeBetween(cutOrderBO.getStartTime(), cutOrderBO.getEndTime());
+		}
+
+        int count=cmpayCutOrderMapper.countByExample(cmpayCutOrderExample);
+
+        Pagination pagination = new Pagination(count, cutOrderBO.getPageCurrent(),cutOrderBO.getPageSize());
+        PageHelper.startPage(cutOrderBO.getPageCurrent(), cutOrderBO.getPageSize());
+        cmpayCutOrderExample.setOrderByClause("CREATE_TIME DESC");
+        List<CmpayCutOrder> ccos=cmpayCutOrderMapper.selectByExample(cmpayCutOrderExample);
+        List<CutOrderBO> cutOrderBOList=new ArrayList<CutOrderBO>();
+        for(CmpayCutOrder cmpayCutOrder:ccos){
+        	CutOrderBO coBO=new CutOrderBO();
+        	try {
+        		BeanUtils.copyProperties(coBO, cmpayCutOrder);
+				if(StringUtils.isNotBlank(cmpayCutOrder.getPayChannel())){
+					PayWayEnum payWayEnum=PayWayEnum.getByCode(cmpayCutOrder.getPayChannel());
+					if(payWayEnum!=null){
+						coBO.setPayChannel(payWayEnum.getValue());
+					}
+				}
+			} catch (Exception e) {
+				logger.error("cope cmpayMerchant异常！！！！！！");
+				e.printStackTrace();
+			}
+        	cutOrderBOList.add(coBO);
+
+        }
+        pagination.addResult(cutOrderBOList);
+
+		return pagination;
+	}
+
+	@Override
+	public Map updatePreAuditInfo(String id) {
+		 Map resultMap = new HashMap();
+		try{
+			 CmpayCutOrder cmpayCutOrder=new CmpayCutOrder();
+			 MonitorRealm.ShiroUser shiroUser = (MonitorRealm.ShiroUser) SecurityUtils.getSubject()
+		                .getPrincipal();
+		        String loginName=shiroUser.getLoginName();
+		        cmpayCutOrder.setPreAuditor(loginName);
+		        cmpayCutOrder.setPreAuditTime(new Date());
+		        cmpayCutOrder.setInAcct("4");
+		        cmpayCutOrder.setId(id);
+		        logger.info("申请补账初审信息参数为："+cmpayCutOrder.toString());
+		        int r=cmpayCutOrderMapper.updateByPrimaryKeySelective(cmpayCutOrder);
+		        if (r != 0) {
+		            resultMap.put("statusCode", 200);
+		            resultMap.put("message", "申请成功!");
+		            resultMap.put("closeCurrent", true);
+		        } else {
+		            resultMap.put("statusCode", 300);
+		            resultMap.put("message", "申请失败!");
+		            resultMap.put("closeCurrent", false);
+		        }
+
+		}catch(Exception e){
+			logger.error("申请补账信息异常！！！");
+			e.printStackTrace();
+		}
+		return resultMap;
+	}
+
+
+}

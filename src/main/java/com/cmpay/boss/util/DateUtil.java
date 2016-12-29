@@ -1,5 +1,6 @@
 package com.cmpay.boss.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -25,6 +26,30 @@ public class DateUtil {
     public static String getFormatTime(Date date){
     	SimpleDateFormat df = new SimpleDateFormat(PATTERN_STANDARD);
     	return df.format(date);
+    }
+
+    public static Date parseTime(String date){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+         Date d = null;
+		try {
+			d = simpleDateFormat.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+    	return d;
+    }
+
+    public static Date parseEndTime(String date){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+         Date d = null;
+		try {
+			d = simpleDateFormat.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+    	return d;
     }
 
 

@@ -4,7 +4,7 @@ import com.cmpay.boss.util.Pagination;
 
 public class BaseForm<T> {
 
-    private String pageSize = "10";
+    private String pageSize = "30";
 
     private String pageNo = "1";
 
