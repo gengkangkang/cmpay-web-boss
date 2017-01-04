@@ -108,6 +108,8 @@
     from CMPAY_RECORD
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from CMPAY_RECORD
     where ID = #{id,jdbcType=VARCHAR}

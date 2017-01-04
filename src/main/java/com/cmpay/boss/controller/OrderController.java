@@ -54,7 +54,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/getCutOrderByPara", method = RequestMethod.POST)
-    public String getMerByPara(@ModelAttribute("cutOrderForm") CutOrderForm cutOrderForm){
+    public String getCutOrderByPara(@ModelAttribute("cutOrderForm") CutOrderForm cutOrderForm){
     	CutOrderBO cutOrderBO = new CutOrderBO();
         String pageCurrent = cutOrderForm.getPageCurrent();
         String pageSize = cutOrderForm.getPageSize();
