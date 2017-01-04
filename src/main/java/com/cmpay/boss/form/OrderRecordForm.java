@@ -1,10 +1,10 @@
-package com.cmpay.boss.entity;
+package com.cmpay.boss.form;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class CmpayRecord {
-    private String id;
+public class OrderRecordForm extends BaseForm  {
+	private String id;
 
     private String orderId;
 
@@ -47,6 +47,11 @@ public class CmpayRecord {
     private String field2;
 
     private String field3;
+    
+  //参数时间
+    private String startTime;
+    
+    private String endTime;
 
     public String getId() {
         return id;
@@ -222,17 +227,22 @@ public class CmpayRecord {
 
     public void setField3(String field3) {
         this.field3 = field3 == null ? null : field3.trim();
-      
     }
-    
-    @Override
-    public String toString() {
-        return "CmpayRecord [id=" + id + ", orderId=" +orderId + ", inchannel=" + inchannel + ", merNo=" + merNo
-                + ",userId=" + userId + ",origOrderNo=" + origOrderNo + ",transAmt=" + transAmt + ",transType=" + transType+
-                ",payChannel=" + payChannel + ",payStatus=" + payStatus + ",respCode=" + respCode + ",respMsg=" + respMsg +",period=" 
-                + period +", expireTime=" + expireTime +", orderip=" + orderip+ ", createTime=" + createTime + ", modifyTime=" + modifyTime +
-                ", modifyTime=" + modifyTime +", version=" + version+ ", remark=" + remark +",field1=" +field1+ ",field2=" + field2+
-                ",field3=" + field3+"]";
 
-    }
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
 }
