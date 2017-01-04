@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmpay.boss.mapper.CmpayAuthRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.cmpay.boss.entity.CmpayAuthRecord" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="MERCHANTID" property="merchantid" jdbcType="VARCHAR" />
+    <result column="USERID" property="userid" jdbcType="VARCHAR" />
+    <result column="INCHANNEL" property="inchannel" jdbcType="VARCHAR" />
+    <result column="AUTHCHANNEL" property="authchannel" jdbcType="VARCHAR" />
+    <result column="CARDNO" property="cardno" jdbcType="VARCHAR" />
+    <result column="CARDTYPE" property="cardtype" jdbcType="VARCHAR" />
+    <result column="IDNO" property="idno" jdbcType="VARCHAR" />
+    <result column="IDTYPE" property="idtype" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="BANKMOBILE" property="bankmobile" jdbcType="VARCHAR" />
+    <result column="BANKCODE" property="bankcode" jdbcType="VARCHAR" />
+    <result column="TERMINALTYPE" property="terminaltype" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="VERSION" property="version" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="FIELD1" property="field1" jdbcType="VARCHAR" />
+    <result column="FIELD2" property="field2" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, MERCHANTID, USERID, INCHANNEL, AUTHCHANNEL, CARDNO, CARDTYPE, IDNO, IDTYPE, NAME, 
+    BANKMOBILE, BANKCODE, TERMINALTYPE, STATUS, CREATE_TIME, VERSION, REMARK, FIELD1, 
+    FIELD2
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cmpay.boss.entity.CmpayAuthRecordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CMPAY_AUTH_RECORD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CMPAY_AUTH_RECORD
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CMPAY_AUTH_RECORD
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cmpay.boss.entity.CmpayAuthRecordExample" >
+    delete from CMPAY_AUTH_RECORD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cmpay.boss.entity.CmpayAuthRecord" >
+    insert into CMPAY_AUTH_RECORD (ID, MERCHANTID, USERID, 
+      INCHANNEL, AUTHCHANNEL, CARDNO, 
+      CARDTYPE, IDNO, IDTYPE, 
+      NAME, BANKMOBILE, BANKCODE, 
+      TERMINALTYPE, STATUS, CREATE_TIME, 
+      VERSION, REMARK, FIELD1, 
+      FIELD2)
+    values (#{id,jdbcType=VARCHAR}, #{merchantid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, 
+      #{inchannel,jdbcType=VARCHAR}, #{authchannel,jdbcType=VARCHAR}, #{cardno,jdbcType=VARCHAR}, 
+      #{cardtype,jdbcType=VARCHAR}, #{idno,jdbcType=VARCHAR}, #{idtype,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{bankmobile,jdbcType=VARCHAR}, #{bankcode,jdbcType=VARCHAR}, 
+      #{terminaltype,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{version,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{field1,jdbcType=VARCHAR}, 
+      #{field2,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cmpay.boss.entity.CmpayAuthRecord" >
+    insert into CMPAY_AUTH_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="merchantid != null" >
+        MERCHANTID,
+      </if>
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="inchannel != null" >
+        INCHANNEL,
+      </if>
+      <if test="authchannel != null" >
+        AUTHCHANNEL,
+      </if>
+      <if test="cardno != null" >
+        CARDNO,
+      </if>
+      <if test="cardtype != null" >
+        CARDTYPE,
+      </if>
+      <if test="idno != null" >
+        IDNO,
+      </if>
+      <if test="idtype != null" >
+        IDTYPE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="bankmobile != null" >
+        BANKMOBILE,
+      </if>
+      <if test="bankcode != null" >
+        BANKCODE,
+      </if>
+      <if test="terminaltype != null" >
+        TERMINALTYPE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="field1 != null" >
+        FIELD1,
+      </if>
+      <if test="field2 != null" >
+        FIELD2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantid != null" >
+        #{merchantid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="inchannel != null" >
+        #{inchannel,jdbcType=VARCHAR},
+      </if>
+      <if test="authchannel != null" >
+        #{authchannel,jdbcType=VARCHAR},
+      </if>
+      <if test="cardno != null" >
+        #{cardno,jdbcType=VARCHAR},
+      </if>
+      <if test="cardtype != null" >
+        #{cardtype,jdbcType=VARCHAR},
+      </if>
+      <if test="idno != null" >
+        #{idno,jdbcType=VARCHAR},
+      </if>
+      <if test="idtype != null" >
+        #{idtype,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="bankmobile != null" >
+        #{bankmobile,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcode != null" >
+        #{bankcode,jdbcType=VARCHAR},
+      </if>
+      <if test="terminaltype != null" >
+        #{terminaltype,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="field1 != null" >
+        #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        #{field2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cmpay.boss.entity.CmpayAuthRecordExample" resultType="java.lang.Integer" >
+    select count(*) from CMPAY_AUTH_RECORD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CMPAY_AUTH_RECORD
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.merchantid != null" >
+        MERCHANTID = #{record.merchantid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userid != null" >
+        USERID = #{record.userid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inchannel != null" >
+        INCHANNEL = #{record.inchannel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authchannel != null" >
+        AUTHCHANNEL = #{record.authchannel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardno != null" >
+        CARDNO = #{record.cardno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardtype != null" >
+        CARDTYPE = #{record.cardtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idno != null" >
+        IDNO = #{record.idno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idtype != null" >
+        IDTYPE = #{record.idtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankmobile != null" >
+        BANKMOBILE = #{record.bankmobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankcode != null" >
+        BANKCODE = #{record.bankcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.terminaltype != null" >
+        TERMINALTYPE = #{record.terminaltype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.version != null" >
+        VERSION = #{record.version,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field1 != null" >
+        FIELD1 = #{record.field1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field2 != null" >
+        FIELD2 = #{record.field2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CMPAY_AUTH_RECORD
+    set ID = #{record.id,jdbcType=VARCHAR},
+      MERCHANTID = #{record.merchantid,jdbcType=VARCHAR},
+      USERID = #{record.userid,jdbcType=VARCHAR},
+      INCHANNEL = #{record.inchannel,jdbcType=VARCHAR},
+      AUTHCHANNEL = #{record.authchannel,jdbcType=VARCHAR},
+      CARDNO = #{record.cardno,jdbcType=VARCHAR},
+      CARDTYPE = #{record.cardtype,jdbcType=VARCHAR},
+      IDNO = #{record.idno,jdbcType=VARCHAR},
+      IDTYPE = #{record.idtype,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      BANKMOBILE = #{record.bankmobile,jdbcType=VARCHAR},
+      BANKCODE = #{record.bankcode,jdbcType=VARCHAR},
+      TERMINALTYPE = #{record.terminaltype,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      VERSION = #{record.version,jdbcType=DECIMAL},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      FIELD1 = #{record.field1,jdbcType=VARCHAR},
+      FIELD2 = #{record.field2,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cmpay.boss.entity.CmpayAuthRecord" >
+    update CMPAY_AUTH_RECORD
+    <set >
+      <if test="merchantid != null" >
+        MERCHANTID = #{merchantid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="inchannel != null" >
+        INCHANNEL = #{inchannel,jdbcType=VARCHAR},
+      </if>
+      <if test="authchannel != null" >
+        AUTHCHANNEL = #{authchannel,jdbcType=VARCHAR},
+      </if>
+      <if test="cardno != null" >
+        CARDNO = #{cardno,jdbcType=VARCHAR},
+      </if>
+      <if test="cardtype != null" >
+        CARDTYPE = #{cardtype,jdbcType=VARCHAR},
+      </if>
+      <if test="idno != null" >
+        IDNO = #{idno,jdbcType=VARCHAR},
+      </if>
+      <if test="idtype != null" >
+        IDTYPE = #{idtype,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="bankmobile != null" >
+        BANKMOBILE = #{bankmobile,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcode != null" >
+        BANKCODE = #{bankcode,jdbcType=VARCHAR},
+      </if>
+      <if test="terminaltype != null" >
+        TERMINALTYPE = #{terminaltype,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="field1 != null" >
+        FIELD1 = #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        FIELD2 = #{field2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cmpay.boss.entity.CmpayAuthRecord" >
+    update CMPAY_AUTH_RECORD
+    set MERCHANTID = #{merchantid,jdbcType=VARCHAR},
+      USERID = #{userid,jdbcType=VARCHAR},
+      INCHANNEL = #{inchannel,jdbcType=VARCHAR},
+      AUTHCHANNEL = #{authchannel,jdbcType=VARCHAR},
+      CARDNO = #{cardno,jdbcType=VARCHAR},
+      CARDTYPE = #{cardtype,jdbcType=VARCHAR},
+      IDNO = #{idno,jdbcType=VARCHAR},
+      IDTYPE = #{idtype,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      BANKMOBILE = #{bankmobile,jdbcType=VARCHAR},
+      BANKCODE = #{bankcode,jdbcType=VARCHAR},
+      TERMINALTYPE = #{terminaltype,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      VERSION = #{version,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      FIELD1 = #{field1,jdbcType=VARCHAR},
+      FIELD2 = #{field2,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
