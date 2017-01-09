@@ -1,5 +1,6 @@
 package com.cmpay.boss.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cmpay.boss.domain.AuthBO;
 import com.cmpay.boss.domain.CutOrderBO;
+import com.cmpay.boss.form.AuthForm;
 import com.cmpay.boss.form.CutOrderForm;
 import com.cmpay.boss.service.OrderService;
 import com.cmpay.boss.util.DateUtil;
@@ -37,7 +40,7 @@ public class OrderController {
 	OrderService orderService;
 
     @RequestMapping(value = "/query_all_cutorder", method = RequestMethod.GET)
-    public String getAllMer(@ModelAttribute("cutOrderForm") CutOrderForm cutOrderForm){
+    public String getCutOrder(@ModelAttribute("cutOrderForm") CutOrderForm cutOrderForm){
     	CutOrderBO cutOrderBO = new CutOrderBO();
         String pageCurrent = cutOrderForm.getPageCurrent();
         String pageSize = cutOrderForm.getPageSize();
@@ -46,12 +49,30 @@ public class OrderController {
         cutOrderBO.setPageSize(Integer.valueOf(pageSize));
 
         Pagination<CutOrderBO> cutOrderBOPagination = orderService.getAllCutOrder(cutOrderBO);
-
+      
         cutOrderForm.setPagination(cutOrderBOPagination);
 
         return "order/cutordermanagelist";
 
     }
+    
+    @RequestMapping(value = "/query_all_authOrder", method = RequestMethod.GET)
+    public String getAllAuthList(@ModelAttribute("authForm") AuthForm authForm){
+    	AuthBO authBO = new AuthBO();
+        String pageCurrent = authForm.getPageCurrent();
+        String pageSize = authForm.getPageSize();
+
+        authBO.setPageCurrent(Integer.valueOf(pageCurrent));
+        authBO.setPageSize(Integer.valueOf(pageSize));
+
+        Pagination<AuthBO> authBOPagination = orderService.getAllAuthList(authBO);
+
+        authForm.setPagination(authBOPagination);
+
+        return "order/authmanagelist";
+
+    }
+
 
     @RequestMapping(value = "/getCutOrderByPara", method = RequestMethod.POST)
     public String getCutOrderByPara(@ModelAttribute("cutOrderForm") CutOrderForm cutOrderForm){
@@ -85,6 +106,41 @@ public class OrderController {
         cutOrderForm.setPagination(cutOrderBOPagination);
 
         return "order/cutordermanagelist";
+
+    }
+    
+    @RequestMapping(value = "/getAuthListByPara", method = RequestMethod.POST)
+    public String getAuthListByPara(@ModelAttribute("authForm") AuthForm authForm){
+    	AuthBO authBO = new AuthBO();
+        String pageCurrent = authForm.getPageCurrent();
+        String pageSize = authForm.getPageSize();
+        String cardno = authForm.getCardno();
+        String idno = authForm.getIdno();
+        String startTime = authForm.getStartTime();
+        String endTime = authForm.getEndTime();
+
+        authBO.setPageCurrent(Integer.valueOf(pageCurrent));
+        authBO.setPageSize(Integer.valueOf(pageSize));
+
+
+        if(StringUtils.isNotBlank(cardno)){
+        	authBO.setCardno(cardno);
+        }
+        if(StringUtils.isNotBlank(idno)){
+        	authBO.setIdno(idno);
+        }
+        if(StringUtils.isNotBlank(startTime)){
+        	authBO.setStartTime(DateUtil.parseTime(startTime));
+        }
+        if(StringUtils.isNotBlank(endTime)){
+        	authBO.setEndTime(DateUtil.parseEndTime(endTime+" 24:00:00"));
+        }
+
+        Pagination<AuthBO> authBOPagination = orderService.getAuthListByPara(authBO);
+
+        authForm.setPagination(authBOPagination);
+
+        return "order/authmanagelist";
 
     }
     @ResponseBody
