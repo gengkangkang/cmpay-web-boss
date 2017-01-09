@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -13,10 +12,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.cmpay.boss.domain.AuthBO;
 import com.cmpay.boss.domain.CutOrderBO;
+import com.cmpay.boss.domain.OrderRecordBO;
+import com.cmpay.boss.entity.CmpayAuthRecord;
+import com.cmpay.boss.entity.CmpayAuthRecordExample;
 import com.cmpay.boss.entity.CmpayCutOrder;
 import com.cmpay.boss.entity.CmpayCutOrderExample;
+import com.cmpay.boss.entity.CmpayRecord;
+import com.cmpay.boss.entity.CmpayRecordExample;
+import com.cmpay.boss.mapper.CmpayAuthRecordMapper;
 import com.cmpay.boss.mapper.CmpayCutOrderMapper;
 import com.cmpay.boss.service.MonitorRealm;
 import com.cmpay.boss.service.OrderService;
@@ -32,12 +37,16 @@ import com.github.pagehelper.PageHelper;
  * 2016年12月27日 下午5:15:39
  *
  */
+
+
 @Service
 public class OrderServiceImpl implements OrderService {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
     @Autowired
     CmpayCutOrderMapper cmpayCutOrderMapper;
+    @Autowired
+    CmpayAuthRecordMapper cmpayAuthRecordMapper;
 
 	@Override
 	public Pagination<CutOrderBO> getAllCutOrder(CutOrderBO cutOrderBO) {
@@ -149,6 +158,76 @@ public class OrderServiceImpl implements OrderService {
 		}
 		return resultMap;
 	}
+
+	@Override
+	public Pagination<AuthBO> getAllAuthList(AuthBO authBO) {
+		CmpayAuthRecordExample authRecordExample=new CmpayAuthRecordExample();
+        int count =cmpayAuthRecordMapper.countByExample(authRecordExample);
+        Pagination pagination = new Pagination(count, authBO.getPageCurrent(),authBO.getPageSize());
+        PageHelper.startPage(authBO.getPageCurrent(), authBO.getPageSize());
+        authRecordExample.setOrderByClause("CREATE_TIME DESC");
+        List<CmpayAuthRecord> recds=cmpayAuthRecordMapper.selectByExample(authRecordExample);
+        List<AuthBO> authBOList=new ArrayList<AuthBO>();
+        for(CmpayAuthRecord cmpayAuthRecord:recds){
+        	AuthBO authRecBO=new AuthBO();
+            try {
+                BeanUtils.copyProperties(authRecBO, cmpayAuthRecord);
+            } catch (Exception e) {
+                logger.error("cope cmpayRecord异常！！！！！！");
+                e.printStackTrace();
+            }
+            authBOList.add(authRecBO);
+
+        }
+        pagination.addResult(authBOList);
+
+        return pagination;
+	}
+
+	@Override
+	public Pagination<AuthBO> getAuthListByPara(AuthBO authBO) {
+		CmpayAuthRecordExample authRecordExample=new CmpayAuthRecordExample();
+	       
+		if(StringUtils.isNotBlank(authBO.getCardno())){
+			authRecordExample.or().andCardnoEqualTo(authBO.getCardno());
+		}
+		if(StringUtils.isNotBlank(authBO.getIdno())){
+			authRecordExample.or().andIdnoEqualTo(authBO.getIdno());
+		}
+		if(authBO.getStartTime() !=null && authBO.getEndTime() ==null){
+			authRecordExample.or().andCreateTimeGreaterThan(authBO.getStartTime());
+		}
+		if(authBO.getEndTime() !=null && authBO.getStartTime() ==null){
+			authRecordExample.or().andCreateTimeLessThan(authBO.getEndTime());
+		}
+		if(authBO.getStartTime() !=null && authBO.getEndTime() !=null){
+			authRecordExample.or().andCreateTimeBetween(authBO.getStartTime(), authBO.getEndTime());
+		}
+
+	    int count =cmpayAuthRecordMapper.countByExample(authRecordExample);
+        Pagination pagination = new Pagination(count, authBO.getPageCurrent(),authBO.getPageSize());
+        PageHelper.startPage(authBO.getPageCurrent(), authBO.getPageSize());
+        
+        authRecordExample.setOrderByClause("CREATE_TIME DESC");
+        List<CmpayAuthRecord> recds=cmpayAuthRecordMapper.selectByExample(authRecordExample);
+        List<AuthBO> authrecBOList=new ArrayList<AuthBO>();
+        for(CmpayAuthRecord authRecord:recds){
+        	AuthBO authrecBO=new AuthBO();
+            try {
+                BeanUtils.copyProperties(authrecBO, authRecord);
+            } catch (Exception e) {
+                logger.error("cope cmpayRecord异常！！！！！！");
+                e.printStackTrace();
+            }
+            authrecBOList.add(authrecBO);
+
+        }
+        pagination.addResult(authrecBOList);
+
+        return pagination;
+	}
+
+
 
 
 }

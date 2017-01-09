@@ -1,8 +1,7 @@
-package com.cmpay.boss.entity;
-
+package com.cmpay.boss.form;
 import java.util.Date;
 
-public class CmpayAuthRecord {
+public class AuthForm extends BaseForm {
     private String id;
 
     private String merchantid;
@@ -40,6 +39,11 @@ public class CmpayAuthRecord {
     private String field1;
 
     private String field2;
+    
+	//参数时间
+    private String startTime;
+    
+    private String endTime;
 
     public String getId() {
         return id;
@@ -193,12 +197,21 @@ public class CmpayAuthRecord {
         this.field2 = field2 == null ? null : field2.trim();
     }
     
-    @Override
-	public String toString() {
-		return "CmpayCutOrder [id=" + id + ", merchantid=" + merchantid + ", userid=" + userid + ", inchannel=" + inchannel
-				+ ", authchannel=" + authchannel + ", cardno=" + cardno + ", cardtype=" + cardtype + ", idno="
-				+idno + ", idtype=" + idtype + ",name=" + name + ", bankmobile=" + bankmobile
-				+ ", bankcode=" + bankcode + ", terminaltype=" +terminaltype + ",  status=" + status + ", createTime=" + createTime
-				+ ", version=" + version + ", remark=" + remark + ", field1=" + field1 + ", field2=" + field2 + "]";
+    public String getStartTime() {
+		return startTime;
 	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+
 }
