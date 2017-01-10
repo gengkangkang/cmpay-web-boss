@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmpay.boss.mapper.CmpaySettTotalMapper" >
+  <resultMap id="BaseResultMap" type="com.cmpay.boss.entity.CmpaySettTotal" >
+    <id column="BATCH_ID" property="batchId" jdbcType="VARCHAR" />
+    <result column="INCHANNEL" property="inchannel" jdbcType="VARCHAR" />
+    <result column="MER_NO" property="merNo" jdbcType="VARCHAR" />
+    <result column="SETT_AMT" property="settAmt" jdbcType="DECIMAL" />
+    <result column="SETT_DATE" property="settDate" jdbcType="TIMESTAMP" />
+    <result column="SETT_STATUS" property="settStatus" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATEOR" property="createor" jdbcType="VARCHAR" />
+    <result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="MODIFIER" property="modifier" jdbcType="VARCHAR" />
+    <result column="VERSION" property="version" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="FIELD1" property="field1" jdbcType="VARCHAR" />
+    <result column="FIELD2" property="field2" jdbcType="VARCHAR" />
+    <result column="FIELD3" property="field3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    BATCH_ID, INCHANNEL, MER_NO, SETT_AMT, SETT_DATE, SETT_STATUS, CREATE_TIME, CREATEOR, 
+    MODIFY_TIME, MODIFIER, VERSION, REMARK, FIELD1, FIELD2, FIELD3
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cmpay.boss.entity.CmpaySettTotalExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CMPAY_SETT_TOTAL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CMPAY_SETT_TOTAL
+    where BATCH_ID = #{batchId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CMPAY_SETT_TOTAL
+    where BATCH_ID = #{batchId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cmpay.boss.entity.CmpaySettTotalExample" >
+    delete from CMPAY_SETT_TOTAL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cmpay.boss.entity.CmpaySettTotal" >
+    insert into CMPAY_SETT_TOTAL (BATCH_ID, INCHANNEL, MER_NO, 
+      SETT_AMT, SETT_DATE, SETT_STATUS, 
+      CREATE_TIME, CREATEOR, MODIFY_TIME, 
+      MODIFIER, VERSION, REMARK, 
+      FIELD1, FIELD2, FIELD3
+      )
+    values (#{batchId,jdbcType=VARCHAR}, #{inchannel,jdbcType=VARCHAR}, #{merNo,jdbcType=VARCHAR}, 
+      #{settAmt,jdbcType=DECIMAL}, #{settDate,jdbcType=TIMESTAMP}, #{settStatus,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createor,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{modifier,jdbcType=VARCHAR}, #{version,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
+      #{field1,jdbcType=VARCHAR}, #{field2,jdbcType=VARCHAR}, #{field3,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cmpay.boss.entity.CmpaySettTotal" >
+    insert into CMPAY_SETT_TOTAL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="batchId != null" >
+        BATCH_ID,
+      </if>
+      <if test="inchannel != null" >
+        INCHANNEL,
+      </if>
+      <if test="merNo != null" >
+        MER_NO,
+      </if>
+      <if test="settAmt != null" >
+        SETT_AMT,
+      </if>
+      <if test="settDate != null" >
+        SETT_DATE,
+      </if>
+      <if test="settStatus != null" >
+        SETT_STATUS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createor != null" >
+        CREATEOR,
+      </if>
+      <if test="modifyTime != null" >
+        MODIFY_TIME,
+      </if>
+      <if test="modifier != null" >
+        MODIFIER,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="field1 != null" >
+        FIELD1,
+      </if>
+      <if test="field2 != null" >
+        FIELD2,
+      </if>
+      <if test="field3 != null" >
+        FIELD3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="batchId != null" >
+        #{batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="inchannel != null" >
+        #{inchannel,jdbcType=VARCHAR},
+      </if>
+      <if test="merNo != null" >
+        #{merNo,jdbcType=VARCHAR},
+      </if>
+      <if test="settAmt != null" >
+        #{settAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="settDate != null" >
+        #{settDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="settStatus != null" >
+        #{settStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createor != null" >
+        #{createor,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="field1 != null" >
+        #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        #{field2,jdbcType=VARCHAR},
+      </if>
+      <if test="field3 != null" >
+        #{field3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cmpay.boss.entity.CmpaySettTotalExample" resultType="java.lang.Integer" >
+    select count(*) from CMPAY_SETT_TOTAL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CMPAY_SETT_TOTAL
+    <set >
+      <if test="record.batchId != null" >
+        BATCH_ID = #{record.batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inchannel != null" >
+        INCHANNEL = #{record.inchannel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.merNo != null" >
+        MER_NO = #{record.merNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.settAmt != null" >
+        SETT_AMT = #{record.settAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settDate != null" >
+        SETT_DATE = #{record.settDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.settStatus != null" >
+        SETT_STATUS = #{record.settStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createor != null" >
+        CREATEOR = #{record.createor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifyTime != null" >
+        MODIFY_TIME = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifier != null" >
+        MODIFIER = #{record.modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null" >
+        VERSION = #{record.version,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field1 != null" >
+        FIELD1 = #{record.field1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field2 != null" >
+        FIELD2 = #{record.field2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field3 != null" >
+        FIELD3 = #{record.field3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CMPAY_SETT_TOTAL
+    set BATCH_ID = #{record.batchId,jdbcType=VARCHAR},
+      INCHANNEL = #{record.inchannel,jdbcType=VARCHAR},
+      MER_NO = #{record.merNo,jdbcType=VARCHAR},
+      SETT_AMT = #{record.settAmt,jdbcType=DECIMAL},
+      SETT_DATE = #{record.settDate,jdbcType=TIMESTAMP},
+      SETT_STATUS = #{record.settStatus,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      CREATEOR = #{record.createor,jdbcType=VARCHAR},
+      MODIFY_TIME = #{record.modifyTime,jdbcType=TIMESTAMP},
+      MODIFIER = #{record.modifier,jdbcType=VARCHAR},
+      VERSION = #{record.version,jdbcType=DECIMAL},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      FIELD1 = #{record.field1,jdbcType=VARCHAR},
+      FIELD2 = #{record.field2,jdbcType=VARCHAR},
+      FIELD3 = #{record.field3,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cmpay.boss.entity.CmpaySettTotal" >
+    update CMPAY_SETT_TOTAL
+    <set >
+      <if test="inchannel != null" >
+        INCHANNEL = #{inchannel,jdbcType=VARCHAR},
+      </if>
+      <if test="merNo != null" >
+        MER_NO = #{merNo,jdbcType=VARCHAR},
+      </if>
+      <if test="settAmt != null" >
+        SETT_AMT = #{settAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="settDate != null" >
+        SETT_DATE = #{settDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="settStatus != null" >
+        SETT_STATUS = #{settStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createor != null" >
+        CREATEOR = #{createor,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        MODIFIER = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="field1 != null" >
+        FIELD1 = #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        FIELD2 = #{field2,jdbcType=VARCHAR},
+      </if>
+      <if test="field3 != null" >
+        FIELD3 = #{field3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where BATCH_ID = #{batchId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cmpay.boss.entity.CmpaySettTotal" >
+    update CMPAY_SETT_TOTAL
+    set INCHANNEL = #{inchannel,jdbcType=VARCHAR},
+      MER_NO = #{merNo,jdbcType=VARCHAR},
+      SETT_AMT = #{settAmt,jdbcType=DECIMAL},
+      SETT_DATE = #{settDate,jdbcType=TIMESTAMP},
+      SETT_STATUS = #{settStatus,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATEOR = #{createor,jdbcType=VARCHAR},
+      MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      MODIFIER = #{modifier,jdbcType=VARCHAR},
+      VERSION = #{version,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      FIELD1 = #{field1,jdbcType=VARCHAR},
+      FIELD2 = #{field2,jdbcType=VARCHAR},
+      FIELD3 = #{field3,jdbcType=VARCHAR}
+    where BATCH_ID = #{batchId,jdbcType=VARCHAR}
+  </update>
+</mapper>
