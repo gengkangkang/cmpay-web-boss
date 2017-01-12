@@ -1,10 +1,10 @@
-package com.cmpay.boss.entity;
+package com.cmpay.boss.form;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class CmpaySettTotal {
-    private String batchId;
+public class SettTotalForm extends BaseForm{
+	private String batchId;
 
     private String inchannel;
 
@@ -33,6 +33,11 @@ public class CmpaySettTotal {
     private String field2;
 
     private String field3;
+
+	//参数时间
+    private String startTime;
+    
+    private String endTime;
 
     public String getBatchId() {
         return batchId;
@@ -153,13 +158,21 @@ public class CmpaySettTotal {
     public void setField3(String field3) {
         this.field3 = field3 == null ? null : field3.trim();
     }
-    
-    @Override
-	public String toString() {
-		return "CmpayCutOrder [batchId=" + batchId + ", inchannel=" + inchannel + ", merNo=" + merNo +
-				", settAmt=" + settAmt + ", settDate=" + settDate + ", settStatus=" + settStatus + 
-				", createTime=" + createTime + ", createor=" + createor + ", modifyTime=" + modifyTime
-				+ ",modifier=" + modifier + ", version=" + version + ", remark=" + remark + ", field1=" 
-				+ field1 + ", field2=" + field2 + ", field3=" + field3 + "]";
-    }
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
 }
