@@ -23,7 +23,7 @@ import com.cmpay.boss.util.Pagination;
 
 @Controller
 public class OrderRecordController {
-    private static final Logger logger = LoggerFactory.getLogger(ConfigController.class);
+    private static final Logger logger = LoggerFactory.getLogger(OrderRecordController.class);
 
     @Autowired
     OrderRecordService    orderRecordService;

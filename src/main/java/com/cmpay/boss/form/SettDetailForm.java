@@ -1,10 +1,10 @@
-package com.cmpay.boss.entity;
+package com.cmpay.boss.form;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class CmpaySettDetail {
-    private String orderId;
+public class SettDetailForm extends BaseForm{
+	private String orderId;
 
     private String inchannel;
 
@@ -183,14 +183,6 @@ public class CmpaySettDetail {
     public void setField3(String field3) {
         this.field3 = field3 == null ? null : field3.trim();
     }
-    
-    @Override
-	public String toString() {
-		return "CmpayCutOrder [orderId=" + orderId + ", inchannel=" + inchannel + ", merNo=" + merNo +
-				", userId=" + userId + ", transAmt=" + transAmt + ", transType=" + transType + 
-				", transDate=" + transDate + ", payChannel=" + payChannel + ", payStatus=" + payStatus
-				+ ",settStatus=" + settStatus + ", batchId=" + batchId + ", createTime=" + createTime 
-				+ ",modifyTime=" + modifyTime + ", version=" + version + ", remark=" + remark +
-				", field1=" + field1 + ", field2=" + field2 + ", field3=" + field3 + "]";
-    }
+	
+
 }

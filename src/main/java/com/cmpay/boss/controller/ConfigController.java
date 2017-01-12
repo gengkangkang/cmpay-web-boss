@@ -234,18 +234,6 @@ public class ConfigController {
         return "merchant/addChannel";
     }
 
-    @RequestMapping(value = "/channelManagement/addChannelBase", method = RequestMethod.GET)
-    public String goAddNewChannelBasePage(@ModelAttribute("channelBaseForm") ChannelBaseForm channelBaseForm) {
-
-        return "merchant/addCB";
-    }
-
-    @RequestMapping(value = "/bankManagement/addBankBase", method = RequestMethod.GET)
-    public String goAddNewBankBasePage(@ModelAttribute("bankBaseForm") BankBaseForm bankBaseForm) {
-
-        return "merchant/addBB";
-    }
-
     @RequestMapping(value = "/channelManagement/addChannelBankMap", method = RequestMethod.GET)
     public String goAddNewChannelBankMapPage(HttpServletRequest request,@ModelAttribute("suppBankForm") SuppBankForm suppBankForm) {
 
@@ -254,6 +242,20 @@ public class ConfigController {
     	suppBankForm.setPayChannelCode(payChannelId);
         return "merchant/addSuppBank";
     }
+
+    @RequestMapping(value = "/channelManagement/addChannelBase", method = RequestMethod.GET)
+    public String goAddNewChannelBasePage(@ModelAttribute("channelBaseForm") ChannelBaseForm channelBaseForm) {
+
+        return "merchant/addCB";
+    }
+    
+    @RequestMapping(value = "/bankManagement/addBankBase", method = RequestMethod.GET)
+    public String goAddNewBankBasePage(@ModelAttribute("bankBaseForm") BankBaseForm bankBaseForm) {
+
+        return "merchant/addBB";
+    }
+
+    
 
     @ResponseBody
     @RequestMapping(value = "/ipManagement/addNewIp", method = RequestMethod.POST)
