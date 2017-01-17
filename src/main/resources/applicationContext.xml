@@ -137,4 +137,10 @@
 			</props>
 		</property>
 	</bean>
+	
+	<!-- 操作redis -->
+	     <import resource="classpath:spring-redis-cluster.xml" />
+	     <bean class="com.cmpay.common.util.RedisUtil" />
+	
+	
 </beans> 

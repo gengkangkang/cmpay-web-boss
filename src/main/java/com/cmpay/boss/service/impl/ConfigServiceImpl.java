@@ -44,6 +44,9 @@ import com.cmpay.boss.util.Constant;
 import com.cmpay.boss.util.DateUtil;
 import com.cmpay.boss.util.Pagination;
 import com.cmpay.boss.util.UUIDGenerator;
+import com.cmpay.common.util.Constants;
+import com.cmpay.common.util.RedisConstants;
+import com.cmpay.common.util.RedisUtil;
 import com.github.pagehelper.PageHelper;
 
 /**
@@ -70,6 +73,8 @@ public class ConfigServiceImpl implements ConfigService {
     CmpayBankBaseMapper cmpayBankBaseMapper;
     @Autowired
     CmpaySuppBankMapMapper cmpaySuppBankMapMapper;
+    @Autowired
+    private RedisUtil redisUtil;
 
 
 	@Override
@@ -171,6 +176,15 @@ public class ConfigServiceImpl implements ConfigService {
             resultMap.put("statusCode", 200);
             resultMap.put("message", "操作成功!");
             resultMap.put("closeCurrent", true);
+
+            //操作成功，更新缓存
+//            try{
+//            	logger.info("更新IP[{}]到缓存中",_CMPAYIPBINDING.getIp());
+//            	redisUtil.set(RedisConstants.CMPAY_IPCONTROL_+_CMPAYIPBINDING.getIp(),_CMPAYIPBINDING.getIp());
+//            }catch(Exception e){
+//            	logger.error("新增IP更新到缓存异常！",e);
+//            }
+
         } else {
             resultMap.put("statusCode", 300);
             resultMap.put("message", "操作失败!");
@@ -362,6 +376,25 @@ public class ConfigServiceImpl implements ConfigService {
 	            resultMap.put("statusCode", 200);
 	            resultMap.put("message", "操作成功!");
 	            resultMap.put("closeCurrent", true);
+	            //操作成功，更新缓存
+	            try{
+	            	logger.info("根据IP【{}】状态[{}]操作缓存",ipBO.getIp(),ipBO.getStatus());
+	            	if(StringUtils.equals(Constants.ON, ipBO.getStatus())){
+	            		logger.info("启用ip地址，添加到缓存中");
+		            	redisUtil.set(RedisConstants.CMPAY_IPCONTROL_+ipBO.getIp(),ipBO.getIp());
+	            	}else if(StringUtils.equals(Constants.OFF, ipBO.getStatus())){
+	            		logger.info("禁用ip地址，从缓存中删除");
+	            		redisUtil.del(RedisConstants.CMPAY_IPCONTROL_+ipBO.getIp());
+	            	}else{
+	            		logger.info("状态未知");
+
+	            	}
+
+	            }catch(Exception e){
+	            	logger.error("修改IP更新到缓存异常！",e);
+	            }
+
+
 	        } else {
 	            resultMap.put("statusCode", 300);
 	            resultMap.put("message", "操作失败!");
