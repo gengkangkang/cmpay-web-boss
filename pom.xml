@@ -9,7 +9,7 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<spring.maven.artifact.version>4.1.6.RELEASE</spring.maven.artifact.version>
+		<spring.maven.artifact.version>4.3.2.RELEASE</spring.maven.artifact.version>
 		<bonecp.maven.artifact.version>0.8.0.RELEASE</bonecp.maven.artifact.version>
 		<mybatis.maven.artifact.version>3.2.7</mybatis.maven.artifact.version>
 		<shiro.maven.artifact.version>1.2.4</shiro.maven.artifact.version>
@@ -181,21 +181,34 @@
 			<version>1.1.15</version>
 		</dependency>
 		<!-- JSON -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.4.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.module</groupId>
-			<artifactId>jackson-module-jaxb-annotations</artifactId>
-			<version>2.4.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-joda</artifactId>
-			<version>2.4.0</version>
-		</dependency>
+
+
+
+		
+		
+		 <dependency>  
+            <groupId>org.codehaus.jackson</groupId>  
+            <artifactId>jackson-mapper-asl</artifactId>  
+            <version>1.9.13</version>  
+        </dependency> 
+        
+        <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>2.6.3</version>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.6.3</version>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-annotations</artifactId>
+        <version>2.6.3</version>
+    </dependency>
+		
+		
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
@@ -265,7 +278,20 @@
         <groupId>com.cmpay</groupId>
         <artifactId>pay-common-utils</artifactId>
         <version>0.0.1-SNAPSHOT</version>        
-      </dependency> 
+      </dependency>
+      
+       <!-- redis -->
+ 
+  <dependency>
+    <groupId>org.springframework.data</groupId>
+    <artifactId>spring-data-redis</artifactId>
+    <version>1.7.4.RELEASE</version>
+ </dependency>
+ <dependency>
+    <groupId>redis.clients</groupId>
+    <artifactId>jedis</artifactId>
+    <version>2.9.0</version>   
+</dependency> 
         
 	</dependencies>
 
