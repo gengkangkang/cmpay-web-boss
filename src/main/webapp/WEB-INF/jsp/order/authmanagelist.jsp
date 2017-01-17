@@ -78,11 +78,26 @@
             </c:when>
             <c:when test="${record.status=='CANCEL'}">
                    <td align="center" style="color:red">取消</td>
-            </c:when>            
+            </c:when>        
+            <c:when test="${record.status=='NEW'}">
+                    <td align="center" style="color:green">新建</td>            
+            </c:when>
+            <c:when test="${record.status=='WAIT'}">
+                   <td align="center" style="color:red">未支付</td>
+            </c:when>
+            <c:when test="${record.status=='REFUNDING'}">
+                   <td align="center" style="color:red">退款中</td>
+            </c:when>
+            <c:when test="${record.status=='REFUNDSUCC'}">
+                   <td align="center" style="color:green">已退款</td>
+            </c:when>
+             <c:when test="${record.status=='REFUNDFAIL'}">
+                   <td align="center" style="color:red">退款失败</td>
+            </c:when>                 
             <c:otherwise>
                  <td align="center"><c:out value="${record.status}"/></td>
-         </c:otherwise>
-       </c:choose>                 
+            </c:otherwise>
+         </c:choose>                        
         <td align="center"><fmt:formatDate value="${record.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
         <td align="center"><c:out value="${record.remark}"/></td>
         </tr>

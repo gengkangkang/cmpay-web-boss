@@ -7,7 +7,7 @@
     </head>
     <body>
     <div class="bjui-pageHeader">
-    <form id="pagerForm" name="orderRecordForm" data-toggle="ajaxsearch" action="${pageContext.request.contextPath}/ orderManagement/getOrderRecordByPara " method="post">
+    <form id="pagerForm" name="orderRecordForm" data-toggle="ajaxsearch" action="${pageContext.request.contextPath}/orderManagement/getOrderRecordByPara " method="post">
         <input type="hidden" name="pageSize" value="${orderRecordForm.pageSize}">
         <input type="hidden" name="pageCurrent" value="${orderRecordForm.pageCurrent}">
         <div class="bjui-searchBar">
@@ -24,6 +24,11 @@
             <option value="DEALING" >处理中</option>
             <option value="CANCEL">取消</option>
             <option value="FAIL">失败</option>
+            <option value="NEW">新建</option>
+            <option value="WAIT">未支付</option>
+            <option value="REFUNDING" >退款中</option>
+            <option value="REFUNDSUCC">已退款</option>
+            <option value="REFUNDFAIL">退款失败</option>        
         </select> &nbsp;&nbsp;&nbsp;&nbsp;
     
              <label>创建时间：</label>
@@ -51,9 +56,7 @@
         <th align="center">支付状态</th>
         <th align="center">响应码</th>
         <th align="center">响应信息</th>
-<!--         <th align="center">订单有效期</th>
-        <th align="center">订单到期时间</th>
- -->        <th align="center">订单来源IP</th>
+        <th align="center">订单来源IP</th>
         <th align="center">创建时间</th>
         <th align="center">更改时间</th>
         <th align="center">备注</th>
@@ -75,9 +78,9 @@
                     <td align="center" style="color:green">充值</td>            
             </c:when>
             <c:when test="${record.transType=='WITHDRAW'}">
-                    <td align="center" style="color:red">撤回</td> 
+                    <td align="center" style="color:red">提现</td> 
             </c:when>
-            <c:when test="${record.transType=='	CONSUME'}">
+            <c:when test="${record.transType=='CONSUME'}">
                     <td align="center" style="color:green">消费</td> 
             </c:when>
             <c:when test="${record.transType=='CANCEL'}">
@@ -102,7 +105,22 @@
             </c:when>
             <c:when test="${record.payStatus=='CANCEL'}">
                    <td align="center" style="color:red">取消</td>
-            </c:when>            
+            </c:when>        
+            <c:when test="${record.payStatus=='NEW'}">
+                    <td align="center" style="color:green">新建</td>            
+            </c:when>
+            <c:when test="${record.payStatus=='WAIT'}">
+                   <td align="center" style="color:red">未支付</td>
+            </c:when>
+            <c:when test="${record.payStatus=='REFUNDING'}">
+                   <td align="center" style="color:red">退款中</td>
+            </c:when>
+            <c:when test="${record.payStatus=='REFUNDSUCC'}">
+                   <td align="center" style="color:green">已退款</td>
+            </c:when>
+             <c:when test="${record.payStatus=='REFUNDFAIL'}">
+                   <td align="center" style="color:red">退款失败</td>
+            </c:when>                 
             <c:otherwise>
                  <td align="center"><c:out value="${record.payStatus}"/></td>
          </c:otherwise>
