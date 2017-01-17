@@ -11,7 +11,7 @@
     <div class="bjui-searchBar">
       <div class="form-group" style="margin: 20px 0 20px; ">
       <label class="control-label x85">商户编号：</label>
-      <input type="text"  name="merchantid" style="width:60%;" data-rule="商户号:required;" />&nbsp;
+      <input type="text"  name="merchantid" style="width:60%;" data-rule="digits;商户号:required;" />&nbsp;
       </div>
       <div class="form-group" style="margin: 20px 0 20px; ">
       <label class="control-label x85">商户名称：</label>

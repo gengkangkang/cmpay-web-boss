@@ -17,7 +17,7 @@
 
     </div>
     <div class="bjui-pageContent tableContent">
-    <table  class="table table-bordered table-hover table-striped table-top" data-toggle="tablefixed" data-width="100%" data-nowrap="true">
+    <table  class="table table-bordered table-hover table-striped table-top" data-toggle="tablefixed" data-width="180%" data-nowrap="true">
         <thead>
         <tr>
         <th align="center">ID</th>
