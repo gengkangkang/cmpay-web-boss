@@ -182,6 +182,9 @@ public class ConfigController {
         if(StringUtils.isNotBlank(merForm.getMerchantid())){
         	merchantBO.setMerchantid(merForm.getMerchantid());
         }
+        if(StringUtils.isNotBlank(merForm.getMerchantName())){
+        	merchantBO.setMerchantName(merForm.getMerchantName());
+        }
 
         Pagination<MerchantBO> merBOPagination = configService.getMerByPara(merchantBO);
 
@@ -190,7 +193,55 @@ public class ConfigController {
         return "merchant/mermanagelist";
 
     }
+    
+    @RequestMapping(value = "/bankManagement/getbankByPara", method = RequestMethod.POST)
+    public String getbankByPara(@ModelAttribute("bankBaseForm") BankBaseForm bankBaseForm){
+    	BankBaseBO bankBO=new BankBaseBO();
+        String pageCurrent = bankBaseForm.getPageCurrent();
+        String pageSize = bankBaseForm.getPageSize();
 
+        bankBO.setPageCurrent(Integer.valueOf(pageCurrent));
+        bankBO.setPageSize(Integer.valueOf(pageSize));
+
+        if(StringUtils.isNotBlank(bankBaseForm.getCode())){
+        	bankBO.setCode(bankBaseForm.getCode());
+        }
+        if(StringUtils.isNotBlank(bankBaseForm.getName())){
+        	bankBO.setName(bankBaseForm.getName());
+        }
+
+        Pagination<BankBaseBO> bankBOPagination = configService.getBankByPara(bankBO);
+
+        bankBaseForm.setPagination(bankBOPagination);
+
+        return "merchant/bankBaselist";
+
+    }
+    
+    @RequestMapping(value = "/channelManagement/getChannelByPara", method = RequestMethod.POST)
+    public String getChannelByPara(@ModelAttribute("channelBaseForm") ChannelBaseForm channelBaseForm){
+    	ChannelBaseBO channelBaseBO = new ChannelBaseBO();
+        String pageCurrent = channelBaseForm.getPageCurrent();
+        String pageSize = channelBaseForm.getPageSize();
+
+        channelBaseBO.setPageCurrent(Integer.valueOf(pageCurrent));
+        channelBaseBO.setPageSize(Integer.valueOf(pageSize));
+
+        if(StringUtils.isNotBlank(channelBaseForm.getCode())){
+        	channelBaseBO.setCode(channelBaseForm.getCode());
+        }
+        if(StringUtils.isNotBlank(channelBaseForm.getName())){
+        	channelBaseBO.setName(channelBaseForm.getName());
+        }
+
+        Pagination<ChannelBaseBO> chaBOPagination = configService.getChannelByPara(channelBaseBO);
+
+        channelBaseForm.setPagination(chaBOPagination);
+
+        return "merchant/channelBaselist";
+
+    }
+    
     @RequestMapping(value = "/ipManagement/query_a_ip", method = RequestMethod.POST)
     public String getIpByPara(@ModelAttribute("ipManageForm") IpManageForm ipManageForm){
         IpBO ipBO = new IpBO();

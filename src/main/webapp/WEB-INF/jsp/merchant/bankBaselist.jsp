@@ -7,21 +7,18 @@
     </head>
     <body>
     <div class="bjui-pageHeader">
-<!--     <form id="pagerForm" name="merForm" data-toggle="ajaxsearch" action="#" method="post">
-      <input type="hidden" name="pageSize" value="${channelBaseForm.pageSize}">
-        <input type="hidden" name="pageCurrent" value="${channelBaseForm.pageCurrent}">
- -->          
+		<form id="pagerForm" name="bankBaseForm" data-toggle="ajaxsearch" action="${pageContext.request.contextPath}/bankManagement/getbankByPara" method="post">      
         <div class="bjui-searchBar">
             <label>查找资源：</label>
             <label>银行编码：</label>
             <input type="text" name="code" id="code" style="width:200px;">&nbsp;&nbsp;&nbsp;&nbsp;
             <label>银行名称：</label>
             <input type="text" name="name" id="name" style="width:200px;">&nbsp;&nbsp;&nbsp;&nbsp;
-            <button type="submit" class="btn-default" data-icon="search" >查询</button>&nbsp 
+            <button type="submit" class="btn-default" data-icon="search" >查询</button>&nbsp;
             <a href="${pageContext.request.contextPath}/bankManagement/addBankBase" class="btn btn-green" data-toggle="dialog" data-width="400" data-height="400" data-id="dialog-normal" data-title="新增渠道" data-on-close="fresh">新增银行</a>
     
         </div>
-    <!-- </form> -->
+    </form>
     </div>
     <div class="bjui-pageContent tableContent">
     <table  class="table table-bordered table-hover table-striped table-top" data-toggle="tablefixed" data-width="100%" data-nowrap="true">

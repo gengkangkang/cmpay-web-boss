@@ -545,6 +545,9 @@ public class ConfigServiceImpl implements ConfigService {
 		if(StringUtils.isNotBlank(merchantBO.getMerchantid())){
 			cmpayMerchantExample.createCriteria().andMerchantidEqualTo(merchantBO.getMerchantid());
 		}
+		if(StringUtils.isNotBlank(merchantBO.getMerchantName())){
+			cmpayMerchantExample.createCriteria().andMerchantNameEqualTo(merchantBO.getMerchantName());
+		}
         int count=cmpayMerchantMapper.countByExample(cmpayMerchantExample);
 
         Pagination pagination = new Pagination(count, merchantBO.getPageCurrent(),merchantBO.getPageSize());
@@ -797,6 +800,70 @@ public class ConfigServiceImpl implements ConfigService {
 				e.printStackTrace();
 			}
 			return resultMap;
+	}
+
+	@Override
+	public Pagination<ChannelBaseBO> getChannelByPara(ChannelBaseBO channelBaseBO) {
+		CmpayChannelBaseExample cmpayChannelBaseExample=new CmpayChannelBaseExample();
+		if(StringUtils.isNotBlank(channelBaseBO.getCode())){
+			cmpayChannelBaseExample.createCriteria().andCodeEqualTo(channelBaseBO.getCode());
+		}
+		if(StringUtils.isNotBlank(channelBaseBO.getName())){
+			cmpayChannelBaseExample.createCriteria().andNameEqualTo(channelBaseBO.getName());
+		}
+        int count=cmpayChannelBaseMapper.countByExample(cmpayChannelBaseExample);
+
+        Pagination pagination = new Pagination(count, channelBaseBO.getPageCurrent(),channelBaseBO.getPageSize());
+        PageHelper.startPage(channelBaseBO.getPageCurrent(), channelBaseBO.getPageSize());
+        List<CmpayChannelBase> chas=cmpayChannelBaseMapper.selectByExample(cmpayChannelBaseExample);
+        List<ChannelBaseBO> chasBOList=new ArrayList<ChannelBaseBO>();
+        for(CmpayChannelBase cmpayChannelBase:chas){
+        	ChannelBaseBO chasBO=new ChannelBaseBO();
+        	try {
+        		BeanUtils.copyProperties(chasBO, cmpayChannelBase);
+			} catch (Exception e) {
+				logger.error("cope CmpayChannelBase异常！！！！！！");
+				e.printStackTrace();
+			}
+        	chasBOList.add(chasBO);
+
+        }
+        pagination.addResult(chasBOList);
+
+		return pagination;
+		
+	}
+
+	@Override
+	public Pagination<BankBaseBO> getBankByPara(BankBaseBO bankBaseBO) {
+		CmpayBankBaseExample cmpayBankBaseExample=new CmpayBankBaseExample();
+		if(StringUtils.isNotBlank(bankBaseBO.getCode())){
+			cmpayBankBaseExample.createCriteria().andCodeEqualTo(bankBaseBO.getCode());
+		}
+		if(StringUtils.isNotBlank(bankBaseBO.getName())){
+			cmpayBankBaseExample.createCriteria().andNameEqualTo(bankBaseBO.getName());
+		}
+        int count=cmpayBankBaseMapper.countByExample(cmpayBankBaseExample);
+
+        Pagination pagination = new Pagination(count, bankBaseBO.getPageCurrent(),bankBaseBO.getPageSize());
+        PageHelper.startPage(bankBaseBO.getPageCurrent(), bankBaseBO.getPageSize());
+        List<CmpayBankBase> banks=cmpayBankBaseMapper.selectByExample(cmpayBankBaseExample);
+        List<BankBaseBO> bankBOList=new ArrayList<BankBaseBO>();
+        for(CmpayBankBase cmpayBankBase:banks){
+        	BankBaseBO bankBO=new BankBaseBO();
+        	try {
+        		BeanUtils.copyProperties(bankBO, cmpayBankBase);
+			} catch (Exception e) {
+				logger.error("cope cmpayBankBase异常！！！！！！");
+				e.printStackTrace();
+			}
+        	bankBOList.add(bankBO);
+
+        }
+        pagination.addResult(bankBOList);
+
+		return pagination;
+		
 	}
 
 
