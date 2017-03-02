@@ -216,7 +216,17 @@ public class ConfigServiceImpl implements ConfigService {
 	        if (r != 0) {
 	            resultMap.put("statusCode", 200);
 	            resultMap.put("message", "操作成功!");
-	            resultMap.put("closeCurrent", true); 	
+	            resultMap.put("closeCurrent", true);
+	            if(StringUtils.isNotBlank(cmpayMerchant.getPartnerKey())){
+                    try{
+                		logger.info("更新商户key到缓存");
+		            	redisUtil.set(RedisConstants.CMPAY_MD5KEY_+cmpayMerchant.getMerchantid(),cmpayMerchant.getPartnerKey());
+                 }catch(Exception e){
+                	logger.info("更新商户key到缓存失败",e);
+                 }
+
+	            }
+
 	        } else {
 	            resultMap.put("statusCode", 300);
 	            resultMap.put("message", "操作失败!");
@@ -422,6 +432,16 @@ public class ConfigServiceImpl implements ConfigService {
 		            resultMap.put("statusCode", 200);
 		            resultMap.put("message", "操作成功!");
 		            resultMap.put("closeCurrent", true);
+		            //更新商户KEY
+		            if(StringUtils.isNotBlank(cmpayMerchant.getPartnerKey())){
+                     try{
+                    		logger.info("更新商户key到缓存");
+    		            	redisUtil.set(RedisConstants.CMPAY_MD5KEY_+cmpayMerchant.getMerchantid(),cmpayMerchant.getPartnerKey());
+                     }catch(Exception e){
+                    	logger.info("更新商户key到缓存失败",e);
+                     }
+		            }
+
 		        } else {
 		            resultMap.put("statusCode", 300);
 		            resultMap.put("message", "操作失败!");
