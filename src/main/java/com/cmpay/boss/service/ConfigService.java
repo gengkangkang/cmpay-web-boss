@@ -41,12 +41,14 @@ public interface ConfigService {
 
     //支付渠道基础信息
     Pagination<ChannelBaseBO> getAllChannelBase(ChannelBaseBO channelBaseBO);
+    Pagination<ChannelBaseBO> getChannelByPara(ChannelBaseBO channelBaseBO);
     Map addNewCB(ChannelBaseBO channelBaseBO);
     ChannelBaseBO getChannelBaseById(String id);
     Map updateCBInfo(ChannelBaseBO channelBaseBO);
 
     //银行基础信息
     Pagination<BankBaseBO> getAllBankBase(BankBaseBO bankBaseBO);
+    Pagination<BankBaseBO> getBankByPara(BankBaseBO bankBaseBO);
     Map addNewBB(BankBaseBO bankBaseBO);
     BankBaseBO getBankBaseById(String id);
     Map updateBBInfo(BankBaseBO bankBaseBO);

@@ -7,10 +7,7 @@
     </head>
     <body>
     <div class="bjui-pageHeader">
-<!--     <form id="pagerForm" name="merForm" data-toggle="ajaxsearch" action="#" method="post">
-      <input type="hidden" name="pageSize" value="${channelBaseForm.pageSize}">
-        <input type="hidden" name="pageCurrent" value="${channelBaseForm.pageCurrent}">
- -->          
+   <form id="pagerForm" name="channelBaseForm" data-toggle="ajaxsearch" action="${pageContext.request.contextPath}/channelManagement/getChannelByPara" method="post">  
         <div class="bjui-searchBar">
             <label>查找资源：</label>
             <label>渠道编码：</label>
@@ -21,7 +18,7 @@
             <a href="${pageContext.request.contextPath}/channelManagement/addChannelBase" class="btn btn-green" data-toggle="dialog" data-width="400" data-height="400" data-id="dialog-normal" data-title="新增渠道" data-on-close="fresh">新增渠道</a>
     
         </div>
-    <!-- </form> -->
+      </form> 
     </div>
     <div class="bjui-pageContent tableContent">
     <table  class="table table-bordered table-hover table-striped table-top" data-toggle="tablefixed" data-width="100%" data-nowrap="true">
