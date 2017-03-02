@@ -14,6 +14,8 @@ public class MerchantForm extends BaseForm {
     private String mobile;
 
     private String status;
+    
+    private String partnerKey;
 
     private String createtime;
 
@@ -110,4 +112,12 @@ public class MerchantForm extends BaseForm {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	public String getPartnerKey() {
+		return partnerKey;
+	}
+
+	public void setPartnerKey(String partnerKey) {
+		this.partnerKey = partnerKey;
+	}
 }

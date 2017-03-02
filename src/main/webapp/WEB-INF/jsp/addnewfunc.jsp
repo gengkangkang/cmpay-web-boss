@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>添加新的用户</title>
+    <title>添加新的功能</title>
 </head>
 <body>
 <div class="bjui-pageHeader">

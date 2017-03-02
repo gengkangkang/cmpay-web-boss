@@ -13,9 +13,12 @@
  -->          
         <div class="bjui-searchBar">
             <label>查找资源：</label>
-            <input type="text" name="merchantid" id="merchantid"   size="30">&nbsp;
-            <button type="button" class="btn-default" data-icon="search">查询</button>&nbsp;
-            <a href="${pageContext.request.contextPath}/bankManagement/addBankBase" class="btn btn-green" data-toggle="dialog" data-width="400" data-height="400" data-id="dialog-normal" data-title="新增渠道">新增银行</a>
+            <label>银行编码：</label>
+            <input type="text" name="code" id="code" style="width:200px;">&nbsp;&nbsp;&nbsp;&nbsp;
+            <label>银行名称：</label>
+            <input type="text" name="name" id="name" style="width:200px;">&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" class="btn-default" data-icon="search" >查询</button>&nbsp 
+            <a href="${pageContext.request.contextPath}/bankManagement/addBankBase" class="btn btn-green" data-toggle="dialog" data-width="400" data-height="400" data-id="dialog-normal" data-title="新增渠道" data-on-close="fresh">新增银行</a>
     
         </div>
     <!-- </form> -->
@@ -49,7 +52,7 @@
         <td align="center"><c:out value="${record.modifier}"/></td>
         <td align="center"><c:out value="${record.remark}"/></td>
         <td align="center">
-            <a href="${pageContext.request.contextPath}/bankManagement/editBB?sid=<c:out value="${record.id}"/>" class="btn btn-green" data-toggle="dialog" data-width="800" data-height="400" data-id="dialog-normal" data-title="资源信息">修改</a>
+            <a href="${pageContext.request.contextPath}/bankManagement/editBB?sid=<c:out value="${record.id}"/>" class="btn btn-green" data-toggle="dialog" data-width="800" data-height="400" data-id="dialog-normal" data-title="资源信息" data-on-close="fresh">修改</a>
         </td>
         </tr>
     </c:forEach>
@@ -74,4 +77,9 @@
     </div>
         
     </body>
+   		  <script type="text/javascript">
+	       function fresh(){
+	    	   $(this).navtab('refresh')
+	       }
+	    </script>
     </html>

@@ -20,7 +20,7 @@
         <label>查找角色：</label>
         <input type="text" name="username" id="username" value="${roleManagementForm.roleName}"  size="15">&nbsp;
         <button type="submit" class="btn-default" data-icon="search">查询</button>&nbsp;
-        <a href="${pageContext.request.contextPath}/roleManagement/addnewpage" class="btn btn-green" data-toggle="dialog" data-width="400" data-height="250" data-id="dialog-normal" data-title="新增角色信息">新增角色</a>
+        <a href="${pageContext.request.contextPath}/roleManagement/addnewpage" class="btn btn-green" data-toggle="dialog" data-width="400" data-height="250" data-id="dialog-normal" data-title="新增角色信息" data-on-close="fresh">新增角色</a>
     </div>
   </form>
 </div>
@@ -43,7 +43,7 @@
       <td align="center"><c:out value="${record.roleRemark}"/></td>
       <td align="center"><c:out value="${record.roleDisableTag}"/></td>
       <td align="center">
-        <a href="${pageContext.request.contextPath}/roleManagement/edit?rid=<c:out value="${record.roleId}"/>" class="btn btn-green" data-toggle="dialog" data-width="800" data-height="400" data-id="dialog-normal" data-title="角色资源组信息">修改</a>
+        <a href="${pageContext.request.contextPath}/roleManagement/edit?rid=<c:out value="${record.roleId}"/>" class="btn btn-green" data-toggle="dialog" data-width="800" data-height="400" data-id="dialog-normal" data-title="角色资源组信息" data-on-close="fresh">修改</a>
       </td>
     </tr>
   </c:forEach>
@@ -70,4 +70,9 @@
 </div>
 
 </body>
+	<script type="text/javascript">
+       function fresh(){
+    	   $(this).navtab('refresh')
+       }
+    </script>
 </html>

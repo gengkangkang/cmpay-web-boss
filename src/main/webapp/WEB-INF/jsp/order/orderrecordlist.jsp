@@ -13,25 +13,24 @@
         <div class="bjui-searchBar">
             <label>查找资源：</label>
             <label>订单号：</label>
-             <input type="text" name="orderId" id="orderId" style="width:200px;">&nbsp;&nbsp;&nbsp;&nbsp;
-            <!-- <label>支付状态：</label>
-            <input type="text" name="payStatus" id="payStatus" style="width:120px;">&nbsp;&nbsp;&nbsp;&nbsp; -->
-             <label class="row-label">支付状态</label>
+            <input type="text" name="orderId" id="orderId" style="width:200px;">&nbsp;&nbsp;&nbsp;&nbsp;
+            
+            <label class="row-label">支付状态</label>
     
-        <select data-toggle="selectpicker"  id="payStatus" name="payStatus" data-width="120">
-            <option value="">全部</option>
-            <option value="SUCC">成功</option>
-            <option value="DEALING" >处理中</option>
-            <option value="CANCEL">取消</option>
-            <option value="FAIL">失败</option>
-            <option value="NEW">新建</option>
-            <option value="WAIT">未支付</option>
-            <option value="REFUNDING" >退款中</option>
-            <option value="REFUNDSUCC">已退款</option>
-            <option value="REFUNDFAIL">退款失败</option>        
-        </select> &nbsp;&nbsp;&nbsp;&nbsp;
+            <select data-toggle="selectpicker"  id="payStatus" name="payStatus" data-width="120">
+	            <option value="">全部</option>
+	            <option value="SUCC">成功</option>
+	            <option value="DEALING" >处理中</option>
+	            <option value="CANCEL">取消</option>
+	            <option value="FAIL">失败</option>
+	            <option value="NEW">新建</option>
+	            <option value="WAIT">未支付</option>
+	            <option value="REFUNDING" >退款中</option>
+	            <option value="REFUNDSUCC">已退款</option>
+	            <option value="REFUNDFAIL">退款失败</option>        
+            </select> &nbsp;&nbsp;&nbsp;&nbsp;
     
-             <label>创建时间：</label>
+            <label>创建时间：</label>
             <input type="text" name="startTime" id="startTime"  data-toggle="datepicker"  style="width:130px;">&nbsp;
             <label>-</label>
             <input type="text" name="endTime" id="endTime" data-toggle="datepicker" style="width:120px;">&nbsp;&nbsp;&nbsp;&nbsp; 

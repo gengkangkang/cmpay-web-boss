@@ -81,8 +81,7 @@ public class ConfigController {
         return "merchant/mermanagelist";
 
     }
-
-
+    
     @RequestMapping(value = "/channelManagement/query_all_channelBase", method = RequestMethod.GET)
     public String getAllChannelBase(@ModelAttribute("channelBaseForm") ChannelBaseForm channelBaseForm){
     	ChannelBaseBO channelBaseBO = new ChannelBaseBO();
@@ -277,7 +276,8 @@ public class ConfigController {
         return resultMap;
     }
 
-    @ResponseBody
+    
+	@ResponseBody
     @RequestMapping(value = "/merchantManagement/addNewMer", method = RequestMethod.POST)
     public Map addNewMer(@ModelAttribute("merForm") MerchantForm merForm) {
         Map resultMap = new HashMap();
@@ -286,8 +286,9 @@ public class ConfigController {
         String ecode=merForm.getEcode();
         String linkman=merForm.getLinkman();
         String mobile=merForm.getMobile();
+        String partnerKey=merForm.getPartnerKey();
 
-        if(StringUtils.isBlank(merchantid)||StringUtils.isBlank(merchantName)||StringUtils.isBlank(ecode)||StringUtils.isBlank(linkman)||StringUtils.isBlank(mobile)){
+        if(StringUtils.isBlank(merchantid)||StringUtils.isBlank(merchantName)||StringUtils.isBlank(ecode)||StringUtils.isBlank(linkman)||StringUtils.isBlank(mobile)||StringUtils.isBlank(partnerKey)){
         	resultMap.put("statusCode", 300);
             resultMap.put("message", "必填参数不能为空");
             return resultMap;
@@ -304,6 +305,9 @@ public class ConfigController {
 
         return resultMap;
     }
+	
+	
+	
     @ResponseBody
     @RequestMapping(value = "/channelManagement/addNewChannel", method = RequestMethod.POST)
     public Map addNewChannel(@ModelAttribute("payChannelForm") PayChannelForm payChannelForm) {

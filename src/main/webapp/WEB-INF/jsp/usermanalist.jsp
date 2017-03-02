@@ -20,7 +20,7 @@
         <label>查找账号：</label>
         <input type="text" name="username" id="username" value="${userManageForm.username}"  size="15">&nbsp;
         <button type="submit" class="btn-default" data-icon="search">查询</button>&nbsp;
-        <a href="${pageContext.request.contextPath}/userManagement/addnewpage" class="btn btn-green" data-toggle="dialog" data-width="350" data-height="250" data-id="dialog-normal" data-title="新增账户信息">新增用户</a>
+        <a href="${pageContext.request.contextPath}/userManagement/addnewpage" class="btn btn-green" data-toggle="dialog" data-width="350" data-height="250" data-id="dialog-normal" data-title="新增账户信息"  data-on-close="fresh" >新增用户</a>
     </div>
   </form>
 </div>
@@ -45,7 +45,7 @@
       <td align="center"><c:out value="${record.usrDisableTag}"/></td>
       <td align="center"><c:out value="${record.usrEmail}"/></td>
       <td align="center">
-        <a href="${pageContext.request.contextPath}/userManagement/edit?id=<c:out value="${record.usrId}"/>" class="btn btn-green" data-toggle="dialog" data-width="800" data-height="400" data-id="dialog-normal" data-title="账户信息">修改</a>
+        <a href="${pageContext.request.contextPath}/userManagement/edit?id=<c:out value="${record.usrId}"/>" class="btn btn-green" data-toggle="dialog" data-width="800" data-height="400" data-id="dialog-normal" data-title="账户信息"  data-on-close="fresh">修改</a>
       </td>
     </tr>
   </c:forEach>
@@ -72,4 +72,10 @@
 </div>
 
 </body>
+
+	<script type="text/javascript">
+       function fresh(){
+    	   $(this).navtab('refresh')
+       }
+    </script>
 </html>

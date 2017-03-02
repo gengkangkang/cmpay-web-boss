@@ -19,8 +19,8 @@
         <div class="bjui-searchBar">
             <label>查找资源：</label>
             <input type="text" name="ip" id="ip"   size="30">&nbsp;
-            <button type="submit" class="btn-default" data-icon="search">查询</button>&nbsp;
-            <a href="${pageContext.request.contextPath}/ipManagement/addIp" class="btn btn-green" data-toggle="dialog" data-width="400" data-height="400" data-id="dialog-normal" data-title="新增IP配置">新增IP</a>
+            <button type="submit" class="btn-default" data-icon="search">IP地址查询</button>&nbsp;
+            <a href="${pageContext.request.contextPath}/ipManagement/addIp" class="btn btn-green" data-toggle="dialog" data-width="400" data-height="400" data-id="dialog-normal" data-title="新增IP配置" data-on-close="fresh">新增IP</a>
     
         </div>
     </form>
@@ -63,7 +63,7 @@
         <td align="center"><c:out value="${record.operator}"/></td>
         <td align="center"><c:out value="${record.remark}"/></td>
         <td align="center">
-            <a href="${pageContext.request.contextPath}/ipManagement/edit?sid=<c:out value="${record.ip}"/>" class="btn btn-green" data-toggle="dialog" data-width="800" data-height="400" data-id="dialog-normal" data-title="资源信息">修改</a>
+            <a href="${pageContext.request.contextPath}/ipManagement/edit?sid=<c:out value="${record.ip}"/>" class="btn btn-green" data-toggle="dialog" data-width="800" data-height="400" data-id="dialog-normal" data-title="资源信息" data-on-close="fresh">修改</a>
         </td>
         </tr>
     </c:forEach>
@@ -90,4 +90,9 @@
     </div>
     
     </body>
+	     <script type="text/javascript">
+	       function fresh(){
+	    	   $(this).navtab('refresh')
+	       }
+	    </script>
     </html>
