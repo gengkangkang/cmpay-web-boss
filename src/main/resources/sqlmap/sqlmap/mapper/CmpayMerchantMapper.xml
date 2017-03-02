@@ -9,6 +9,7 @@
     <result column="LINKMAN" property="linkman" jdbcType="VARCHAR" />
     <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
     <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="PARTNERKEY" property="partnerKey" jdbcType="VARCHAR" />
     <result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
     <result column="UPDATETIME" property="updatetime" jdbcType="VARCHAR" />
     <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
@@ -73,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, MERCHANTID, MERCHANT_NAME, ECODE, LINKMAN, MOBILE, STATUS, CREATETIME, UPDATETIME, 
+    ID, MERCHANTID, MERCHANT_NAME, ECODE, LINKMAN, MOBILE, STATUS, PARTNERKEY,CREATETIME, UPDATETIME, 
     OPERATOR, REMARK
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cmpay.boss.entity.CmpayMerchantExample" >
@@ -108,12 +109,11 @@
   </delete>
   <insert id="insert" parameterType="com.cmpay.boss.entity.CmpayMerchant" >
     insert into CMPAY_MERCHANT (ID, MERCHANTID, MERCHANT_NAME, 
-      ECODE, LINKMAN, MOBILE, 
-      STATUS, CREATETIME, UPDATETIME, 
+      ECODE, LINKMAN, MOBILE,STATUS,PARTNERKEY, CREATETIME, UPDATETIME, 
       OPERATOR, REMARK)
     values (#{id,jdbcType=VARCHAR}, #{merchantid,jdbcType=VARCHAR}, #{merchantName,jdbcType=VARCHAR}, 
       #{ecode,jdbcType=VARCHAR}, #{linkman,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
-      #{status,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, #{updatetime,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR},  #{partnerKey,jdbcType=VARCHAR},#{createtime,jdbcType=VARCHAR}, #{updatetime,jdbcType=VARCHAR}, 
       #{operator,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.cmpay.boss.entity.CmpayMerchant" >
@@ -273,6 +273,9 @@
       </if>
       <if test="status != null" >
         STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+        <if test="partnerKey != null" >
+        PARTNERKEY = #{partnerKey,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null" >
         CREATETIME = #{createtime,jdbcType=VARCHAR},

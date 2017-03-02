@@ -20,7 +20,7 @@
             <label>查找资源：</label>
             <input type="text" name="funcName" id="funcName" value="${funcManageForm.funcName}"  size="15">&nbsp;
             <button type="submit" class="btn-default" data-icon="search">查询</button>&nbsp;
-            <a href="${pageContext.request.contextPath}/funcManagement/addnewpage" class="btn btn-green" data-toggle="dialog" data-width="400" data-height="400" data-id="dialog-normal" data-title="新增资源配置">新增资源</a>
+            <a href="${pageContext.request.contextPath}/funcManagement/addnewpage" class="btn btn-green" data-toggle="dialog" data-width="400" data-height="400" data-id="dialog-normal" data-title="新增资源配置" data-on-close="fresh">新增资源</a>
     
         </div>
     </form>
@@ -58,7 +58,7 @@
         <td align="center"><c:out value="${record.funcIcon}"/></td>
         <td align="center"><c:out value="${record.funcPriority}"/></td>
         <td align="center">
-            <a href="${pageContext.request.contextPath}/funcManagement/edit?sid=<c:out value="${record.funcId}"/>" class="btn btn-green" data-toggle="dialog" data-width="800" data-height="400" data-id="dialog-normal" data-title="资源信息">修改</a>
+            <a href="${pageContext.request.contextPath}/funcManagement/edit?sid=<c:out value="${record.funcId}"/>" class="btn btn-green" data-toggle="dialog" data-width="800" data-height="400" data-id="dialog-normal" data-title="资源信息" data-on-close="fresh">修改</a>
         </td>
         </tr>
     </c:forEach>
@@ -85,4 +85,9 @@
     </div>
     
     </body>
+	    <script type="text/javascript">
+	       function fresh(){
+	    	   $(this).navtab('refresh')
+	       }
+	    </script>
     </html>

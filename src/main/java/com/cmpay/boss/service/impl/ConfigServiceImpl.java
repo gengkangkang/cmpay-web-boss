@@ -216,7 +216,7 @@ public class ConfigServiceImpl implements ConfigService {
 	        if (r != 0) {
 	            resultMap.put("statusCode", 200);
 	            resultMap.put("message", "操作成功!");
-	            resultMap.put("closeCurrent", true);
+	            resultMap.put("closeCurrent", true); 	
 	        } else {
 	            resultMap.put("statusCode", 300);
 	            resultMap.put("message", "操作失败!");

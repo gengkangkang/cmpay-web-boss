@@ -11,9 +11,12 @@
         <input type="hidden" name="pageCurrent" value="${merForm.pageCurrent}">
         <div class="bjui-searchBar">
             <label>查找资源：</label>
-            <input type="text" name="merchantid" id="merchantid"   size="30">&nbsp;
-            <button type="submit" class="btn-default" data-icon="search">查询</button>&nbsp;
-            <a href="${pageContext.request.contextPath}/merchantManagement/addMer" class="btn btn-green" data-toggle="dialog" data-width="400" data-height="400" data-id="dialog-normal" data-title="新增商户">新增商户</a>
+            <label>商户号：</label>
+            <input type="text" name="merchantid" id="merchantid" style="width:200px;">&nbsp;&nbsp;&nbsp;&nbsp;
+            <label>商户名称：</label>
+            <input type="text" name="merchantName" id="merchantName" style="width:200px;">&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" class="btn-default" data-icon="search" >查询</button>&nbsp 
+            <a href="${pageContext.request.contextPath}/merchantManagement/addMer" class="btn btn-green" data-toggle="dialog" data-width="400" data-height="400" data-id="dialog-normal" data-title="新增商户" data-on-close="freshMer">新增商户</a>
     
         </div>
     </form>
@@ -29,6 +32,7 @@
         <th align="center">联系人</th>
         <th align="center">联系电话</th>
         <th align="center">状态</th>
+        <th align="center">商户KEY</th>
         <th align="center">创建时间</th>
         <th align="center">更新时间</th>
         <th align="center">操作人</th>
@@ -58,13 +62,13 @@
                  <td align="center"><c:out value="${record.status}"/></td>
          </c:otherwise>
        </c:choose>
-        
+        <td align="center"><c:out value="${record.partnerKey}"/></td>
         <td align="center"><c:out value="${record.createtime}"/></td>
         <td align="center"><c:out value="${record.updatetime}"/></td>
         <td align="center"><c:out value="${record.operator}"/></td>
         <td align="center">${record.remark}</td>
         <td align="center">
-            <a href="${pageContext.request.contextPath}/merchantManagement/edit?sid=<c:out value="${record.id}"/>" class="btn btn-green" data-toggle="dialog" data-width="800" data-height="400" data-id="dialog-normal" data-title="资源信息">修改</a>
+            <a href="${pageContext.request.contextPath}/merchantManagement/edit?sid=<c:out value="${record.id}"/>" class="btn btn-green" data-toggle="dialog" data-width="800" data-height="400" data-id="dialog-normal" data-title="资源信息" data-on-close="freshMer">修改</a>
         </td>
         </tr>
     </c:forEach>
@@ -91,4 +95,10 @@
     </div>
     
     </body>
+    <script type="text/javascript">
+       function freshMer(){
+    	   $(this).navtab('refresh')
+       }
+    </script>
+    
     </html>

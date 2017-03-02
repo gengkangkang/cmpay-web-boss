@@ -14,6 +14,8 @@ public class CmpayMerchant {
     private String mobile;
 
     private String status;
+    
+    private String partnerKey;
 
     private String createtime;
 
@@ -110,12 +112,22 @@ public class CmpayMerchant {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+    
+    public String getPartnerKey() {
+		return partnerKey;
+	}
+
+	public void setPartnerKey(String partnerKey) {
+		this.partnerKey = partnerKey;
+	}
 
 	@Override
 	public String toString() {
 		return "CmpayMerchant [id=" + id + ", merchantid=" + merchantid + ", merchantName=" + merchantName + ", ecode="
-				+ ecode + ", linkman=" + linkman + ", mobile=" + mobile + ", status=" + status + ", createtime="
+				+ ecode + ", linkman=" + linkman + ", mobile=" + mobile + ", status=" + status +", partnerKey=" + partnerKey + ", createtime="
 				+ createtime + ", updatetime=" + updatetime + ", operator=" + operator + ", remark=" + remark + "]";
 	}
+
+	
 
 }

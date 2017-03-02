@@ -11,7 +11,7 @@
         <div class="bjui-searchBar" style="height:40px;margin-top:10px">
             <label style="font-size: 20px">${payChannelName} |</label>
             <label style="font-size: 20px">${payChannelId}</label>    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="${pageContext.request.contextPath}/channelManagement/addChannelBankMap?payChannelId=${payChannelId}" class="btn btn-green btn-nm" data-toggle="dialog" data-width="400" data-height="400" data-id="dialog-normal" data-title="新增银行">新增银行</a>
+            <a href="${pageContext.request.contextPath}/channelManagement/addChannelBankMap?payChannelId=${payChannelId}" class="btn btn-green btn-nm" data-toggle="dialog" data-width="400" data-height="400" data-id="dialog-normal" data-title="新增银行" data-on-close="fresh">新增银行</a>
     
         </div>
 
@@ -76,7 +76,7 @@
         <td align="center"><c:out value="${record.modifier}"/></td>
         <td align="center"><c:out value="${record.remark}"/></td>
         <td align="center">
-            <a href="${pageContext.request.contextPath}/channelManagement/editSuppBank?sid=<c:out value="${record.id}"/>" class="btn btn-green" data-toggle="dialog" data-width="800" data-height="400" data-id="dialog-normal" data-title="资源信息">修改</a>
+            <a href="${pageContext.request.contextPath}/channelManagement/editSuppBank?sid=<c:out value="${record.id}"/>" class="btn btn-green" data-toggle="dialog" data-width="800" data-height="400" data-id="dialog-normal" data-title="资源信息" data-on-close="fresh">修改</a>
         </td>
         </tr>
     </c:forEach>
@@ -103,4 +103,9 @@
     </div>
     
     </body>
+   		 <script type="text/javascript">
+	       function fresh(){
+	    	   $(this).navtab('refresh')
+	       }
+	    </script>
     </html>
