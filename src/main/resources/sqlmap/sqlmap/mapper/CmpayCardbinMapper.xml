@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmpay.boss.mapper.CmpayCardbinMapper" >
+  <resultMap id="BaseResultMap" type="com.cmpay.boss.entity.CmpayCardbin" >
+    <id column="CARD_BIN" property="cardBin" jdbcType="VARCHAR" />
+    <id column="CARD_LENGTH" property="cardLength" jdbcType="DECIMAL" />
+    <result column="CARD_TYPE" property="cardType" jdbcType="VARCHAR" />
+    <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+    <result column="ISSUER_ID" property="issuerId" jdbcType="VARCHAR" />
+    <result column="CARD_STAT" property="cardStat" jdbcType="VARCHAR" />
+    <result column="CARD_NAME" property="cardName" jdbcType="VARCHAR" />
+    <result column="ACCOUNTNO" property="accountno" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="JPA_VERSION" property="jpaVersion" jdbcType="DECIMAL" />
+    <result column="CMPAY_CODE" property="cmpayCode" jdbcType="VARCHAR" />
+    <result column="CMPAY_NAME" property="cmpayName" jdbcType="VARCHAR" />
+    <result column="FIELD" property="field" jdbcType="VARCHAR" />
+    <result column="FIELD1" property="field1" jdbcType="VARCHAR" />
+    <result column="FIELD2" property="field2" jdbcType="VARCHAR" />
+    <result column="MODIFIER" property="modifier" jdbcType="VARCHAR" />
+    <result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CARD_BIN, CARD_LENGTH, CARD_TYPE, BANK_NAME, ISSUER_ID, CARD_STAT, CARD_NAME, ACCOUNTNO, 
+    REMARK, JPA_VERSION, CMPAY_CODE, CMPAY_NAME, FIELD, FIELD1, FIELD2, MODIFIER, MODIFY_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cmpay.boss.entity.CmpayCardbinExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CMPAY_CARDBIN
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.cmpay.boss.entity.CmpayCardbinKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from CMPAY_CARDBIN
+    where CARD_BIN = #{cardBin,jdbcType=VARCHAR}
+      and CARD_LENGTH = #{cardLength,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.cmpay.boss.entity.CmpayCardbinKey" >
+    delete from CMPAY_CARDBIN
+    where CARD_BIN = #{cardBin,jdbcType=VARCHAR}
+      and CARD_LENGTH = #{cardLength,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cmpay.boss.entity.CmpayCardbinExample" >
+    delete from CMPAY_CARDBIN
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cmpay.boss.entity.CmpayCardbin" >
+    insert into CMPAY_CARDBIN (CARD_BIN, CARD_LENGTH, CARD_TYPE, 
+      BANK_NAME, ISSUER_ID, CARD_STAT, 
+      CARD_NAME, ACCOUNTNO, REMARK, 
+      JPA_VERSION, CMPAY_CODE, CMPAY_NAME, 
+      FIELD, FIELD1, FIELD2, 
+      MODIFIER, MODIFY_TIME)
+    values (#{cardBin,jdbcType=VARCHAR}, #{cardLength,jdbcType=DECIMAL}, #{cardType,jdbcType=VARCHAR}, 
+      #{bankName,jdbcType=VARCHAR}, #{issuerId,jdbcType=VARCHAR}, #{cardStat,jdbcType=VARCHAR}, 
+      #{cardName,jdbcType=VARCHAR}, #{accountno,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{jpaVersion,jdbcType=DECIMAL}, #{cmpayCode,jdbcType=VARCHAR}, #{cmpayName,jdbcType=VARCHAR}, 
+      #{field,jdbcType=VARCHAR}, #{field1,jdbcType=VARCHAR}, #{field2,jdbcType=VARCHAR}, 
+      #{modifier,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cmpay.boss.entity.CmpayCardbin" >
+    insert into CMPAY_CARDBIN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cardBin != null" >
+        CARD_BIN,
+      </if>
+      <if test="cardLength != null" >
+        CARD_LENGTH,
+      </if>
+      <if test="cardType != null" >
+        CARD_TYPE,
+      </if>
+      <if test="bankName != null" >
+        BANK_NAME,
+      </if>
+      <if test="issuerId != null" >
+        ISSUER_ID,
+      </if>
+      <if test="cardStat != null" >
+        CARD_STAT,
+      </if>
+      <if test="cardName != null" >
+        CARD_NAME,
+      </if>
+      <if test="accountno != null" >
+        ACCOUNTNO,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="jpaVersion != null" >
+        JPA_VERSION,
+      </if>
+      <if test="cmpayCode != null" >
+        CMPAY_CODE,
+      </if>
+      <if test="cmpayName != null" >
+        CMPAY_NAME,
+      </if>
+      <if test="field != null" >
+        FIELD,
+      </if>
+      <if test="field1 != null" >
+        FIELD1,
+      </if>
+      <if test="field2 != null" >
+        FIELD2,
+      </if>
+      <if test="modifier != null" >
+        MODIFIER,
+      </if>
+      <if test="modifyTime != null" >
+        MODIFY_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cardBin != null" >
+        #{cardBin,jdbcType=VARCHAR},
+      </if>
+      <if test="cardLength != null" >
+        #{cardLength,jdbcType=DECIMAL},
+      </if>
+      <if test="cardType != null" >
+        #{cardType,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="issuerId != null" >
+        #{issuerId,jdbcType=VARCHAR},
+      </if>
+      <if test="cardStat != null" >
+        #{cardStat,jdbcType=VARCHAR},
+      </if>
+      <if test="cardName != null" >
+        #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountno != null" >
+        #{accountno,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="jpaVersion != null" >
+        #{jpaVersion,jdbcType=DECIMAL},
+      </if>
+      <if test="cmpayCode != null" >
+        #{cmpayCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cmpayName != null" >
+        #{cmpayName,jdbcType=VARCHAR},
+      </if>
+      <if test="field != null" >
+        #{field,jdbcType=VARCHAR},
+      </if>
+      <if test="field1 != null" >
+        #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        #{field2,jdbcType=VARCHAR},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cmpay.boss.entity.CmpayCardbinExample" resultType="java.lang.Integer" >
+    select count(*) from CMPAY_CARDBIN
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CMPAY_CARDBIN
+    <set >
+      <if test="record.cardBin != null" >
+        CARD_BIN = #{record.cardBin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardLength != null" >
+        CARD_LENGTH = #{record.cardLength,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cardType != null" >
+        CARD_TYPE = #{record.cardType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankName != null" >
+        BANK_NAME = #{record.bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.issuerId != null" >
+        ISSUER_ID = #{record.issuerId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardStat != null" >
+        CARD_STAT = #{record.cardStat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardName != null" >
+        CARD_NAME = #{record.cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountno != null" >
+        ACCOUNTNO = #{record.accountno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jpaVersion != null" >
+        JPA_VERSION = #{record.jpaVersion,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cmpayCode != null" >
+        CMPAY_CODE = #{record.cmpayCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cmpayName != null" >
+        CMPAY_NAME = #{record.cmpayName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field != null" >
+        FIELD = #{record.field,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field1 != null" >
+        FIELD1 = #{record.field1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field2 != null" >
+        FIELD2 = #{record.field2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifier != null" >
+        MODIFIER = #{record.modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifyTime != null" >
+        MODIFY_TIME = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CMPAY_CARDBIN
+    set CARD_BIN = #{record.cardBin,jdbcType=VARCHAR},
+      CARD_LENGTH = #{record.cardLength,jdbcType=DECIMAL},
+      CARD_TYPE = #{record.cardType,jdbcType=VARCHAR},
+      BANK_NAME = #{record.bankName,jdbcType=VARCHAR},
+      ISSUER_ID = #{record.issuerId,jdbcType=VARCHAR},
+      CARD_STAT = #{record.cardStat,jdbcType=VARCHAR},
+      CARD_NAME = #{record.cardName,jdbcType=VARCHAR},
+      ACCOUNTNO = #{record.accountno,jdbcType=VARCHAR},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      JPA_VERSION = #{record.jpaVersion,jdbcType=DECIMAL},
+      CMPAY_CODE = #{record.cmpayCode,jdbcType=VARCHAR},
+      CMPAY_NAME = #{record.cmpayName,jdbcType=VARCHAR},
+      FIELD = #{record.field,jdbcType=VARCHAR},
+      FIELD1 = #{record.field1,jdbcType=VARCHAR},
+      FIELD2 = #{record.field2,jdbcType=VARCHAR},
+      MODIFIER = #{record.modifier,jdbcType=VARCHAR},
+      MODIFY_TIME = #{record.modifyTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cmpay.boss.entity.CmpayCardbin" >
+    update CMPAY_CARDBIN
+    <set >
+      <if test="cardType != null" >
+        CARD_TYPE = #{cardType,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="issuerId != null" >
+        ISSUER_ID = #{issuerId,jdbcType=VARCHAR},
+      </if>
+      <if test="cardStat != null" >
+        CARD_STAT = #{cardStat,jdbcType=VARCHAR},
+      </if>
+      <if test="cardName != null" >
+        CARD_NAME = #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountno != null" >
+        ACCOUNTNO = #{accountno,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="jpaVersion != null" >
+        JPA_VERSION = #{jpaVersion,jdbcType=DECIMAL},
+      </if>
+      <if test="cmpayCode != null" >
+        CMPAY_CODE = #{cmpayCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cmpayName != null" >
+        CMPAY_NAME = #{cmpayName,jdbcType=VARCHAR},
+      </if>
+      <if test="field != null" >
+        FIELD = #{field,jdbcType=VARCHAR},
+      </if>
+      <if test="field1 != null" >
+        FIELD1 = #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        FIELD2 = #{field2,jdbcType=VARCHAR},
+      </if>
+      <if test="modifier != null" >
+        MODIFIER = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where CARD_BIN = #{cardBin,jdbcType=VARCHAR}
+      and CARD_LENGTH = #{cardLength,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cmpay.boss.entity.CmpayCardbin" >
+    update CMPAY_CARDBIN
+    set CARD_TYPE = #{cardType,jdbcType=VARCHAR},
+      BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      ISSUER_ID = #{issuerId,jdbcType=VARCHAR},
+      CARD_STAT = #{cardStat,jdbcType=VARCHAR},
+      CARD_NAME = #{cardName,jdbcType=VARCHAR},
+      ACCOUNTNO = #{accountno,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      JPA_VERSION = #{jpaVersion,jdbcType=DECIMAL},
+      CMPAY_CODE = #{cmpayCode,jdbcType=VARCHAR},
+      CMPAY_NAME = #{cmpayName,jdbcType=VARCHAR},
+      FIELD = #{field,jdbcType=VARCHAR},
+      FIELD1 = #{field1,jdbcType=VARCHAR},
+      FIELD2 = #{field2,jdbcType=VARCHAR},
+      MODIFIER = #{modifier,jdbcType=VARCHAR},
+      MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP}
+    where CARD_BIN = #{cardBin,jdbcType=VARCHAR}
+      and CARD_LENGTH = #{cardLength,jdbcType=DECIMAL}
+  </update>
+</mapper>
