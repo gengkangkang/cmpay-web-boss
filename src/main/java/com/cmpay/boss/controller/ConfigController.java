@@ -261,51 +261,13 @@ public class ConfigController {
 
         return "ipmanagelist";
 
-    }
-
+    } 
+    
     @RequestMapping(value = "/ipManagement/addIp", method = RequestMethod.GET)
     public String goAddNewPage(@ModelAttribute("ipManageForm") IpManageForm ipManageForm) {
 
         return "addip";
     }
-
-    @RequestMapping(value = "/merchantManagement/addMer", method = RequestMethod.GET)
-    public String goAddNewMerPage(@ModelAttribute("merForm") MerchantForm merForm) {
-
-        return "merchant/addmer";
-    }
-
-    @RequestMapping(value = "/channelManagement/addChannel", method = RequestMethod.GET)
-    public String goAddNewChannelPage(HttpServletRequest request,@ModelAttribute("payChannelForm") PayChannelForm payChannelForm) {
-
-    	String merchantId=request.getParameter("merchantId");
-    	logger.info("商户号【{}】增加支付渠道"+merchantId);
-    	payChannelForm.setMerchNo(merchantId);
-        return "merchant/addChannel";
-    }
-
-    @RequestMapping(value = "/channelManagement/addChannelBankMap", method = RequestMethod.GET)
-    public String goAddNewChannelBankMapPage(HttpServletRequest request,@ModelAttribute("suppBankForm") SuppBankForm suppBankForm) {
-
-    	String payChannelId=request.getParameter("payChannelId");
-    	logger.info("支付渠道【{}】增加支持银行",payChannelId);
-    	suppBankForm.setPayChannelCode(payChannelId);
-        return "merchant/addSuppBank";
-    }
-
-    @RequestMapping(value = "/channelManagement/addChannelBase", method = RequestMethod.GET)
-    public String goAddNewChannelBasePage(@ModelAttribute("channelBaseForm") ChannelBaseForm channelBaseForm) {
-
-        return "merchant/addCB";
-    }
-    
-    @RequestMapping(value = "/bankManagement/addBankBase", method = RequestMethod.GET)
-    public String goAddNewBankBasePage(@ModelAttribute("bankBaseForm") BankBaseForm bankBaseForm) {
-
-        return "merchant/addBB";
-    }
-
-    
 
     @ResponseBody
     @RequestMapping(value = "/ipManagement/addNewIp", method = RequestMethod.POST)
@@ -320,14 +282,18 @@ public class ConfigController {
             resultMap.put("message", "ip地址不能为空");
             return resultMap;
         }
-
-
+        
         resultMap = configService.addNewIp(ip, inchannel, remark);
 
         return resultMap;
     }
+  
+    @RequestMapping(value = "/merchantManagement/addMer", method = RequestMethod.GET)
+    public String goAddNewMerPage(@ModelAttribute("merForm") MerchantForm merForm) {
 
-    
+        return "merchant/addmer";
+    }
+
 	@ResponseBody
     @RequestMapping(value = "/merchantManagement/addNewMer", method = RequestMethod.POST)
     public Map addNewMer(@ModelAttribute("merForm") MerchantForm merForm) {
@@ -356,8 +322,15 @@ public class ConfigController {
 
         return resultMap;
     }
-	
-	
+	   
+    @RequestMapping(value = "/channelManagement/addChannel", method = RequestMethod.GET)
+    public String goAddNewChannelPage(HttpServletRequest request,@ModelAttribute("payChannelForm") PayChannelForm payChannelForm) {
+
+    	String merchantId=request.getParameter("merchantId");
+    	logger.info("商户号【{}】增加支付渠道"+merchantId);
+    	payChannelForm.setMerchNo(merchantId);
+        return "merchant/addChannel";
+    }
 	
     @ResponseBody
     @RequestMapping(value = "/channelManagement/addNewChannel", method = RequestMethod.POST)
@@ -384,6 +357,15 @@ public class ConfigController {
     	return resultMap;
     }
 
+    @RequestMapping(value = "/channelManagement/addChannelBankMap", method = RequestMethod.GET)
+    public String goAddNewChannelBankMapPage(HttpServletRequest request,@ModelAttribute("suppBankForm") SuppBankForm suppBankForm) {
+
+    	String payChannelId=request.getParameter("payChannelId");
+    	logger.info("支付渠道【{}】增加支持银行",payChannelId);
+    	suppBankForm.setPayChannelCode(payChannelId);
+        return "merchant/addSuppBank";
+    }
+    
     @ResponseBody
     @RequestMapping(value = "/channelManagement/addNewSuppBank", method = RequestMethod.POST)
     public Map addNewSuppBank(@ModelAttribute("suppBankForm") SuppBankForm suppBankForm) {
@@ -408,6 +390,13 @@ public class ConfigController {
     	return resultMap;
     }
 
+	
+    @RequestMapping(value = "/channelManagement/addChannelBase", method = RequestMethod.GET)
+    public String goAddNewChannelBasePage(@ModelAttribute("channelBaseForm") ChannelBaseForm channelBaseForm) {
+
+        return "merchant/addCB";
+    }
+    
     @ResponseBody
     @RequestMapping(value = "/channelManagement/addNewCB", method = RequestMethod.POST)
     public Map addNewCB(@ModelAttribute("channelBaseForm") ChannelBaseForm channelBaseForm) {
@@ -426,7 +415,13 @@ public class ConfigController {
     	return resultMap;
     }
 
+    
+    @RequestMapping(value = "/bankManagement/addBankBase", method = RequestMethod.GET)
+    public String goAddNewBankBasePage(@ModelAttribute("bankBaseForm") BankBaseForm bankBaseForm) {
 
+        return "merchant/addBB";
+    }
+    
     @ResponseBody
     @RequestMapping(value = "/bankManagement/addNewBB", method = RequestMethod.POST)
     public Map addNewBB(@ModelAttribute("bankBaseForm") BankBaseForm bankBaseForm) {
@@ -443,22 +438,6 @@ public class ConfigController {
     	resultMap = configService.addNewBB(bankBaseBO);
 
     	return resultMap;
-    }
-
-
-    @RequestMapping(value = "/ipManagement/edit", method = RequestMethod.GET)
-    public String modifyFuncDetails(HttpServletRequest request,
-    		@ModelAttribute("ipManageForm") IpManageForm ipManageForm) {
-
-        String sid = request.getParameter("sid");
-        IpBO ipBO = configService.getById(sid);
-        ipManageForm.setIp(ipBO.getIp());
-        ipManageForm.setInchannel(ipBO.getInchannel());
-        ipManageForm.setStatus(ipBO.getStatus());
-        ipManageForm.setCreatetime(ipBO.getCreatetime());
-        ipManageForm.setOperator(ipBO.getOperator());
-
-        return "modifyipdetails";
     }
 
     @RequestMapping(value = "/merchantManagement/edit", method = RequestMethod.GET)
@@ -541,6 +520,21 @@ public class ConfigController {
         return "merchant/updchannelBB";
     }
 
+    @RequestMapping(value = "/ipManagement/edit", method = RequestMethod.GET)
+    public String modifyFuncDetails(HttpServletRequest request,
+    		@ModelAttribute("ipManageForm") IpManageForm ipManageForm) {
+
+        String sid = request.getParameter("sid");
+        IpBO ipBO = configService.getById(sid);
+        ipManageForm.setIp(ipBO.getIp());
+        ipManageForm.setInchannel(ipBO.getInchannel());
+        ipManageForm.setStatus(ipBO.getStatus());
+        ipManageForm.setCreatetime(ipBO.getCreatetime());
+        ipManageForm.setOperator(ipBO.getOperator());
+
+        return "modifyipdetails";
+    }
+    
     @ResponseBody
     @RequestMapping(value = "/ipManagement/updateIp", method = RequestMethod.POST)
     public Map updateFuncDetails(@ModelAttribute("ipManageForm") IpManageForm ipManageForm) {

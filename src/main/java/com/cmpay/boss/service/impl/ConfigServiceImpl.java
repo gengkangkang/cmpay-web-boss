@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -13,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.cmpay.boss.domain.BankBaseBO;
 import com.cmpay.boss.domain.ChannelBaseBO;
 import com.cmpay.boss.domain.IpBO;
@@ -62,7 +60,7 @@ public class ConfigServiceImpl implements ConfigService {
     private static final Logger logger = LoggerFactory.getLogger(ConfigServiceImpl.class);
 
     @Autowired
-    CMPAYIPBINDINGMapper    cMPAYIPBINDINGMapper;
+    CMPAYIPBINDINGMapper    cmpayIpBindingMapper;
     @Autowired
     CmpayMerchantMapper cmpayMerchantMapper;
     @Autowired
@@ -80,11 +78,11 @@ public class ConfigServiceImpl implements ConfigService {
 	@Override
 	public Pagination<IpBO> getAllIp(IpBO ipBO) {
 
-		int count =cMPAYIPBINDINGMapper.getIpCounts();
+		int count =cmpayIpBindingMapper.getIpCounts();
         Pagination pagination = new Pagination(count, ipBO.getPageCurrent(),ipBO.getPageSize());
         PageHelper.startPage(ipBO.getPageCurrent(), ipBO.getPageSize());
 
-        List<CMPAYIPBINDING> ips=cMPAYIPBINDINGMapper.getAllIp();
+        List<CMPAYIPBINDING> ips=cmpayIpBindingMapper.getAllIp();
         List<IpBO> ipBOList = new ArrayList<>();
         for(CMPAYIPBINDING ipbinding:ips ){
         	IpBO ip=new IpBO();
@@ -157,20 +155,20 @@ public class ConfigServiceImpl implements ConfigService {
 	@Override
 	public Map addNewIp(String ip, String inchannel, String remark) {
         Map resultMap = new HashMap();
-        CMPAYIPBINDING _CMPAYIPBINDING=new CMPAYIPBINDING();
-        _CMPAYIPBINDING.setIp(ip);
-        _CMPAYIPBINDING.setInchannel(inchannel);
-        _CMPAYIPBINDING.setStatus("OFF");
-        _CMPAYIPBINDING.setRemark(remark);
-        _CMPAYIPBINDING.setCreatetime(DateUtil.getCurrTime());
+        CMPAYIPBINDING cmpayIpBinding = new CMPAYIPBINDING();
+        cmpayIpBinding.setIp(ip);
+        cmpayIpBinding.setInchannel(inchannel);
+        cmpayIpBinding.setStatus("OFF");
+        cmpayIpBinding.setRemark(remark);
+        cmpayIpBinding.setCreatetime(DateUtil.getCurrTime());
 
         MonitorRealm.ShiroUser shiroUser = (MonitorRealm.ShiroUser) SecurityUtils.getSubject()
                 .getPrincipal();
         String loginName=shiroUser.getLoginName();
-        _CMPAYIPBINDING.setOperator(loginName);
+        cmpayIpBinding.setOperator(loginName);
         logger.info("新增IP配置执行人[{}],参数[ip={},inchannel={},remark={}]",loginName,ip,inchannel,remark);
 
-        int r=cMPAYIPBINDINGMapper.insert(_CMPAYIPBINDING);
+        int r=cmpayIpBindingMapper.insert(cmpayIpBinding);
 
         if (r != 0) {
             resultMap.put("statusCode", 200);
@@ -301,7 +299,7 @@ public class ConfigServiceImpl implements ConfigService {
 
 	@Override
 	public IpBO getById(String ip) {
-		CMPAYIPBINDING _CMPAYIPBINDING=cMPAYIPBINDINGMapper.selectByPrimaryKey(ip);
+		CMPAYIPBINDING _CMPAYIPBINDING=cmpayIpBindingMapper.selectByPrimaryKey(ip);
 		return convertCMPAYIPBINDINGToIpBO(_CMPAYIPBINDING);
 	}
 
@@ -315,6 +313,9 @@ public class ConfigServiceImpl implements ConfigService {
 		return ipBO;
 
 	}
+	
+
+
 
 	@Override
 	public MerchantBO getMerById(String id) {
@@ -370,7 +371,7 @@ public class ConfigServiceImpl implements ConfigService {
 	        _CMPAYIPBINDING.setOperator(loginName);
 	        logger.info("修改IP配置执行人[{}],参数[ip={},inchannel={},remark={}]",loginName,ipBO.getIp(),ipBO.getInchannel(),ipBO.getRemark());
 
-	        int r=cMPAYIPBINDINGMapper.updateByPrimaryKeySelective(_CMPAYIPBINDING);
+	        int r=cmpayIpBindingMapper.updateByPrimaryKeySelective(_CMPAYIPBINDING);
 
 	        if (r != 0) {
 	            resultMap.put("statusCode", 200);
@@ -497,11 +498,11 @@ public class ConfigServiceImpl implements ConfigService {
 
 	@Override
 	public Pagination<IpBO> getIpByPara(IpBO ipBO) {
-		int count =cMPAYIPBINDINGMapper.getIpCounts();
+		int count =cmpayIpBindingMapper.getIpCounts();
         Pagination pagination = new Pagination(count, ipBO.getPageCurrent(),ipBO.getPageSize());
         PageHelper.startPage(ipBO.getPageCurrent(), ipBO.getPageSize());
 
-        List<CMPAYIPBINDING> ips=cMPAYIPBINDINGMapper.getIpByPara(ipBO);
+        List<CMPAYIPBINDING> ips=cmpayIpBindingMapper.getIpByPara(ipBO);
         List<IpBO> ipBOList = new ArrayList<>();
         for(CMPAYIPBINDING ipbinding:ips ){
         	IpBO ip=new IpBO();
@@ -846,6 +847,7 @@ public class ConfigServiceImpl implements ConfigService {
 		
 	}
 
+	
 
 
 
