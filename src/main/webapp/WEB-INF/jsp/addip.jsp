@@ -19,7 +19,7 @@
       <select data-toggle="selectpicker" value="<c:out value="${ipManageForm.inchannel}"/>"  name="inchannel" data-width="120" style="width:60%;" data-rule="渠道:required;" >
 	            <option value="" >请选择</option>
 	            <option value="0000">中民i投</option>
-	            <option value="0001" >核心柜面</option>
+	            <option value="0001">核心柜面</option>
 	            <option value="0002">O2O</option>
 	            <option value="0003">云石</option>
 	            <option value="0004">基金</option>

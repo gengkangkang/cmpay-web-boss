@@ -324,47 +324,6 @@ public class ConfigServiceImpl implements ConfigService {
 
 	}
 	
-
-
-
-	@Override
-	public MerchantBO getMerById(String id) {
-		CmpayMerchant cmpayMerchant=cmpayMerchantMapper.selectByPrimaryKey(id);
-		MerchantBO merchantBO=new MerchantBO();
-		try {
-			BeanUtils.copyProperties(merchantBO, cmpayMerchant);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return merchantBO;
-	}
-
-
-	@Override
-	public PayChannelBO getChannelById(String id) {
-		CmpayChannel cmpayChannel=cmpayChannelMapper.selectByPrimaryKey(id);
-		PayChannelBO payChannelBO=new PayChannelBO();
-		try {
-			BeanUtils.copyProperties(payChannelBO, cmpayChannel);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return payChannelBO;
-	}
-
-	@Override
-	public ChannelBaseBO getChannelBaseById(String id) {
-		CmpayChannelBase cmpayChannelBase=cmpayChannelBaseMapper.selectByPrimaryKey(id);
-		ChannelBaseBO channelBaseBO=new ChannelBaseBO();
-		try {
-			BeanUtils.copyProperties(channelBaseBO, cmpayChannelBase);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return channelBaseBO;
-	}
-
-
 	@Override
 	public Map updateIpInfo(IpBO ipBO) {
 		 Map resultMap = new HashMap();
@@ -414,6 +373,43 @@ public class ConfigServiceImpl implements ConfigService {
 
 			return resultMap;
 
+	}
+	
+	@Override
+	public MerchantBO getMerById(String id) {
+		CmpayMerchant cmpayMerchant=cmpayMerchantMapper.selectByPrimaryKey(id);
+		MerchantBO merchantBO=new MerchantBO();
+		try {
+			BeanUtils.copyProperties(merchantBO, cmpayMerchant);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return merchantBO;
+	}
+
+
+	@Override
+	public PayChannelBO getChannelById(String id) {
+		CmpayChannel cmpayChannel=cmpayChannelMapper.selectByPrimaryKey(id);
+		PayChannelBO payChannelBO=new PayChannelBO();
+		try {
+			BeanUtils.copyProperties(payChannelBO, cmpayChannel);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return payChannelBO;
+	}
+
+	@Override
+	public ChannelBaseBO getChannelBaseById(String id) {
+		CmpayChannelBase cmpayChannelBase=cmpayChannelBaseMapper.selectByPrimaryKey(id);
+		ChannelBaseBO channelBaseBO=new ChannelBaseBO();
+		try {
+			BeanUtils.copyProperties(channelBaseBO, cmpayChannelBase);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return channelBaseBO;
 	}
 
 	@Override

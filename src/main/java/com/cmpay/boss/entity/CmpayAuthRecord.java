@@ -195,7 +195,7 @@ public class CmpayAuthRecord {
     
     @Override
 	public String toString() {
-		return "CmpayCutOrder [id=" + id + ", merchantid=" + merchantid + ", userid=" + userid + ", inchannel=" + inchannel
+		return "CmpayAuthRecord [id=" + id + ", merchantid=" + merchantid + ", userid=" + userid + ", inchannel=" + inchannel
 				+ ", authchannel=" + authchannel + ", cardno=" + cardno + ", cardtype=" + cardtype + ", idno="
 				+idno + ", idtype=" + idtype + ",name=" + name + ", bankmobile=" + bankmobile
 				+ ", bankcode=" + bankcode + ", terminaltype=" +terminaltype + ",  status=" + status + ", createTime=" + createTime

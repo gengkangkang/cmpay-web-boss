@@ -5,10 +5,9 @@
     <title>修改商户信息</title>
 </head>
 <body>
-
 <div class="bjui-pageContent tableContent">
- <form id="pagerForm" name="merForm" data-toggle="validate" novalidate="novalidate" action="${pageContext.request.contextPath}/merchantManagement/updateMer" method="post">
-    <div class="bjui-searchBar">
+ <form id="pagerForm" name="merForm" data-toggle="validate"  action="${pageContext.request.contextPath}/merchantManagement/updateMer" method="post">
+  
        <div class="form-group" style="margin: 20px 0 20px; ">
       <input type="hidden" value="<c:out value="${merForm.id}"/>"  name="id" />
       </div>
@@ -57,7 +56,7 @@
       	<button type="submit" class="btn-green" data-icon="save" style="width:50%; margin-left: 21%;margin-top: 30px">新&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;增</button>&nbsp;
       </div>
 
-    </div>
+   
   </form>
 </div>
 

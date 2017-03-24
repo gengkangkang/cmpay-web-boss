@@ -9,11 +9,13 @@
 <div class="bjui-pageContent tableContent">
  <form id="pagerForm" name="payChannelForm" data-toggle="validate" novalidate="novalidate" action="${pageContext.request.contextPath}/channelManagement/addNewChannel" method="post">
     <div class="bjui-searchBar">
-          <input type="hidden" name="merchNo"  value="${payChannelForm.merchNo}" />&nbsp;    
+       <input type="hidden" name="merchNo"  value="${payChannelForm.merchNo}" />&nbsp;    
+          
       <div class="form-group" style="margin: 20px 0 20px; ">
       <label class="control-label x85">渠道编号：</label>
       <input type="text"  name="code" style="width:60%;" data-rule="渠道编号:required;" />&nbsp;
       </div>
+      
       <div class="form-group" style="margin: 20px 0 20px; ">
       <label class="control-label x85">渠道名称：</label>
       <input type="text"  name="name" style="width:60%;" data-rule="渠道名称:required;" />&nbsp;

@@ -11,7 +11,7 @@
       
       <div class="form-group" style="margin: 20px 0 20px; ">
       <label class="control-label x85">IP&nbsp;&nbsp;地址：</label>
-      <input type="text" value="<c:out value="${ipManageForm.ip}"/>" name="ip" style="width:60%;" data-rule="IP地址:required;" />&nbsp;
+      <input type="text" value="<c:out value="${ipManageForm.ip}"/>" name="ip" readonly="" style="width:60%;" data-rule="IP地址:required;" />&nbsp;
       </div>
       <div class="form-group" style="margin: 20px 0 20px; ">
        <label class="control-label x85">接入渠道：</label> 

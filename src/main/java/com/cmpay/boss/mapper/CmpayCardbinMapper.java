@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface CmpayCardbinMapper {
+	
     int countByExample(CmpayCardbinExample example);
 
     int deleteByExample(CmpayCardbinExample example);

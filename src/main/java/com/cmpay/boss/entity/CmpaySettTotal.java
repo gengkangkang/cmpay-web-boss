@@ -156,7 +156,7 @@ public class CmpaySettTotal {
     
     @Override
 	public String toString() {
-		return "CmpayCutOrder [batchId=" + batchId + ", inchannel=" + inchannel + ", merNo=" + merNo +
+		return "CmpaySettTotal [batchId=" + batchId + ", inchannel=" + inchannel + ", merNo=" + merNo +
 				", settAmt=" + settAmt + ", settDate=" + settDate + ", settStatus=" + settStatus + 
 				", createTime=" + createTime + ", createor=" + createor + ", modifyTime=" + modifyTime
 				+ ",modifier=" + modifier + ", version=" + version + ", remark=" + remark + ", field1=" 

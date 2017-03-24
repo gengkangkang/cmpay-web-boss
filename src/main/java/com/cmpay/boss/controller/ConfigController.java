@@ -60,7 +60,7 @@ public class ConfigController {
         Pagination<IpBO> ipBOPagination = configService.getAllIp(ipBO);
 
         ipManageForm.setPagination(ipBOPagination);
-
+        
         return "ipmanagelist";
 
     }
@@ -75,9 +75,9 @@ public class ConfigController {
         merchantBO.setPageSize(Integer.valueOf(pageSize));
 
         Pagination<MerchantBO> merBOPagination = configService.getAllMer(merchantBO);
-
+        
         merForm.setPagination(merBOPagination);
-
+        
         return "merchant/mermanagelist";
 
     }
@@ -322,7 +322,7 @@ public class ConfigController {
 
         return resultMap;
     }
-	   
+	  
     @RequestMapping(value = "/channelManagement/addChannel", method = RequestMethod.GET)
     public String goAddNewChannelPage(HttpServletRequest request,@ModelAttribute("payChannelForm") PayChannelForm payChannelForm) {
 
@@ -440,21 +440,6 @@ public class ConfigController {
     	return resultMap;
     }
 
-    @RequestMapping(value = "/merchantManagement/edit", method = RequestMethod.GET)
-    public String modifyMerDetails(HttpServletRequest request,
-    		@ModelAttribute("merForm") MerchantForm merForm) {
-
-        String sid = request.getParameter("sid");
-        MerchantBO MerchantBO = configService.getMerById(sid);
-        try {
-			BeanUtils.copyProperties(merForm, MerchantBO);
-		} catch (Exception e) {
-			logger.error("cope properties 异常！！！！");
-			e.printStackTrace();
-		}
-
-        return "merchant/updmer";
-    }
 
     @RequestMapping(value = "/channelManagement/edit", method = RequestMethod.GET)
     public String modifyChannelDetails(HttpServletRequest request,
@@ -564,6 +549,22 @@ public class ConfigController {
 
     }
 
+    @RequestMapping(value = "/merchantManagement/edit", method = RequestMethod.GET)
+    public String modifyMerDetails(HttpServletRequest request,
+    		@ModelAttribute("merForm") MerchantForm merForm) {
+
+        String sid = request.getParameter("sid");
+        MerchantBO MerchantBO = configService.getMerById(sid);
+        try {
+			BeanUtils.copyProperties(merForm, MerchantBO);
+		} catch (Exception e) {
+			logger.error("cope properties 异常！！！！");
+			e.printStackTrace();
+		}
+
+        return "merchant/updmer";
+    }
+    
     @ResponseBody
     @RequestMapping(value = "/merchantManagement/updateMer", method = RequestMethod.POST)
     public Map updateMer(@ModelAttribute("merForm") MerchantForm merForm) {
