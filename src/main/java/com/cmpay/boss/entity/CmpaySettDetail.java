@@ -186,7 +186,7 @@ public class CmpaySettDetail {
     
     @Override
 	public String toString() {
-		return "CmpayCutOrder [orderId=" + orderId + ", inchannel=" + inchannel + ", merNo=" + merNo +
+		return "CmpaySettDetail [orderId=" + orderId + ", inchannel=" + inchannel + ", merNo=" + merNo +
 				", userId=" + userId + ", transAmt=" + transAmt + ", transType=" + transType + 
 				", transDate=" + transDate + ", payChannel=" + payChannel + ", payStatus=" + payStatus
 				+ ",settStatus=" + settStatus + ", batchId=" + batchId + ", createTime=" + createTime 

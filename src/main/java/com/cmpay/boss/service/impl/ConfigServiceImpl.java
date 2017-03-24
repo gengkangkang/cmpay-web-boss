@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -13,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.cmpay.boss.domain.BankBaseBO;
 import com.cmpay.boss.domain.ChannelBaseBO;
 import com.cmpay.boss.domain.IpBO;
@@ -62,7 +60,7 @@ public class ConfigServiceImpl implements ConfigService {
     private static final Logger logger = LoggerFactory.getLogger(ConfigServiceImpl.class);
 
     @Autowired
-    CMPAYIPBINDINGMapper    cMPAYIPBINDINGMapper;
+    CMPAYIPBINDINGMapper    cmpayIpBindingMapper;
     @Autowired
     CmpayMerchantMapper cmpayMerchantMapper;
     @Autowired
@@ -80,11 +78,11 @@ public class ConfigServiceImpl implements ConfigService {
 	@Override
 	public Pagination<IpBO> getAllIp(IpBO ipBO) {
 
-		int count =cMPAYIPBINDINGMapper.getIpCounts();
+		int count =cmpayIpBindingMapper.getIpCounts();
         Pagination pagination = new Pagination(count, ipBO.getPageCurrent(),ipBO.getPageSize());
         PageHelper.startPage(ipBO.getPageCurrent(), ipBO.getPageSize());
 
-        List<CMPAYIPBINDING> ips=cMPAYIPBINDINGMapper.getAllIp();
+        List<CMPAYIPBINDING> ips=cmpayIpBindingMapper.getAllIp();
         List<IpBO> ipBOList = new ArrayList<>();
         for(CMPAYIPBINDING ipbinding:ips ){
         	IpBO ip=new IpBO();
@@ -157,20 +155,20 @@ public class ConfigServiceImpl implements ConfigService {
 	@Override
 	public Map addNewIp(String ip, String inchannel, String remark) {
         Map resultMap = new HashMap();
-        CMPAYIPBINDING _CMPAYIPBINDING=new CMPAYIPBINDING();
-        _CMPAYIPBINDING.setIp(ip);
-        _CMPAYIPBINDING.setInchannel(inchannel);
-        _CMPAYIPBINDING.setStatus("OFF");
-        _CMPAYIPBINDING.setRemark(remark);
-        _CMPAYIPBINDING.setCreatetime(DateUtil.getCurrTime());
+        CMPAYIPBINDING cmpayIpBinding = new CMPAYIPBINDING();
+        cmpayIpBinding.setIp(ip);
+        cmpayIpBinding.setInchannel(inchannel);
+        cmpayIpBinding.setStatus("OFF");
+        cmpayIpBinding.setRemark(remark);
+        cmpayIpBinding.setCreatetime(DateUtil.getCurrTime());
 
         MonitorRealm.ShiroUser shiroUser = (MonitorRealm.ShiroUser) SecurityUtils.getSubject()
                 .getPrincipal();
         String loginName=shiroUser.getLoginName();
-        _CMPAYIPBINDING.setOperator(loginName);
+        cmpayIpBinding.setOperator(loginName);
         logger.info("新增IP配置执行人[{}],参数[ip={},inchannel={},remark={}]",loginName,ip,inchannel,remark);
 
-        int r=cMPAYIPBINDINGMapper.insert(_CMPAYIPBINDING);
+        int r=cmpayIpBindingMapper.insert(cmpayIpBinding);
 
         if (r != 0) {
             resultMap.put("statusCode", 200);
@@ -311,7 +309,7 @@ public class ConfigServiceImpl implements ConfigService {
 
 	@Override
 	public IpBO getById(String ip) {
-		CMPAYIPBINDING _CMPAYIPBINDING=cMPAYIPBINDINGMapper.selectByPrimaryKey(ip);
+		CMPAYIPBINDING _CMPAYIPBINDING=cmpayIpBindingMapper.selectByPrimaryKey(ip);
 		return convertCMPAYIPBINDINGToIpBO(_CMPAYIPBINDING);
 	}
 
@@ -325,7 +323,58 @@ public class ConfigServiceImpl implements ConfigService {
 		return ipBO;
 
 	}
+	
+	@Override
+	public Map updateIpInfo(IpBO ipBO) {
+		 Map resultMap = new HashMap();
+		 CMPAYIPBINDING _CMPAYIPBINDING=new CMPAYIPBINDING();
+	        _CMPAYIPBINDING.setIp(ipBO.getIp());
+	        _CMPAYIPBINDING.setInchannel(ipBO.getInchannel());
+	        _CMPAYIPBINDING.setStatus(ipBO.getStatus());
+	        _CMPAYIPBINDING.setRemark(ipBO.getRemark());
+	        _CMPAYIPBINDING.setUpdatetime(DateUtil.getCurrTime());
 
+	        MonitorRealm.ShiroUser shiroUser = (MonitorRealm.ShiroUser) SecurityUtils.getSubject()
+	                .getPrincipal();
+	        String loginName=shiroUser.getLoginName();
+	        _CMPAYIPBINDING.setOperator(loginName);
+	        logger.info("修改IP配置执行人[{}],参数[ip={},inchannel={},remark={}]",loginName,ipBO.getIp(),ipBO.getInchannel(),ipBO.getRemark());
+
+	        int r=cmpayIpBindingMapper.updateByPrimaryKeySelective(_CMPAYIPBINDING);
+
+	        if (r != 0) {
+	            resultMap.put("statusCode", 200);
+	            resultMap.put("message", "操作成功!");
+	            resultMap.put("closeCurrent", true);
+	            //操作成功，更新缓存
+	            try{
+	            	logger.info("根据IP【{}】状态[{}]操作缓存",ipBO.getIp(),ipBO.getStatus());
+	            	if(StringUtils.equals(Constants.ON, ipBO.getStatus())){
+	            		logger.info("启用ip地址，添加到缓存中");
+		            	redisUtil.set(RedisConstants.CMPAY_IPCONTROL_+ipBO.getIp(),ipBO.getIp());
+	            	}else if(StringUtils.equals(Constants.OFF, ipBO.getStatus())){
+	            		logger.info("禁用ip地址，从缓存中删除");
+	            		redisUtil.del(RedisConstants.CMPAY_IPCONTROL_+ipBO.getIp());
+	            	}else{
+	            		logger.info("状态未知");
+
+	            	}
+
+	            }catch(Exception e){
+	            	logger.error("修改IP更新到缓存异常！",e);
+	            }
+
+
+	        } else {
+	            resultMap.put("statusCode", 300);
+	            resultMap.put("message", "操作失败!");
+	            resultMap.put("closeCurrent", false);
+	        }
+
+			return resultMap;
+
+	}
+	
 	@Override
 	public MerchantBO getMerById(String id) {
 		CmpayMerchant cmpayMerchant=cmpayMerchantMapper.selectByPrimaryKey(id);
@@ -361,58 +410,6 @@ public class ConfigServiceImpl implements ConfigService {
 			e.printStackTrace();
 		}
 		return channelBaseBO;
-	}
-
-
-	@Override
-	public Map updateIpInfo(IpBO ipBO) {
-		 Map resultMap = new HashMap();
-		 CMPAYIPBINDING _CMPAYIPBINDING=new CMPAYIPBINDING();
-	        _CMPAYIPBINDING.setIp(ipBO.getIp());
-	        _CMPAYIPBINDING.setInchannel(ipBO.getInchannel());
-	        _CMPAYIPBINDING.setStatus(ipBO.getStatus());
-	        _CMPAYIPBINDING.setRemark(ipBO.getRemark());
-	        _CMPAYIPBINDING.setUpdatetime(DateUtil.getCurrTime());
-
-	        MonitorRealm.ShiroUser shiroUser = (MonitorRealm.ShiroUser) SecurityUtils.getSubject()
-	                .getPrincipal();
-	        String loginName=shiroUser.getLoginName();
-	        _CMPAYIPBINDING.setOperator(loginName);
-	        logger.info("修改IP配置执行人[{}],参数[ip={},inchannel={},remark={}]",loginName,ipBO.getIp(),ipBO.getInchannel(),ipBO.getRemark());
-
-	        int r=cMPAYIPBINDINGMapper.updateByPrimaryKeySelective(_CMPAYIPBINDING);
-
-	        if (r != 0) {
-	            resultMap.put("statusCode", 200);
-	            resultMap.put("message", "操作成功!");
-	            resultMap.put("closeCurrent", true);
-	            //操作成功，更新缓存
-	            try{
-	            	logger.info("根据IP【{}】状态[{}]操作缓存",ipBO.getIp(),ipBO.getStatus());
-	            	if(StringUtils.equals(Constants.ON, ipBO.getStatus())){
-	            		logger.info("启用ip地址，添加到缓存中");
-		            	redisUtil.set(RedisConstants.CMPAY_IPCONTROL_+ipBO.getIp(),ipBO.getIp());
-	            	}else if(StringUtils.equals(Constants.OFF, ipBO.getStatus())){
-	            		logger.info("禁用ip地址，从缓存中删除");
-	            		redisUtil.del(RedisConstants.CMPAY_IPCONTROL_+ipBO.getIp());
-	            	}else{
-	            		logger.info("状态未知");
-
-	            	}
-
-	            }catch(Exception e){
-	            	logger.error("修改IP更新到缓存异常！",e);
-	            }
-
-
-	        } else {
-	            resultMap.put("statusCode", 300);
-	            resultMap.put("message", "操作失败!");
-	            resultMap.put("closeCurrent", false);
-	        }
-
-			return resultMap;
-
 	}
 
 	@Override
@@ -517,11 +514,11 @@ public class ConfigServiceImpl implements ConfigService {
 
 	@Override
 	public Pagination<IpBO> getIpByPara(IpBO ipBO) {
-		int count =cMPAYIPBINDINGMapper.getIpCounts();
+		int count =cmpayIpBindingMapper.getIpCounts();
         Pagination pagination = new Pagination(count, ipBO.getPageCurrent(),ipBO.getPageSize());
         PageHelper.startPage(ipBO.getPageCurrent(), ipBO.getPageSize());
 
-        List<CMPAYIPBINDING> ips=cMPAYIPBINDINGMapper.getIpByPara(ipBO);
+        List<CMPAYIPBINDING> ips=cmpayIpBindingMapper.getIpByPara(ipBO);
         List<IpBO> ipBOList = new ArrayList<>();
         for(CMPAYIPBINDING ipbinding:ips ){
         	IpBO ip=new IpBO();
@@ -866,6 +863,7 @@ public class ConfigServiceImpl implements ConfigService {
 		
 	}
 
+	
 
 
 

@@ -80,6 +80,8 @@
 <!-- nice validate -->
 <script src="${pageContext.request.contextPath}/resources/BJUI/plugins/niceValidator/jquery.validator.js"></script>
 <script src="${pageContext.request.contextPath}/resources/BJUI/plugins/niceValidator/jquery.validator.themes.js"></script>
+<script src="${pageContext.request.contextPath}/resources/BJUI/plugins/niceValidator/jQuery.Form.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/resources/BJUI/plugins/niceValidator/jquery.validate.extend.js" charset="UTF-8"></script>
 <!-- bootstrap plugins -->
 <script src="${pageContext.request.contextPath}/resources/BJUI/plugins/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/BJUI/plugins/bootstrapSelect/bootstrap-select.min.js"></script>

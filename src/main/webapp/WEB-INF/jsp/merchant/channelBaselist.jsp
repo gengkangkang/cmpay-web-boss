@@ -14,7 +14,7 @@
             <input type="text" name="code" id="code" style="width:200px;">&nbsp;&nbsp;&nbsp;&nbsp;
             <label>渠道名称：</label>
             <input type="text" name="name" id="name" style="width:200px;">&nbsp;&nbsp;&nbsp;&nbsp;
-            <button type="submit" class="btn-default" data-icon="search" >查询</button>&nbsp 
+            <button type="submit" class="btn-default" data-icon="search" >查询</button>&nbsp; 
             <a href="${pageContext.request.contextPath}/channelManagement/addChannelBase" class="btn btn-green" data-toggle="dialog" data-width="400" data-height="400" data-id="dialog-normal" data-title="新增渠道" data-on-close="fresh">新增渠道</a>
     
         </div>

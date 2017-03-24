@@ -23,6 +23,7 @@ public interface ConfigService {
     Pagination<IpBO> getAllIp(IpBO ipBO);
     Map addNewIp(String ip,String inchannel,String remark);
     IpBO getById(String ip);
+
     Map updateIpInfo(IpBO ipBO);
     Pagination<IpBO> getIpByPara(IpBO ipBO);
 

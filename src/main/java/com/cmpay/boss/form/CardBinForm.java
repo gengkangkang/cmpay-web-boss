@@ -1,10 +1,14 @@
-package com.cmpay.boss.entity;
+package com.cmpay.boss.form;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class CmpayCardbin extends CmpayCardbinKey {
-    private String cardType;
+public class CardBinForm extends BaseForm {
+	private String cardBin;
+
+    private BigDecimal cardLength;
+    
+	private String cardType;
 
     private String bankName;
 
@@ -12,7 +16,7 @@ public class CmpayCardbin extends CmpayCardbinKey {
 
     private String cardStat;
 
-    private String cardName;
+	private String cardName;
 
     private String accountno;
 
@@ -33,6 +37,22 @@ public class CmpayCardbin extends CmpayCardbinKey {
     private String modifier;
 
     private Date modifyTime;
+    
+    public String getCardBin() {
+        return cardBin;
+    }
+
+    public void setCardBin(String cardBin) {
+        this.cardBin = cardBin == null ? null : cardBin.trim();
+    }
+
+    public BigDecimal getCardLength() {
+        return cardLength;
+    }
+
+    public void setCardLength(BigDecimal cardLength) {
+        this.cardLength = cardLength;
+    }
 
     public String getCardType() {
         return cardType;
@@ -154,12 +174,14 @@ public class CmpayCardbin extends CmpayCardbinKey {
         this.modifyTime = modifyTime;
     }
     
+
     @Override
-   	public String toString() {
-   		return "CmpayCardbin [cardType=" + cardType+ ", bankName=" + bankName + ", issuerId=" + issuerId + ", cardStat=" + cardStat
-   				+ ", cardName=" + cardName + ", accountno=" + accountno + ", remark=" + remark + ", jpaVersion="
-   				+jpaVersion + ", cmpayCode=" + cmpayCode + ",cmpayName=" + cmpayName + ", field=" + field
-   				+ ", field1=" + field1 + ", field2=" +field2 + ",  modifier=" + modifier + ", modifyTime=" + modifyTime
-   				+ "]";
-   	}
+	public String toString() {
+		return "CardBinForm [cardBin=" + cardBin + ", cardLength=" + cardLength + ", cardType=" + cardType
+				+ ", bankName=" + bankName + ", issuerId=" + issuerId + ", cardStat=" + cardStat + ", cardName="
+				+ cardName + ", accountno=" + accountno + ", remark=" + remark + ", jpaVersion=" + jpaVersion
+				+ ", cmpayCode=" + cmpayCode + ", cmpayName=" + cmpayName + ", field=" + field + ", field1=" + field1
+				+ ", field2=" + field2 + ", modifier=" + modifier + ", modifyTime=" + modifyTime + "]";
+	}
+
 }
