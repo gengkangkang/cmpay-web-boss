@@ -26,32 +26,32 @@
     </form>
     </div>
     <div class="bjui-pageContent tableContent">
-    <table  class="table table-bordered table-hover table-striped table-top" data-toggle="tablefixed" data-nowrap="true" data-width="150%">
+    <table  class="table table-bordered table-hover table-striped table-top" data-toggle="tablefixed" data-nowrap="true" data-width="180%">
         <thead>
         <tr>
         <th align="center" style="width:230px">订单号</th>
-        <th align="center" style="width:100px">接入渠道</th>
+        <th align="center" style="width:150px">接入渠道</th>
         <th align="center" style="width:150px">商户号</th>
         <th align="center" style="width:200px">用户Id</th>
         <th align="center" style="width:200px">渠道订单号</th>
-        <th align="center" style="width:100px">交易金额</th>
-        <th align="center" style="width:100px">支付渠道</th>
-        <th align="center" style="width:100px">支付状态</th>
-        <th align="center" style="width:100px">姓名</th>
+        <th align="center" style="width:150px">交易金额</th>
+        <th align="center" style="width:2000px">支付渠道</th>
+        <th align="center" style="width:2000px">支付状态</th>
+        <th align="center" style="width:150px">姓名</th>
         <th align="center" style="width:180px">卡号</th>
-        <th align="center" style="width:120px">入账标志</th>        
-        <th align="center" style="width:100px">入账状态</th>
-        <th align="center" style="width:100px">响应码</th>
-        <th align="center" style="width:100px">响应信息</th>
-        <th align="center" style="width:100px">渠道响应码</th>
-        <th align="center" style="width:100px">渠道相应信息</th>
+        <th align="center" style="width:150px">入账标志</th>        
+        <th align="center" style="width:2000px">入账状态</th>
+        <th align="center" style="width:150px">响应码</th>
+        <th align="center" style="width:150px">响应信息</th>
+        <th align="center" style="width:150px">渠道响应码</th>
+        <th align="center" style="width:180px">渠道响应信息</th>
         <th align="center" style="width:150px">创建时间</th>
-        <th align="center" style="width:100px">初审人</th>
-        <th align="center" style="width:100px">初审时间</th>
-        <th align="center" style="width:100px">复审人</th>
-        <th align="center" style="width:100px">复审时间</th>
-        <th align="center" style="width:100px">备注</th>
-        <th align="center" style="width:100px">操作</th>
+        <th align="center" style="width:150px">初审人</th>
+        <th align="center" style="width:180px">初审时间</th>
+        <th align="center" style="width:150px">复审人</th>
+        <th align="center" style="width:180px">复审时间</th>
+        <th align="center" style="width:150px">备注</th>
+        <th align="center" style="width:150px">操作</th>
         </tr>
         </thead>
         <tbody>
@@ -126,7 +126,10 @@
             </c:when>
             <c:when test="${record.inAcct=='4'}">
                    <td align="center" style="color:red">申请补账</td>
-            </c:when>            
+            </c:when>       
+             <c:when test="${record.inAcct=='5'}">
+                   <td align="center" style="color:red">驳回</td>
+            </c:when>         
             <c:otherwise>
                  <td align="center"><c:out value="${record.inAcct}"/></td>
          </c:otherwise>
@@ -145,7 +148,7 @@
         
         <td align="center">
            <%--  <a href="${pageContext.request.contextPath}/orderManagement/edit?sid=<c:out value="${record.id}"/>" class="btn btn-green" data-toggle="dialog" data-width="800" data-height="400" data-id="dialog-normal" data-title="资源信息">补账</a> --%>
-        <button type="button" class="btn btn-red" data-url="${pageContext.request.contextPath}/orderManagement/preAudit?id=${record.id}&isAcct=${record.isAcct}&inAcct=${record.inAcct}" data-toggle="doajax" data-confirm-msg="确定要给该用户重新入账吗？" >补账</button>        </td>
+        <button type="button" class="btn btn-red" data-url="${pageContext.request.contextPath}/orderManagement/preAudit?id=${record.id}&isAcct=${record.isAcct}&inAcct=${record.inAcct}" data-toggle="doajax"  data-on-close='fresh' data-confirm-msg="确定要给该用户重新入账吗？" >补账</button>        </td>
         </tr>
     </c:forEach>
         </tbody>
@@ -170,4 +173,9 @@
     </div>
     
     </body>
-    </html>
+ <script type="text/javascript">
+	       function fresh(){
+	    	   $(this).navtab('refresh')
+	       }
+	</script>
+   </html>

@@ -32,14 +32,13 @@ import com.cmpay.boss.util.Pagination;
  *
  */
 @Controller
-@RequestMapping(value = "/orderManagement")
 public class OrderController {
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
 	@Autowired
 	OrderService orderService;
 
-    @RequestMapping(value = "/query_all_cutorder", method = RequestMethod.GET)
+    @RequestMapping(value = "/orderManagement/query_all_cutorder", method = RequestMethod.GET)
     public String getCutOrder(@ModelAttribute("cutOrderForm") CutOrderForm cutOrderForm){
     	CutOrderBO cutOrderBO = new CutOrderBO();
         String pageCurrent = cutOrderForm.getPageCurrent();
@@ -56,7 +55,8 @@ public class OrderController {
 
     }
     
-    @RequestMapping(value = "/query_all_authOrder", method = RequestMethod.GET)
+        
+    @RequestMapping(value = "/orderManagement/query_all_authOrder", method = RequestMethod.GET)
     public String getAllAuthList(@ModelAttribute("authForm") AuthForm authForm){
     	AuthBO authBO = new AuthBO();
         String pageCurrent = authForm.getPageCurrent();
@@ -74,7 +74,7 @@ public class OrderController {
     }
 
 
-    @RequestMapping(value = "/getCutOrderByPara", method = RequestMethod.POST)
+    @RequestMapping(value = "/orderManagement/getCutOrderByPara", method = RequestMethod.POST)
     public String getCutOrderByPara(@ModelAttribute("cutOrderForm") CutOrderForm cutOrderForm){
     	CutOrderBO cutOrderBO = new CutOrderBO();
         String pageCurrent = cutOrderForm.getPageCurrent();
@@ -109,7 +109,7 @@ public class OrderController {
 
     }
     
-    @RequestMapping(value = "/getAuthListByPara", method = RequestMethod.POST)
+    @RequestMapping(value = "/orderManagement/getAuthListByPara", method = RequestMethod.POST)
     public String getAuthListByPara(@ModelAttribute("authForm") AuthForm authForm){
     	AuthBO authBO = new AuthBO();
         String pageCurrent = authForm.getPageCurrent();
@@ -143,8 +143,9 @@ public class OrderController {
         return "order/authmanagelist";
 
     }
+    
     @ResponseBody
-    @RequestMapping(value = "/preAudit", method = RequestMethod.POST)
+    @RequestMapping(value = "/orderManagement/preAudit", method = RequestMethod.POST)
     public Map preAudit(HttpServletRequest request,
     		@ModelAttribute("cutOrderForm") CutOrderForm cutOrderForm) {
     	Map resultMap = new HashMap();
@@ -177,7 +178,55 @@ public class OrderController {
 
           return resultMap;
     }
+    
+        	
+    @RequestMapping(value = "/recheckOrderManagement/query_all_recheckCutOrder", method = RequestMethod.GET)
+    public String getRecheckCutOrder(@ModelAttribute("cutOrderForm") CutOrderForm cutOrderForm){
+    	CutOrderBO cutOrderBO = new CutOrderBO();
+        String pageCurrent = cutOrderForm.getPageCurrent();
+        String pageSize = cutOrderForm.getPageSize();
+        String inAcct=cutOrderForm.getInAcct();
+        System.out.println(inAcct);
+        System.out.println(pageCurrent);
+       
+        System.out.println(pageSize);
+        cutOrderBO.setPageCurrent(Integer.valueOf(pageCurrent));
+        cutOrderBO.setPageSize(Integer.valueOf(pageSize));
+        cutOrderBO.setInAcct("4");
+        System.out.println(pageSize);
+        System.out.println(cutOrderBO.toString());
+        
+        Pagination<CutOrderBO> cutOrderBOPagination = orderService.getCutOrderByPara(cutOrderBO);
+       
+        cutOrderForm.setPagination(cutOrderBOPagination);
 
+        return "order/recheckcutorders";
 
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/recheckOrderManagement/recheckAudit", method = RequestMethod.POST)
+    public Map recheckAudit(HttpServletRequest request) {
+    	Map resultMap = new HashMap();
+        String id = request.getParameter("id");
+        String status = request.getParameter("status");
+        String inAcct = request.getParameter("inAcct");
+        logger.info("复核信息 id=[{}],status=[{}],inAcct=[{}]",id,status,inAcct);
+        if(StringUtils.equals(inAcct, "4")){
+           resultMap=orderService.reAuditInfo(id,status);
+           
+        }else
+        {
+            resultMap.put("statusCode", 300);
+    		resultMap.put("message", "该笔交易不需要复审");
+    		
+        }
+        
+        System.out.println("result="+resultMap);
+   
+        return resultMap;
+    
+    }
+    
 
 }

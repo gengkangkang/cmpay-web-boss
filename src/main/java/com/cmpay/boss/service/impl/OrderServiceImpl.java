@@ -31,7 +31,7 @@ import com.github.pagehelper.PageHelper;
 
 /**
  * 代扣订单管理
- * @author gengkangkang
+ * @author gengkangkang 
  * @E-mail gengkangkang@cm-inv.com
  *
  * 2016年12月27日 下午5:15:39
@@ -89,6 +89,9 @@ public class OrderServiceImpl implements OrderService {
 		if(StringUtils.isNotBlank(cutOrderBO.getCardNo())){
 			cmpayCutOrderExample.or().andCardNoEqualTo(cutOrderBO.getCardNo());
 		}
+		if(StringUtils.isNotBlank(cutOrderBO.getInAcct())){
+			cmpayCutOrderExample.or().andInAcctEqualTo(cutOrderBO.getInAcct());
+		}
 		if(cutOrderBO.getStartTime() !=null && cutOrderBO.getEndTime() ==null){
 			cmpayCutOrderExample.or().andCreateTimeGreaterThan(cutOrderBO.getStartTime());
 		}
@@ -100,6 +103,8 @@ public class OrderServiceImpl implements OrderService {
 		}
 
         int count=cmpayCutOrderMapper.countByExample(cmpayCutOrderExample);
+        
+        System.out.println(count);
 
         Pagination pagination = new Pagination(count, cutOrderBO.getPageCurrent(),cutOrderBO.getPageSize());
         PageHelper.startPage(cutOrderBO.getPageCurrent(), cutOrderBO.getPageSize());
@@ -145,7 +150,7 @@ public class OrderServiceImpl implements OrderService {
 		        if (r != 0) {
 		            resultMap.put("statusCode", 200);
 		            resultMap.put("message", "申请成功!");
-		            resultMap.put("closeCurrent", true);
+		            resultMap.put("closeCurrent", false);
 		        } else {
 		            resultMap.put("statusCode", 300);
 		            resultMap.put("message", "申请失败!");
@@ -227,7 +232,41 @@ public class OrderServiceImpl implements OrderService {
         return pagination;
 	}
 
+	@Override
+	public Map reAuditInfo(String id, String status) {
+		 Map resultMap = new HashMap();
+			try{
+				 CmpayCutOrder cmpayCutOrder=new CmpayCutOrder();
+				 MonitorRealm.ShiroUser shiroUser = (MonitorRealm.ShiroUser) SecurityUtils.getSubject()
+			                .getPrincipal();
+			        String loginName=shiroUser.getLoginName();
+			        cmpayCutOrder.setRecheckAuditor(loginName);
+			        cmpayCutOrder.setRecheckAuditTime(new Date());
+			        if(StringUtils.equals(status, "0")){
+			        	cmpayCutOrder.setInAcct("5");
+				        cmpayCutOrder.setId(id);
+			        }else{
+			        	cmpayCutOrder.setInAcct("0");
+				        cmpayCutOrder.setId(id);
+			        }
+			        
+			        logger.info("复审信息参数为："+cmpayCutOrder.toString());
+			        int r=cmpayCutOrderMapper.updateByPrimaryKeySelective(cmpayCutOrder);
+			        if (r != 0) {
+			            resultMap.put("statusCode", 200);
+			            resultMap.put("message", "申请成功!");
+			            resultMap.put("closeCurrent", false);
+			        } else {
+			            resultMap.put("statusCode", 300);
+			            resultMap.put("message", "申请失败!");
+			            resultMap.put("closeCurrent", false);
+			        }
 
-
+			}catch(Exception e){
+				logger.error("复审信息异常！！！");
+				e.printStackTrace();
+			}
+			return resultMap;
+	}
 
 }
