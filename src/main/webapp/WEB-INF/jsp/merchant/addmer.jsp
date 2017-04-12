@@ -8,11 +8,10 @@
 
 <div class="bjui-pageContent tableContent">
  <form id="pagerForm" name="merForm" data-toggle="validate"  novalidate="novalidate" action="${pageContext.request.contextPath}/merchantManagement/addNewMer" method="post">
-    <div class="bjui-searchBar">
-    
+   
       <div class="form-group" style="margin: 20px 0 20px; ">
       <label class="control-label x85">商户编号：</label>
-      <input type="text"  name="merchantid" style="width:60%;" data-rule="digits;商户号:required;" />&nbsp;
+      <input type="text"  name="merchantid" style="width:60%;" data-rule="digits;商户编号:required;" />&nbsp;
       </div>
       
       <div class="form-group" style="margin: 20px 0 20px; ">
@@ -48,9 +47,8 @@
       <div class="form-group" style="margin: 30px auto; ">
       <button type="submit" class="btn-green" data-icon="save" style="width:50%; margin-left: 21%;margin-top: 30px" >新&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;增</button>&nbsp;
       </div>
-<%--       action="${pageContext.request.contextPath}/merchantManagement/fresh" method="post" 
- --%>
-    </div>
+
+    
   </form>
 </div>
 

@@ -483,4 +483,23 @@ public class CutOrderBO extends BaseBO {
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
+
+	@Override
+	public String toString() {
+		return "CutOrderBO [id=" + id + ", orderId=" + orderId + ", inchannel=" + inchannel + ", merNo=" + merNo
+				+ ", userId=" + userId + ", origOrderNo=" + origOrderNo + ", transAmt=" + transAmt + ", transType="
+				+ transType + ", payChannel=" + payChannel + ", payStatus=" + payStatus + ", custName=" + custName
+				+ ", idNo=" + idNo + ", idType=" + idType + ", cardNo=" + cardNo + ", bankCode=" + bankCode
+				+ ", inAcct=" + inAcct + ", isAcct=" + isAcct + ", notifyUrl=" + notifyUrl + ", notifyCount="
+				+ notifyCount + ", hasnotify=" + hasnotify + ", returnUrl=" + returnUrl + ", nameGoods=" + nameGoods
+				+ ", orderDesc=" + orderDesc + ", orderDt=" + orderDt + ", payChanelInteracctno=" + payChanelInteracctno
+				+ ", thirdOrderNo=" + thirdOrderNo + ", toAcctNo=" + toAcctNo + ", userregDt=" + userregDt
+				+ ", respCode=" + respCode + ", respMsg=" + respMsg + ", thirdRespCode=" + thirdRespCode
+				+ ", thirdRespMsg=" + thirdRespMsg + ", period=" + period + ", expireTime=" + expireTime + ", orderip="
+				+ orderip + ", createTime=" + createTime + ", modifyTime=" + modifyTime + ", version=" + version
+				+ ", remark=" + remark + ", field1=" + field1 + ", field2=" + field2 + ", field3=" + field3
+				+ ", preAuditor=" + preAuditor + ", preAuditTime=" + preAuditTime + ", recheckAuditor=" + recheckAuditor
+				+ ", recheckAuditTime=" + recheckAuditTime + ", startTime=" + startTime + ", endTime=" + endTime + "]";
+	}
+	
 }

@@ -149,7 +149,7 @@
 		      </div>
 		
 		      <div class="form-group" style="margin: 30px auto; ">
-		      <button type="submit" class="btn-green" data-icon="save" style="width:20%; margin-left: 15%;margin-top: 10px" >新&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;增</button>&nbsp;
+		      <button type="submit" class="btn-green" data-icon="save" style="width:20%; margin-left: 21%;margin-top: 10px" >新&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;增</button>&nbsp;
 		      <button type="reset" class="btn-green" data-icon="reset" style="width:20%; margin-left: 21%;margin-top: 10px" >重&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;置</button>&nbsp;
 		      </div>
 	      			    
