@@ -1,6 +1,5 @@
 package com.cmpay.boss.controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,8 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cmpay.boss.domain.AuthBO;
 import com.cmpay.boss.domain.CutOrderBO;
+import com.cmpay.boss.domain.PayOrderBO;
 import com.cmpay.boss.form.AuthForm;
 import com.cmpay.boss.form.CutOrderForm;
+import com.cmpay.boss.form.PayOrderForm;
 import com.cmpay.boss.service.OrderService;
 import com.cmpay.boss.util.DateUtil;
 import com.cmpay.boss.util.Pagination;
@@ -228,5 +229,54 @@ public class OrderController {
     
     }
     
+    @RequestMapping(value = "/orderManagement/query_all_payorder", method = RequestMethod.GET)
+    public String getAllPayOrder(@ModelAttribute("payOrderForm") PayOrderForm payOrderForm){
+    	PayOrderBO payOrderBO = new PayOrderBO();
+        String pageCurrent = payOrderForm.getPageCurrent();
+        String pageSize = payOrderForm.getPageSize();
+
+        payOrderBO.setPageCurrent(Integer.valueOf(pageCurrent));
+        payOrderBO.setPageSize(Integer.valueOf(pageSize));
+
+        Pagination<PayOrderBO> payOrderBOPagination = orderService.getAllPayOrder(payOrderBO);
+      
+        payOrderForm.setPagination(payOrderBOPagination);
+
+        return "order/payorderlist";
+
+    }
+    
+    @RequestMapping(value = "/orderManagement/getPayOrderByPara", method = RequestMethod.POST)
+    public String getPayOrderByPara(@ModelAttribute("payOrderForm") PayOrderForm payOrderForm){
+    	PayOrderBO payOrderBO = new PayOrderBO();
+        String pageCurrent = payOrderForm.getPageCurrent();
+        String pageSize = payOrderForm.getPageSize();
+        String orderId = payOrderForm.getOrderId();
+        String cardNo = payOrderForm.getCardNo();
+        String startTime = payOrderForm.getStartTime();
+        String endTime = payOrderForm.getEndTime();     
+        payOrderBO.setPageCurrent(Integer.valueOf(pageCurrent));
+        payOrderBO.setPageSize(Integer.valueOf(pageSize));
+        
+        if(StringUtils.isNotBlank(orderId)){
+        	payOrderBO.setOrderId(orderId);
+        }
+        if(StringUtils.isNotBlank(cardNo)){
+        	payOrderBO.setCardNo(cardNo);
+        }
+        if(StringUtils.isNotBlank(startTime)){
+        	payOrderBO.setStartTime(DateUtil.parseTime(startTime));
+        }
+        if(StringUtils.isNotBlank(endTime)){
+        	payOrderBO.setEndTime(DateUtil.parseEndTime(endTime+" 24:00:00"));
+        }
+
+        Pagination<PayOrderBO> payOrderBOPagination = orderService.getPayOrderByPara(payOrderBO);
+        
+        payOrderForm.setPagination(payOrderBOPagination);
+
+        return "order/payorderlist";
+
+    }
 
 }

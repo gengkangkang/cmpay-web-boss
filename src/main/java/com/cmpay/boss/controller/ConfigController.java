@@ -35,8 +35,8 @@ import com.cmpay.boss.util.Pagination;
 
 /**
  * 配置相关功能
- * @author gengkangkang
- * @E-mail gengkangkang@cm-inv.com
+ * @author gengkangkang wangling 
+ * @E-mail gengkangkang@cm-inv.com wangling@cm-inv.com
  *
  * 2016年10月11日 下午2:44:27
  *

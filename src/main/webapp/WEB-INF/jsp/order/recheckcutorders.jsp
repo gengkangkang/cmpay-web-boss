@@ -2,31 +2,22 @@
    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     <%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <html>
+
     <head>
-        <title>代扣订单管理</title>        
+        <title>代扣复审订单管理</title>        
     </head>
+
     <body>
+    
     <div class="bjui-pageHeader">
-    <form id="pagerForm" name="cutOrderForm" data-toggle="ajaxsearch" action="${pageContext.request.contextPath}/orderManagement/getCutOrderByPara" method="post">
+    <form id="pagerForm" name="cutOrderForm" >
         <input type="hidden" name="pageSize" value="${cutOrderForm.pageSize}">
         <input type="hidden" name="pageCurrent" value="${cutOrderForm.pageCurrent}">
-        <div class="bjui-searchBar">
-            <label>订单号：</label>
-            <input type="text" name="orderId" id="orderId">&nbsp;
-            <label>卡号：</label>
-            <input type="text" name="cardNo" id="cardNo">&nbsp;
-             <label>交易日期：</label>
-            <input type="text" name="startTime" id="startTime" value="" data-toggle="datepicker" >&nbsp;
-            <label>-</label>
-            <input type="text" name="endTime" id="endTime" data-toggle="datepicker">&nbsp; 
-            
-            <button type="submit" class="btn-default" data-icon="search">查询</button>&nbsp;
-    
-        </div>
+        
     </form>
     </div>
     <div class="bjui-pageContent tableContent">
-    <table  class="table table-bordered table-hover table-striped table-top" data-toggle="tablefixed" data-nowrap="true" data-width="240%">
+    <table  class="table table-bordered table-hover table-striped table-top" data-toggle="tablefixed" data-nowrap="true" data-width="200%">
         <thead>
         <tr>
         <th align="center" style="width:230px">订单号</th>
@@ -40,7 +31,7 @@
         <th align="center" style="width:150px">姓名</th>
         <th align="center" style="width:180px">卡号</th>
         <th align="center" style="width:150px">入账标志</th>        
-        <th align="center" style="width:150px">入账状态</th>
+        <th align="center" style="width:2000px">入账状态</th>
         <th align="center" style="width:150px">响应码</th>
         <th align="center" style="width:150px">响应信息</th>
         <th align="center" style="width:150px">渠道响应码</th>
@@ -51,7 +42,7 @@
         <th align="center" style="width:150px">复审人</th>
         <th align="center" style="width:180px">复审时间</th>
         <th align="center" style="width:150px">备注</th>
-        <th align="center" style="width:150px">操作</th>
+        <th align="center" style="width:300px">操作</th>
         </tr>
         </thead>
         <tbody>
@@ -64,6 +55,7 @@
          <td align="center"><c:out value="${record.origOrderNo}"/></td>
          <td align="center"><c:out value="${record.transAmt}"/></td>
          <td align="center"><c:out value="${record.payChannel}"/></td>
+         
          <c:choose>
             <c:when test="${record.payStatus=='SUCC'}">
                     <td align="center" style="color:green">成功</td>            
@@ -98,7 +90,6 @@
          </c:choose>                                
          <td align="center"><c:out value="${record.custName}"/></td>
          <td align="center"><c:out value="${record.cardNo}"/></td>        
-        <%--  <td align="center"><c:out value="${record.isAcct}"/></td> --%>
          <c:choose>
             <c:when test="${record.isAcct=='0'}">
                    <td align="center" style="color:red">NO</td>
@@ -110,8 +101,8 @@
                  <td align="center"><c:out value="${record.isAcct}"/></td>
          </c:otherwise>
        </c:choose> 
-       <%--   <td align="center"><c:out value="${record.inAcct}"/></td> --%>
-       <c:choose>
+        <%--  <td align="center"><c:out value="${record.isAcct=='4'}"/>申请补账</td> --%>
+          <c:choose>
             <c:when test="${record.inAcct=='0'}">
                    <td align="center" style="color:red">未入账</td>
             </c:when>
@@ -126,10 +117,10 @@
             </c:when>
             <c:when test="${record.inAcct=='4'}">
                    <td align="center" style="color:red">申请补账</td>
-            </c:when>       
-             <c:when test="${record.inAcct=='5'}">
+            </c:when>      
+              <c:when test="${record.inAcct=='5'}">
                    <td align="center" style="color:red">驳回</td>
-            </c:when>         
+            </c:when>            
             <c:otherwise>
                  <td align="center"><c:out value="${record.inAcct}"/></td>
          </c:otherwise>
@@ -147,8 +138,10 @@
                   
         
         <td align="center">
-           <%--  <a href="${pageContext.request.contextPath}/orderManagement/edit?sid=<c:out value="${record.id}"/>" class="btn btn-green" data-toggle="dialog" data-width="800" data-height="400" data-id="dialog-normal" data-title="资源信息">补账</a> --%>
-        <button type="button" class="btn btn-red" data-url="${pageContext.request.contextPath}/orderManagement/preAudit?id=${record.id}&isAcct=${record.isAcct}&inAcct=${record.inAcct}" data-toggle="doajax"  data-on-close='fresh' data-confirm-msg="确定要给该用户重新入账吗？" >补账</button>        </td>
+        <a  class="btn btn-red"  href="${pageContext.request.contextPath}/recheckOrderManagement/recheckAudit?id=${record.id}&status=0&inAcct=${record.inAcct}"  data-confirm-msg="确定驳回吗？" data-toggle="doajax" data-on-close='fresh'  >驳回</a>    
+        <a  class="btn btn-green" href="${pageContext.request.contextPath}/recheckOrderManagement/recheckAudit?id=${record.id}&status=1&inAcct=${record.inAcct}"  data-confirm-msg="确定重新入账吗？" data-toggle="doajax" data-on-close='fresh' >入账</a>    
+       
+        </td>
         </tr>
     </c:forEach>
         </tbody>
@@ -173,9 +166,12 @@
     </div>
     
     </body>
- <script type="text/javascript">
-	       function fresh(){
-	    	   $(this).navtab('refresh')
-	       }
-	</script>
-   </html>
+    
+   
+   <script type="text/javascript">
+	    function fresh(){
+	 	   $(this).navtab('refresh')
+	    }
+  </script> 
+  
+    </html>

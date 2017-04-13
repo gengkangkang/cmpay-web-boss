@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -12,17 +13,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.cmpay.boss.domain.AuthBO;
 import com.cmpay.boss.domain.CutOrderBO;
-import com.cmpay.boss.domain.OrderRecordBO;
+import com.cmpay.boss.domain.PayOrderBO;
 import com.cmpay.boss.entity.CmpayAuthRecord;
 import com.cmpay.boss.entity.CmpayAuthRecordExample;
 import com.cmpay.boss.entity.CmpayCutOrder;
 import com.cmpay.boss.entity.CmpayCutOrderExample;
-import com.cmpay.boss.entity.CmpayRecord;
-import com.cmpay.boss.entity.CmpayRecordExample;
+import com.cmpay.boss.entity.CmpayPayOrder;
+import com.cmpay.boss.entity.CmpayPayOrderExample;
 import com.cmpay.boss.mapper.CmpayAuthRecordMapper;
 import com.cmpay.boss.mapper.CmpayCutOrderMapper;
+import com.cmpay.boss.mapper.CmpayPayOrderMapper;
 import com.cmpay.boss.service.MonitorRealm;
 import com.cmpay.boss.service.OrderService;
 import com.cmpay.boss.util.Pagination;
@@ -47,6 +50,8 @@ public class OrderServiceImpl implements OrderService {
     CmpayCutOrderMapper cmpayCutOrderMapper;
     @Autowired
     CmpayAuthRecordMapper cmpayAuthRecordMapper;
+    @Autowired
+    CmpayPayOrderMapper cmpayPayOrderMapper;
 
 	@Override
 	public Pagination<CutOrderBO> getAllCutOrder(CutOrderBO cutOrderBO) {
@@ -92,6 +97,7 @@ public class OrderServiceImpl implements OrderService {
 		if(StringUtils.isNotBlank(cutOrderBO.getInAcct())){
 			cmpayCutOrderExample.or().andInAcctEqualTo(cutOrderBO.getInAcct());
 		}
+		
 		if(cutOrderBO.getStartTime() !=null && cutOrderBO.getEndTime() ==null){
 			cmpayCutOrderExample.or().andCreateTimeGreaterThan(cutOrderBO.getStartTime());
 		}
@@ -268,5 +274,87 @@ public class OrderServiceImpl implements OrderService {
 			}
 			return resultMap;
 	}
+
+	@Override
+	public Pagination<PayOrderBO> getAllPayOrder(PayOrderBO payOrderBO) {
+		CmpayPayOrderExample cmpayPayOrderExample=new CmpayPayOrderExample();
+        int count=cmpayPayOrderMapper.countByExample(cmpayPayOrderExample);
+
+        Pagination pagination = new Pagination(count, payOrderBO.getPageCurrent(),payOrderBO.getPageSize());
+        PageHelper.startPage(payOrderBO.getPageCurrent(), payOrderBO.getPageSize());
+        cmpayPayOrderExample.setOrderByClause("CREATE_TIME DESC");
+        List<CmpayPayOrder> paylist=cmpayPayOrderMapper.selectByExample(cmpayPayOrderExample);
+        List<PayOrderBO> payBOList=new ArrayList<PayOrderBO>();
+        for(CmpayPayOrder cmpayPayOrder:paylist){
+        	PayOrderBO payBO=new PayOrderBO();
+        	try {
+				BeanUtils.copyProperties(payBO, cmpayPayOrder);
+				if(StringUtils.isNotBlank(cmpayPayOrder.getPayChannel())){
+					PayWayEnum payWayEnum=PayWayEnum.getByCode(cmpayPayOrder.getPayChannel());
+					if(payWayEnum!=null){
+						payBO.setPayChannel(payWayEnum.getValue());
+					}
+				}
+			} catch (Exception e) {
+				logger.error("cope cmpayPayOrder异常！！！！！！");
+				e.printStackTrace();
+			}
+        	payBOList.add(payBO);
+
+        }
+        pagination.addResult(payBOList);
+
+		return pagination;
+	}
+
+	@Override
+	public Pagination<PayOrderBO> getPayOrderByPara(PayOrderBO payOrderBO) {
+		CmpayPayOrderExample cmpayPayOrderExample=new CmpayPayOrderExample();
+		if(StringUtils.isNotBlank(payOrderBO.getOrderId())){
+			cmpayPayOrderExample.or().andOrderIdEqualTo(payOrderBO.getOrderId());
+		}
+		if(StringUtils.isNotBlank(payOrderBO.getCardNo())){
+			cmpayPayOrderExample.or().andCardNoEqualTo(payOrderBO.getCardNo());
+		}
+    	if(payOrderBO.getStartTime() !=null && payOrderBO.getEndTime() ==null){
+			cmpayPayOrderExample.or().andCreateTimeGreaterThan(payOrderBO.getStartTime());
+		}
+		if(payOrderBO.getEndTime() !=null && payOrderBO.getStartTime() ==null){
+			cmpayPayOrderExample.or().andCreateTimeLessThan(payOrderBO.getEndTime());
+		}
+		if(payOrderBO.getStartTime() !=null && payOrderBO.getEndTime() !=null){
+			cmpayPayOrderExample.or().andCreateTimeBetween(payOrderBO.getStartTime(), payOrderBO.getEndTime());
+		}
+
+        int count=cmpayPayOrderMapper.countByExample(cmpayPayOrderExample);
+        
+        Pagination pagination = new Pagination(count, payOrderBO.getPageCurrent(),payOrderBO.getPageSize());
+        PageHelper.startPage(payOrderBO.getPageCurrent(), payOrderBO.getPageSize());
+        cmpayPayOrderExample.setOrderByClause("CREATE_TIME DESC");
+        List<CmpayPayOrder> paylist=cmpayPayOrderMapper.selectByExample(cmpayPayOrderExample);
+        List<PayOrderBO> payBOList=new ArrayList<PayOrderBO>();
+        for(CmpayPayOrder cmpayPayOrder:paylist){
+        	PayOrderBO payBO=new PayOrderBO();
+        	try {
+				BeanUtils.copyProperties(payBO, cmpayPayOrder);
+				if(StringUtils.isNotBlank(cmpayPayOrder.getPayChannel())){
+					PayWayEnum payWayEnum=PayWayEnum.getByCode(cmpayPayOrder.getPayChannel());
+					if(payWayEnum!=null){
+						payBO.setPayChannel(payWayEnum.getValue());
+					}
+				}
+			} catch (Exception e) {
+				logger.error("cope cmpayPayOrder异常！！！！！！");
+				e.printStackTrace();
+			}
+        	payBOList.add(payBO);
+
+        }
+        pagination.addResult(payBOList);
+
+		return pagination;
+	}
+
+	
 
 }
