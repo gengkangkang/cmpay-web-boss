@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class CardBinForm extends BaseForm {
+
 	private String cardBin;
 
     private BigDecimal cardLength;

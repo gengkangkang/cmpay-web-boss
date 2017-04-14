@@ -1,9 +1,10 @@
-package com.cmpay.boss.entity;
+package com.cmpay.boss.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class CmpayPayOrder {
+public class PayOrderBO extends BaseBO {
+	
     private String orderId;
 
     private String inchannel;
@@ -85,6 +86,11 @@ public class CmpayPayOrder {
     private String field2;
 
     private String field3;
+    
+    private Date startTime;
+    
+    private Date endTime;
+
 
     public String getOrderId() {
         return orderId;
@@ -414,21 +420,20 @@ public class CmpayPayOrder {
         this.field3 = field3 == null ? null : field3.trim();
     }
 
-	@Override
-	public String toString() {
-		return "CmpayPayOrder [orderId=" + orderId + ", inchannel=" + inchannel + ", merNo=" + merNo + ", userId="
-				+ userId + ", origOrderNo=" + origOrderNo + ", backUrl=" + backUrl + ", bankCode=" + bankCode
-				+ ", cardNo=" + cardNo + ", city=" + city + ", custAcctno=" + custAcctno + ", custId=" + custId
-				+ ", custName=" + custName + ", hasnotify=" + hasnotify + ", inAcct=" + inAcct + ", thirdMerchantNo="
-				+ thirdMerchantNo + ", notifyCount=" + notifyCount + ", notifyUrl=" + notifyUrl + ", orderDesc="
-				+ orderDesc + ", orderDt=" + orderDt + ", payChanelInteracctno=" + payChanelInteracctno + ", payStatus="
-				+ payStatus + ", payType=" + payType + ", payChannel=" + payChannel + ", prov=" + prov + ", reAcct="
-				+ reAcct + ", sinpayChannelCode=" + sinpayChannelCode + ", subBank=" + subBank + ", thirdOrderNo="
-				+ thirdOrderNo + ", transAmt=" + transAmt + ", respCode=" + respCode + ", respMsg=" + respMsg
-				+ ", thirdRespCode=" + thirdRespCode + ", thirdRespMsg=" + thirdRespMsg + ", orderip=" + orderip
-				+ ", createTime=" + createTime + ", modifyTime=" + modifyTime + ", version=" + version + ", remark="
-				+ remark + ", field1=" + field1 + ", field2=" + field2 + ", field3=" + field3 + "]";
+	public Date getStartTime() {
+		return startTime;
 	}
-    
-    
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
 }

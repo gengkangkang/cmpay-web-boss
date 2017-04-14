@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.cmpay.boss.domain.AuthBO;
 import com.cmpay.boss.domain.CutOrderBO;
+import com.cmpay.boss.domain.PayOrderBO;
 import com.cmpay.boss.util.Pagination;
 
 /**
@@ -23,5 +24,7 @@ public interface OrderService {
     Pagination<AuthBO> getAllAuthList(AuthBO authBO);
     Pagination<AuthBO> getAuthListByPara(AuthBO authBO);
 
-
+    Pagination<PayOrderBO> getAllPayOrder(PayOrderBO cutOrderBO);
+    Pagination<PayOrderBO> getPayOrderByPara(PayOrderBO cutOrderBO);
+   
 }

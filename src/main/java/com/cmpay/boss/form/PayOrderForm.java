@@ -1,9 +1,10 @@
-package com.cmpay.boss.entity;
+package com.cmpay.boss.form;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class CmpayPayOrder {
+public class PayOrderForm extends BaseForm {
+	
     private String orderId;
 
     private String inchannel;
@@ -85,6 +86,10 @@ public class CmpayPayOrder {
     private String field2;
 
     private String field3;
+    
+    private String startTime;
+    
+    private String endTime;
 
     public String getOrderId() {
         return orderId;
@@ -416,7 +421,7 @@ public class CmpayPayOrder {
 
 	@Override
 	public String toString() {
-		return "CmpayPayOrder [orderId=" + orderId + ", inchannel=" + inchannel + ", merNo=" + merNo + ", userId="
+		return "PayOrderForm [orderId=" + orderId + ", inchannel=" + inchannel + ", merNo=" + merNo + ", userId="
 				+ userId + ", origOrderNo=" + origOrderNo + ", backUrl=" + backUrl + ", bankCode=" + bankCode
 				+ ", cardNo=" + cardNo + ", city=" + city + ", custAcctno=" + custAcctno + ", custId=" + custId
 				+ ", custName=" + custName + ", hasnotify=" + hasnotify + ", inAcct=" + inAcct + ", thirdMerchantNo="
@@ -428,6 +433,22 @@ public class CmpayPayOrder {
 				+ ", thirdRespCode=" + thirdRespCode + ", thirdRespMsg=" + thirdRespMsg + ", orderip=" + orderip
 				+ ", createTime=" + createTime + ", modifyTime=" + modifyTime + ", version=" + version + ", remark="
 				+ remark + ", field1=" + field1 + ", field2=" + field2 + ", field3=" + field3 + "]";
+	}
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
 	}
     
     
