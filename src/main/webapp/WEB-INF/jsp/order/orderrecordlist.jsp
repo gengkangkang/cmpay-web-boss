@@ -59,6 +59,7 @@
         <th align="center">创建时间</th>
         <th align="center">更改时间</th>
         <th align="center">备注</th>
+        <th align="center">操作</th>
         </tr>
         </thead>
         <tbody>
@@ -126,12 +127,11 @@
        </c:choose>                 
         <td align="center"><c:out value="${record.respCode}"/></td>
         <td align="center"><c:out value="${record.respMsg}"/></td>
-<%--         <td align="center"><c:out value="${record.period}"/></td>
-        <td align="center"><c:out value="${record.expireTime}"/></td> --%>
         <td align="center"><c:out value="${record.orderip}"/></td>
         <td align="center"><fmt:formatDate value="${record.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
         <td align="center"><fmt:formatDate value="${record.modifyTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
         <td align="center"><c:out value="${record.remark}"/></td>
+        <td align="center"><button type="button" class="btn btn-red" data-url="${pageContext.request.contextPath}/orderManagement/edit?sid=${record.id}" data-title="修改交易状态信息" data-toggle="dialog" data-width="600" data-height="300" data-on-close="fresh" >修改</button>  </td>
         </tr>
     </c:forEach>
         </tbody>
@@ -157,4 +157,10 @@
  
     
     </body>
+    
+    <script type="text/javascript">
+	    function fresh(){
+	 	   $(this).navtab('refresh')
+	    }
+  </script> 
     </html>

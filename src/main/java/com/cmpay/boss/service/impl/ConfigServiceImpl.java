@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -12,8 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.cmpay.boss.domain.BankBaseBO;
 import com.cmpay.boss.domain.ChannelBaseBO;
+import com.cmpay.boss.domain.ChannelConfigBO;
 import com.cmpay.boss.domain.IpBO;
 import com.cmpay.boss.domain.MerchantBO;
 import com.cmpay.boss.domain.PayChannelBO;
@@ -24,6 +27,8 @@ import com.cmpay.boss.entity.CmpayBankBaseExample;
 import com.cmpay.boss.entity.CmpayChannel;
 import com.cmpay.boss.entity.CmpayChannelBase;
 import com.cmpay.boss.entity.CmpayChannelBaseExample;
+import com.cmpay.boss.entity.CmpayChannelConfig;
+import com.cmpay.boss.entity.CmpayChannelConfigExample;
 import com.cmpay.boss.entity.CmpayChannelExample;
 import com.cmpay.boss.entity.CmpayMerchant;
 import com.cmpay.boss.entity.CmpayMerchantExample;
@@ -33,6 +38,7 @@ import com.cmpay.boss.enums.InchannelEnum;
 import com.cmpay.boss.mapper.CMPAYIPBINDINGMapper;
 import com.cmpay.boss.mapper.CmpayBankBaseMapper;
 import com.cmpay.boss.mapper.CmpayChannelBaseMapper;
+import com.cmpay.boss.mapper.CmpayChannelConfigMapper;
 import com.cmpay.boss.mapper.CmpayChannelMapper;
 import com.cmpay.boss.mapper.CmpayMerchantMapper;
 import com.cmpay.boss.mapper.CmpaySuppBankMapMapper;
@@ -71,6 +77,8 @@ public class ConfigServiceImpl implements ConfigService {
     CmpayBankBaseMapper cmpayBankBaseMapper;
     @Autowired
     CmpaySuppBankMapMapper cmpaySuppBankMapMapper;
+    @Autowired
+    CmpayChannelConfigMapper cmpayChannelConfigMapper;
     @Autowired
     private RedisUtil redisUtil;
 
@@ -863,17 +871,142 @@ public class ConfigServiceImpl implements ConfigService {
 		
 	}
 
+	@Override
+	public Map addNewChannelConfig(ChannelConfigBO channelConfigBO) {
+		Map resultMap = new HashMap();
+		try{
+			CmpayChannelConfig cmpayChannelConfig=new CmpayChannelConfig();
+			BeanUtils.copyProperties(cmpayChannelConfig, channelConfigBO);
+			cmpayChannelConfig.setId(UUIDGenerator.getUUID());
+			cmpayChannelConfig.setCreateTime(new Date());
+			cmpayChannelConfig.setVersion(0);
+	        MonitorRealm.ShiroUser shiroUser = (MonitorRealm.ShiroUser) SecurityUtils.getSubject()
+	                .getPrincipal();
+	        String loginName=shiroUser.getLoginName();
+	        cmpayChannelConfig.setCreator(loginName);
+	        logger.info("新增银行渠道信息参数："+cmpayChannelConfig.toString());
+
+	        int r=cmpayChannelConfigMapper.insert(cmpayChannelConfig);
+
+	        if (r != 0) {
+	            resultMap.put("statusCode", 200);
+	            resultMap.put("message", "操作成功!");
+	            resultMap.put("closeCurrent", true);
+	        } else {
+	            resultMap.put("statusCode", 300);
+	            resultMap.put("message", "操作失败!");
+	            resultMap.put("closeCurrent", false);
+	        }
+
+		}catch(Exception e){
+			logger.error("新增支付渠道配置信息出现异常！！！");
+			e.printStackTrace();
+		}
+		return resultMap;
+	}
+
+	@Override
+	public Pagination<ChannelConfigBO> getAllChannelConfig(ChannelConfigBO channelConfigBO) {
+		CmpayChannelConfigExample cmpayChannelConfigExample=new CmpayChannelConfigExample();
+		int count=cmpayChannelConfigMapper.countByExample(cmpayChannelConfigExample);
+        Pagination pagination = new Pagination(count, channelConfigBO.getPageCurrent(),channelConfigBO.getPageSize());
+        PageHelper.startPage(channelConfigBO.getPageCurrent(), channelConfigBO.getPageSize());
+
+        List<CmpayChannelConfig> channelconfigs=cmpayChannelConfigMapper.selectByExample(cmpayChannelConfigExample);
+        List<ChannelConfigBO> channelconfigBOList=new ArrayList<ChannelConfigBO>();
+        for(CmpayChannelConfig Channelconfig:channelconfigs){
+        	ChannelConfigBO channelCfg=new ChannelConfigBO();
+        	try {
+				BeanUtils.copyProperties(channelCfg, Channelconfig);
+			} catch (Exception e) {
+				logger.error("cope cmpayChannelBase异常！！！！！！");
+				e.printStackTrace();
+			}
+        	channelconfigBOList.add(channelCfg);
+
+        }
+        pagination.addResult(channelconfigBOList);
+
+		return pagination;
+	}
+
+	@Override
+	public Pagination<ChannelConfigBO> getChannelConfigByPara(ChannelConfigBO channelConfigBO) {
+		CmpayChannelConfigExample cmpayChannelConfigExample=new CmpayChannelConfigExample();
+		
+		if(StringUtils.isNotBlank(channelConfigBO.getMerNo())){
+			cmpayChannelConfigExample.createCriteria().andMerNoEqualTo(channelConfigBO.getMerNo());
+		}
+		if(StringUtils.isNotBlank(channelConfigBO.getPaychannelNo())){
+			cmpayChannelConfigExample.createCriteria().andPaychannelNoEqualTo(channelConfigBO.getPaychannelNo());
+		}
+		if(StringUtils.isNotBlank(channelConfigBO.getPaychannelName())){
+			cmpayChannelConfigExample.createCriteria().andPaychannelNameEqualTo(channelConfigBO.getPaychannelName());
+		}
+		int count=cmpayChannelConfigMapper.countByExample(cmpayChannelConfigExample);
+
+        Pagination pagination = new Pagination(count, channelConfigBO.getPageCurrent(),channelConfigBO.getPageSize());
+        PageHelper.startPage(channelConfigBO.getPageCurrent(), channelConfigBO.getPageSize());
+
+        List<CmpayChannelConfig> channelconfigs=cmpayChannelConfigMapper.selectByExample(cmpayChannelConfigExample);
+        List<ChannelConfigBO> channelconfigBOList=new ArrayList<ChannelConfigBO>();
+        for(CmpayChannelConfig Channelconfig:channelconfigs){
+        	ChannelConfigBO channelCfg=new ChannelConfigBO();
+        	try {
+				BeanUtils.copyProperties(channelCfg, Channelconfig);
+			} catch (Exception e) {
+				logger.error("cope cmpayChannelBase异常！！！！！！");
+				e.printStackTrace();
+			}
+        	channelconfigBOList.add(channelCfg);
+
+        }
+        pagination.addResult(channelconfigBOList);
+
+		return pagination;
+	}
+
+	@Override
+	public ChannelConfigBO getChannelConfigById(String id) {
+		CmpayChannelConfig cmpayChannelConfig=cmpayChannelConfigMapper.selectByPrimaryKey(id);
+		ChannelConfigBO channelConfigBO=new ChannelConfigBO();
+		try {
+			BeanUtils.copyProperties(channelConfigBO, cmpayChannelConfig);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return channelConfigBO;
+	}
+
+	@Override
+	public Map updateChannelConfigInfo(ChannelConfigBO channelConfigBO) {
+		 Map resultMap = new HashMap();
+			try{
+				CmpayChannelConfig cmpayChannelConfig=new CmpayChannelConfig();
+				BeanUtils.copyProperties(cmpayChannelConfig, channelConfigBO);
+				 MonitorRealm.ShiroUser shiroUser = (MonitorRealm.ShiroUser) SecurityUtils.getSubject()
+			                .getPrincipal();
+			        String loginName=shiroUser.getLoginName();
+			        cmpayChannelConfig.setModifier(loginName);
+			        cmpayChannelConfig.setModifyTime(new Date());
+			        logger.info("更新支持银行信息参数为："+cmpayChannelConfig.toString());
+			        int r=cmpayChannelConfigMapper.updateByPrimaryKeySelective(cmpayChannelConfig);
+			        if (r != 0) {
+			            resultMap.put("statusCode", 200);
+			            resultMap.put("message", "操作成功!");
+			            resultMap.put("closeCurrent", true);
+			        } else {
+			            resultMap.put("statusCode", 300);
+			            resultMap.put("message", "操作失败!");
+			            resultMap.put("closeCurrent", false);
+			        }
+
+			}catch(Exception e){
+				logger.error("更新支持银行信息异常！！！");
+				e.printStackTrace();
+			}
+			return resultMap;
+	}
+
 	
-
-
-
-
-
-
-
-
-
-
-
-
 }

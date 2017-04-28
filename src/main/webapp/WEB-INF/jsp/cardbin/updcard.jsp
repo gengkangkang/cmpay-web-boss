@@ -10,7 +10,7 @@
   <form id="dialog-updatecard" name="cardupdForm"  data-toggle="validate" action="${pageContext.request.contextPath}/cardManagement/updatecard" method="post">
   		      <div class="form-group" style="margin: 20px 0 20px; ">
 		      <label class="control-label x85">卡bin：</label>
-		      <input type="text"  name="cardBin" style="width:60%;" value="<c:out value="${cardupdForm.cardBin}"/>" data-rule="digits;cardBin:required;" readonly />&nbsp;
+		      <input type="text"  name="cardBin" style="width:60%;" value="<c:out value="${cardupdForm.cardBin}"/>"  readonly />&nbsp;
 		      </div>
 		             
 		      <div class="form-group" style="margin: 20px 0 20px; ">
@@ -20,14 +20,14 @@
 		      
 		      <div class="form-group" style="margin: 20px 0 20px; ">
 		      <label class="control-label x85">卡类别：</label>
-		      <select data-toggle="selectpicker" id="select_type" name="cardType" data-width="120" value="<c:out value="${cardupdForm.cardType}"/>" style="width:60%;" data-rule="渠道:required;" >
-		           <option value="${cardupdForm.cardType}" >${cardupdForm.cardType}</option>
+		      <select data-toggle="selectpicker" id="select_type" name="cardType" value="<c:out value="${cardupdForm.cardType}"/>" >&nbsp;
+		           <option value="${cardupdForm.cardType}">${cardupdForm.cardType}</option>
 		           <option value="D">D</option>
 		           <option value="C">C</option>
 		           <option value="P">P</option>
 		           <option value="C1">C1</option>
 		             
-		            </select> 
+		        </select> 
 		      </div>
 		      			           
 		      <div class="form-group" style="margin: 20px 0 20px; ">

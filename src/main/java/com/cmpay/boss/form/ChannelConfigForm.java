@@ -1,8 +1,9 @@
-package com.cmpay.boss.entity;
+package com.cmpay.boss.form;
 
 import java.util.Date;
 
-public class CmpayChannelConfig {
+public class ChannelConfigForm extends BaseForm {
+	
     private String id;
 
     private String merNo;
@@ -225,7 +226,7 @@ public class CmpayChannelConfig {
 
 	@Override
 	public String toString() {
-		return "CmpayChannelConfig [id=" + id + ", merNo=" + merNo + ", paychannelNo=" + paychannelNo
+		return "ChannelConfigForm [id=" + id + ", merNo=" + merNo + ", paychannelNo=" + paychannelNo
 				+ ", paychannelName=" + paychannelName + ", appid=" + appid + ", appsectet=" + appsectet + ", apptype="
 				+ apptype + ", partnerkey=" + partnerkey + ", rsaprikey=" + rsaprikey + ", rsapubkey=" + rsapubkey
 				+ ", deskey=" + deskey + ", thirdMerid=" + thirdMerid + ", returnUrl=" + returnUrl + ", notifyUrl="
@@ -233,4 +234,6 @@ public class CmpayChannelConfig {
 				+ ", modifier=" + modifier + ", version=" + version + ", remark=" + remark + ", field1=" + field1
 				+ ", field2=" + field2 + "]";
 	}
+    
+    
 }
