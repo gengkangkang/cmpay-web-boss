@@ -19,12 +19,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cmpay.boss.domain.BankBaseBO;
 import com.cmpay.boss.domain.ChannelBaseBO;
+import com.cmpay.boss.domain.ChannelConfigBO;
 import com.cmpay.boss.domain.IpBO;
 import com.cmpay.boss.domain.MerchantBO;
 import com.cmpay.boss.domain.PayChannelBO;
 import com.cmpay.boss.domain.SuppBankBO;
 import com.cmpay.boss.form.BankBaseForm;
 import com.cmpay.boss.form.ChannelBaseForm;
+import com.cmpay.boss.form.ChannelConfigForm;
 import com.cmpay.boss.form.IpManageForm;
 import com.cmpay.boss.form.MerchantForm;
 import com.cmpay.boss.form.PayChannelForm;
@@ -689,5 +691,104 @@ public class ConfigController {
         return resultMap;
 
     }
+    
+    @RequestMapping(value = "/channelConfigManagement/query_all_channelconfig", method = RequestMethod.GET)
+    public String getAllChannelConfig(@ModelAttribute("channelConfigForm") ChannelConfigForm channelConfigForm){
+    	ChannelConfigBO channelConfigBO = new ChannelConfigBO();
+        String pageCurrent = channelConfigForm.getPageCurrent();
+        String pageSize = channelConfigForm.getPageSize();
 
+        channelConfigBO.setPageCurrent(Integer.valueOf(pageCurrent));
+        channelConfigBO.setPageSize(Integer.valueOf(pageSize));
+
+        Pagination<ChannelConfigBO> channelConfigPagination = configService.getAllChannelConfig(channelConfigBO);
+
+        channelConfigForm.setPagination(channelConfigPagination);
+
+        return "channelconfig/channelconfiglist";
+
+    }
+    @RequestMapping(value = "/channelConfigManagement/getChannelConfigByPara", method = RequestMethod.POST)
+    public String getChannelConfigByPara(@ModelAttribute("channelConfigForm") ChannelConfigForm channelConfigForm){
+    	ChannelConfigBO channelConfigBO = new ChannelConfigBO();
+    	String pageCurrent = channelConfigForm.getPageCurrent();
+        String pageSize = channelConfigForm.getPageSize();
+
+        channelConfigBO.setPageCurrent(Integer.valueOf(pageCurrent));
+        channelConfigBO.setPageSize(Integer.valueOf(pageSize));
+
+        if(StringUtils.isNotBlank(channelConfigForm.getMerNo())){
+        	channelConfigBO.setMerNo(channelConfigForm.getMerNo());
+        }
+        if(StringUtils.isNotBlank(channelConfigForm.getPaychannelNo())){
+        	channelConfigBO.setPaychannelNo(channelConfigForm.getPaychannelNo());
+        }
+        if(StringUtils.isNotBlank(channelConfigForm.getPaychannelName())){
+        	channelConfigBO.setPaychannelName(channelConfigForm.getPaychannelName());
+		}
+        System.out.print(channelConfigBO);
+        Pagination<ChannelConfigBO> channelConfigPagination = configService.getChannelConfigByPara(channelConfigBO);
+
+        channelConfigForm.setPagination(channelConfigPagination);
+
+        return "channelconfig/channelconfiglist";
+
+    }
+   
+    @ResponseBody
+    @RequestMapping(value = "/channelConfigManagement/addNewconfig", method = RequestMethod.POST)
+    public Map addNewChannelConfig(@ModelAttribute("configaddForm") ChannelConfigForm configaddForm) {
+    Map resultMap = new HashMap();
+    ChannelConfigBO channelConfigBO = new ChannelConfigBO();
+        try {
+			BeanUtils.copyProperties(channelConfigBO, configaddForm);
+		} catch (Exception e) {
+			logger.error("cope properties出现异常！！！！");
+			e.printStackTrace();
+		}
+
+        resultMap = configService.addNewChannelConfig(channelConfigBO);
+
+        return resultMap;
+    }
+    
+    @RequestMapping(value = "/channelConfigManagement/edit", method = RequestMethod.GET)
+    public String modifyChannelConfigDetails(HttpServletRequest request,
+    		@ModelAttribute("channelConfigForm") ChannelConfigForm channelConfigForm) {
+
+        String sid = request.getParameter("sid");
+        ChannelConfigBO channelConfigBO=configService.getChannelConfigById(sid);
+        try {
+			BeanUtils.copyProperties(channelConfigForm, channelConfigBO);
+		} catch (Exception e) {
+			logger.error("cope properties 异常！！！！");
+			e.printStackTrace();
+		}
+
+        return "channelconfig/updchannelconfig";
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/channelConfigManagement/updateChanneConfig", method = RequestMethod.POST)
+    public Map updateChanneConfig(@ModelAttribute("channelConfigForm") ChannelConfigForm channelConfigForm) {
+        Map resultMap = new HashMap();
+        ChannelConfigBO channelConfigBO = new ChannelConfigBO();
+        String id=channelConfigForm.getId();
+
+        try {
+        	BeanUtils.copyProperties(channelConfigBO, channelConfigForm);
+            resultMap = configService.updateChannelConfigInfo(channelConfigBO);
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+            resultMap.put("statusCode", 300);
+            resultMap.put("message", "更新渠道配置信息操作失败!");
+
+        }
+        return resultMap;
+
+    }
+    
+	
+
+	
 }

@@ -1,4 +1,10 @@
 package com.cmpay.boss.controller;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cmpay.boss.domain.OrderRecordBO;
 import com.cmpay.boss.form.OrderRecordForm;
@@ -79,4 +86,53 @@ public class OrderRecordController {
         return "order/orderrecordlist";
 
     }
+    
+    @RequestMapping(value = "/orderManagement/edit", method = RequestMethod.GET)
+    public String modifyOrderDetails(HttpServletRequest request,
+    		@ModelAttribute("orderRecordForm") OrderRecordForm orderRecordForm) {
+
+        String sid = request.getParameter("sid");
+        OrderRecordBO orderRecordBO=orderRecordService.getOrderRecordById(sid);
+        try {
+			BeanUtils.copyProperties(orderRecordForm, orderRecordBO);
+		} catch (Exception e) {
+			logger.error("cope properties 异常！！！！");
+			e.printStackTrace();
+		}
+
+        return "order/updorder";
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/orderManagement/updateOrder", method = RequestMethod.POST)
+    public Map updateOrderRecordInfo(@ModelAttribute("orderRecordForm") OrderRecordForm orderRecordForm) {
+        Map resultMap = new HashMap();
+        String id=orderRecordForm.getId();
+        OrderRecordBO orderRecordBO=orderRecordService.getOrderRecordById(id);
+        
+        String payStatus=orderRecordBO.getPayStatus();
+        
+        logger.info("修改信息 id=[{}],payStatus=[{}]",id,payStatus);
+      
+        if(StringUtils.equals(payStatus, "DEALING")){
+        	 try {
+             	BeanUtils.copyProperties(orderRecordBO, orderRecordForm);
+                 resultMap = orderRecordService.updateOrderRecordInfo(orderRecordBO);
+             } catch (Exception ex) {
+                 logger.error(ex.getMessage());
+                 resultMap.put("statusCode", 300);
+                 resultMap.put("message", "更新交易订单状态信息操作失败!");
+
+             }
+           
+        }else{
+        	resultMap.put("statusCode", 300);
+    		resultMap.put("message", "此状态订单不在修改范围内！");
+    		
+        }
+       
+        return resultMap;
+
+    }
+    
 }

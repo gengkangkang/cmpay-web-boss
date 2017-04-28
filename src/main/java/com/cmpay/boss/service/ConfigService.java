@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.cmpay.boss.domain.BankBaseBO;
 import com.cmpay.boss.domain.ChannelBaseBO;
+import com.cmpay.boss.domain.ChannelConfigBO;
 import com.cmpay.boss.domain.IpBO;
 import com.cmpay.boss.domain.MerchantBO;
 import com.cmpay.boss.domain.PayChannelBO;
@@ -59,6 +60,13 @@ public interface ConfigService {
     Map addNewSuppBank(SuppBankBO suppBankBO);
     SuppBankBO getSuppBankById(String id);
     Map updateSuppBankInfo(SuppBankBO suppBankBO);
+    
+    // 支付渠道配置相关
+    Map addNewChannelConfig(ChannelConfigBO channelConfigBO);
+    Pagination<ChannelConfigBO> getAllChannelConfig(ChannelConfigBO channelConfigBO);
+    Pagination<ChannelConfigBO> getChannelConfigByPara(ChannelConfigBO channelConfigBO);
+    ChannelConfigBO getChannelConfigById(String id);
+    Map updateChannelConfigInfo(ChannelConfigBO channelConfigBO);
 
 
 
