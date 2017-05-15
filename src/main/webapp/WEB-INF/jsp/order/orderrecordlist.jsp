@@ -78,7 +78,10 @@
                     <td align="center" style="color:green">充值</td>            
             </c:when>
             <c:when test="${record.transType=='WITHDRAW'}">
-                    <td align="center" style="color:red">提现</td> 
+                    <td align="center" style="color:red">代付</td> 
+            </c:when>
+            <c:when test="${record.transType=='PAYCUT'}">
+                    <td align="center" style="color:red">代扣</td> 
             </c:when>
             <c:when test="${record.transType=='CONSUME'}">
                     <td align="center" style="color:green">消费</td> 
