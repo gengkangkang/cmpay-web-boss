@@ -31,6 +31,8 @@
 	            <option value="0010">三方支付</option>
 	            <option value="0012">UMP</option>
 	            <option value="0013" >CMPAY</option>
+	            <option value="0014" >小贷</option>
+	            <option value="0015" >中民居家网</option>
 	            <option value="9999">一账通</option>        
       </select> 
     

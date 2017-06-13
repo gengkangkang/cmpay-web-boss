@@ -34,7 +34,6 @@ import com.cmpay.boss.entity.CmpayMerchant;
 import com.cmpay.boss.entity.CmpayMerchantExample;
 import com.cmpay.boss.entity.CmpaySuppBankMap;
 import com.cmpay.boss.entity.CmpaySuppBankMapExample;
-import com.cmpay.boss.enums.InchannelEnum;
 import com.cmpay.boss.mapper.CMPAYIPBINDINGMapper;
 import com.cmpay.boss.mapper.CmpayBankBaseMapper;
 import com.cmpay.boss.mapper.CmpayChannelBaseMapper;
@@ -48,6 +47,7 @@ import com.cmpay.boss.util.Constant;
 import com.cmpay.boss.util.DateUtil;
 import com.cmpay.boss.util.Pagination;
 import com.cmpay.boss.util.UUIDGenerator;
+import com.cmpay.common.enums.InChannelEnum;
 import com.cmpay.common.util.Constants;
 import com.cmpay.common.util.RedisConstants;
 import com.cmpay.common.util.RedisUtil;
@@ -95,7 +95,7 @@ public class ConfigServiceImpl implements ConfigService {
         for(CMPAYIPBINDING ipbinding:ips ){
         	IpBO ip=new IpBO();
             ip.setIp(ipbinding.getIp());
-            ip.setInchannel(InchannelEnum.getInchannelByCode(ipbinding.getInchannel()).getName());
+            ip.setInchannel(InChannelEnum.getInchannelByCode(ipbinding.getInchannel()));
             ip.setStatus(ipbinding.getStatus());
             ip.setCreatetime(ipbinding.getCreatetime());
             ip.setUpdatetime(ipbinding.getUpdatetime());
@@ -331,7 +331,7 @@ public class ConfigServiceImpl implements ConfigService {
 		return ipBO;
 
 	}
-	
+
 	@Override
 	public Map updateIpInfo(IpBO ipBO) {
 		 Map resultMap = new HashMap();
@@ -382,7 +382,7 @@ public class ConfigServiceImpl implements ConfigService {
 			return resultMap;
 
 	}
-	
+
 	@Override
 	public MerchantBO getMerById(String id) {
 		CmpayMerchant cmpayMerchant=cmpayMerchantMapper.selectByPrimaryKey(id);
@@ -531,7 +531,7 @@ public class ConfigServiceImpl implements ConfigService {
         for(CMPAYIPBINDING ipbinding:ips ){
         	IpBO ip=new IpBO();
             ip.setIp(ipbinding.getIp());
-            ip.setInchannel(InchannelEnum.getInchannelByCode(ipbinding.getInchannel()).getName());
+            ip.setInchannel(InChannelEnum.getInchannelByCode(ipbinding.getInchannel()));
             ip.setStatus(ipbinding.getStatus());
             ip.setCreatetime(ipbinding.getCreatetime());
             ip.setUpdatetime(ipbinding.getUpdatetime());
@@ -836,7 +836,7 @@ public class ConfigServiceImpl implements ConfigService {
         pagination.addResult(chasBOList);
 
 		return pagination;
-		
+
 	}
 
 	@Override
@@ -868,7 +868,7 @@ public class ConfigServiceImpl implements ConfigService {
         pagination.addResult(bankBOList);
 
 		return pagination;
-		
+
 	}
 
 	@Override
@@ -933,7 +933,7 @@ public class ConfigServiceImpl implements ConfigService {
 	@Override
 	public Pagination<ChannelConfigBO> getChannelConfigByPara(ChannelConfigBO channelConfigBO) {
 		CmpayChannelConfigExample cmpayChannelConfigExample=new CmpayChannelConfigExample();
-		
+
 		if(StringUtils.isNotBlank(channelConfigBO.getMerNo())){
 			cmpayChannelConfigExample.createCriteria().andMerNoEqualTo(channelConfigBO.getMerNo());
 		}
@@ -1008,5 +1008,5 @@ public class ConfigServiceImpl implements ConfigService {
 			return resultMap;
 	}
 
-	
+
 }
