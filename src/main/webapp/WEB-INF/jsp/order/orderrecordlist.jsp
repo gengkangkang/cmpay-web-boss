@@ -7,14 +7,15 @@
     </head>
     <body>
     <div class="bjui-pageHeader">
-    <form id="pagerForm" name="orderRecordForm" data-toggle="ajaxsearch" action="${pageContext.request.contextPath}/orderManagement/getOrderRecordByPara " method="post">
+    <form id="pagerForm" name="orderRecordForm" data-toggle="ajaxsearch" action="${pageContext.request.contextPath}/orderManagement/getOrderRecordByPara" method="post">
         <input type="hidden" name="pageSize" value="${orderRecordForm.pageSize}">
         <input type="hidden" name="pageCurrent" value="${orderRecordForm.pageCurrent}">
         <div class="bjui-searchBar">
-            <label>查找资源：</label>
-            <label>订单号：</label>
-            <input type="text" name="orderId" id="orderId" style="width:200px;">&nbsp;&nbsp;&nbsp;&nbsp;
             
+            <label>订单号：</label>
+            <input type="text" name="orderId" id="orderId" value="${orderRecordForm.orderId}" style="width:200px;">&nbsp;&nbsp;
+            <label>商户号：</label>
+            <input type="text" name="merNo" id="merNo" value="${orderRecordForm.merNo}" style="width:150px;">&nbsp;&nbsp;          
             <label class="row-label">支付状态</label>
     
             <select data-toggle="selectpicker"  id="payStatus" name="payStatus" data-width="120">
@@ -31,11 +32,11 @@
             </select> &nbsp;&nbsp;&nbsp;&nbsp;
     
             <label>创建时间：</label>
-            <input type="text" name="startTime" id="startTime"  data-toggle="datepicker"  style="width:130px;">&nbsp;
+            <input type="text" name="startTime" id="startTime" value="${orderRecordForm.startTime}"  data-toggle="datepicker"  style="width:130px;">&nbsp;
             <label>-</label>
-            <input type="text" name="endTime" id="endTime" data-toggle="datepicker" style="width:120px;">&nbsp;&nbsp;&nbsp;&nbsp; 
+            <input type="text" name="endTime" id="endTime" value="${orderRecordForm.endTime}" data-toggle="datepicker" style="width:120px;">&nbsp;&nbsp;&nbsp;&nbsp; 
             
-            <button type="submit" class="btn-default" data-icon="search" >查询</button>&nbsp    
+            <button type="submit" class="btn-default" data-icon="search">查询</button>&nbsp    
         </div>
     </form>
     </div>

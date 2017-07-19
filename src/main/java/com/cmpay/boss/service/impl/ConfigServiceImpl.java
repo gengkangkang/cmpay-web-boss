@@ -328,6 +328,7 @@ public class ConfigServiceImpl implements ConfigService {
 		ipBO.setStatus(_CMPAYIPBINDING.getStatus());
 		ipBO.setCreatetime(_CMPAYIPBINDING.getCreatetime());
 		ipBO.setOperator(_CMPAYIPBINDING.getOperator());
+		ipBO.setRemark(_CMPAYIPBINDING.getRemark());
 		return ipBO;
 
 	}

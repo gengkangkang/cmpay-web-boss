@@ -61,6 +61,7 @@ public class OrderRecordController {
         String payStatus = orderRecordForm.getPayStatus();
         String startTime = orderRecordForm.getStartTime();
         String endTime = orderRecordForm.getEndTime();
+        String merNo=orderRecordForm.getMerNo();
 
         orderRecordBO.setPageCurrent(Integer.valueOf(pageCurrent));
         orderRecordBO.setPageSize(Integer.valueOf(pageSize));
@@ -78,6 +79,9 @@ public class OrderRecordController {
         if(StringUtils.isNotBlank(endTime)){
         	orderRecordBO.setEndTime(DateUtil.parseEndTime(endTime+" 24:00:00"));
         }
+        if(StringUtils.isNotBlank(merNo)){
+        	orderRecordBO.setMerNo(merNo);
+        }
 
         Pagination<OrderRecordBO> orderRecordBOPagination = orderRecordService.getOrderRecordByPara(orderRecordBO);
 
@@ -86,7 +90,7 @@ public class OrderRecordController {
         return "order/orderrecordlist";
 
     }
-    
+
     @RequestMapping(value = "/orderManagement/edit", method = RequestMethod.GET)
     public String modifyOrderDetails(HttpServletRequest request,
     		@ModelAttribute("orderRecordForm") OrderRecordForm orderRecordForm) {
@@ -102,18 +106,18 @@ public class OrderRecordController {
 
         return "order/updorder";
     }
-    
+
     @ResponseBody
     @RequestMapping(value = "/orderManagement/updateOrder", method = RequestMethod.POST)
     public Map updateOrderRecordInfo(@ModelAttribute("orderRecordForm") OrderRecordForm orderRecordForm) {
         Map resultMap = new HashMap();
         String id=orderRecordForm.getId();
         OrderRecordBO orderRecordBO=orderRecordService.getOrderRecordById(id);
-        
+
         String payStatus=orderRecordBO.getPayStatus();
-        
+
         logger.info("修改信息 id=[{}],payStatus=[{}]",id,payStatus);
-      
+
         if(StringUtils.equals(payStatus, "DEALING")){
         	 try {
              	BeanUtils.copyProperties(orderRecordBO, orderRecordForm);
@@ -124,15 +128,15 @@ public class OrderRecordController {
                  resultMap.put("message", "更新交易订单状态信息操作失败!");
 
              }
-           
+
         }else{
         	resultMap.put("statusCode", 300);
     		resultMap.put("message", "此状态订单不在修改范围内！");
-    		
+
         }
-       
+
         return resultMap;
 
     }
-    
+
 }

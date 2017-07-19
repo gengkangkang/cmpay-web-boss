@@ -49,14 +49,14 @@ public class OrderController {
         cutOrderBO.setPageSize(Integer.valueOf(pageSize));
 
         Pagination<CutOrderBO> cutOrderBOPagination = orderService.getAllCutOrder(cutOrderBO);
-      
+
         cutOrderForm.setPagination(cutOrderBOPagination);
 
         return "order/cutordermanagelist";
 
     }
-    
-        
+
+
     @RequestMapping(value = "/orderManagement/query_all_authOrder", method = RequestMethod.GET)
     public String getAllAuthList(@ModelAttribute("authForm") AuthForm authForm){
     	AuthBO authBO = new AuthBO();
@@ -109,7 +109,7 @@ public class OrderController {
         return "order/cutordermanagelist";
 
     }
-    
+
     @RequestMapping(value = "/orderManagement/getAuthListByPara", method = RequestMethod.POST)
     public String getAuthListByPara(@ModelAttribute("authForm") AuthForm authForm){
     	AuthBO authBO = new AuthBO();
@@ -144,7 +144,7 @@ public class OrderController {
         return "order/authmanagelist";
 
     }
-    
+
     @ResponseBody
     @RequestMapping(value = "/orderManagement/preAudit", method = RequestMethod.POST)
     public Map preAudit(HttpServletRequest request,
@@ -179,8 +179,8 @@ public class OrderController {
 
           return resultMap;
     }
-    
-        	
+
+
     @RequestMapping(value = "/recheckOrderManagement/query_all_recheckCutOrder", method = RequestMethod.GET)
     public String getRecheckCutOrder(@ModelAttribute("cutOrderForm") CutOrderForm cutOrderForm){
     	CutOrderBO cutOrderBO = new CutOrderBO();
@@ -189,22 +189,22 @@ public class OrderController {
         String inAcct=cutOrderForm.getInAcct();
         System.out.println(inAcct);
         System.out.println(pageCurrent);
-       
+
         System.out.println(pageSize);
         cutOrderBO.setPageCurrent(Integer.valueOf(pageCurrent));
         cutOrderBO.setPageSize(Integer.valueOf(pageSize));
         cutOrderBO.setInAcct("4");
         System.out.println(pageSize);
         System.out.println(cutOrderBO.toString());
-        
+
         Pagination<CutOrderBO> cutOrderBOPagination = orderService.getCutOrderByPara(cutOrderBO);
-       
+
         cutOrderForm.setPagination(cutOrderBOPagination);
 
         return "order/recheckcutorders";
 
     }
-    
+
     @ResponseBody
     @RequestMapping(value = "/recheckOrderManagement/recheckAudit", method = RequestMethod.POST)
     public Map recheckAudit(HttpServletRequest request) {
@@ -215,20 +215,20 @@ public class OrderController {
         logger.info("复核信息 id=[{}],status=[{}],inAcct=[{}]",id,status,inAcct);
         if(StringUtils.equals(inAcct, "4")){
            resultMap=orderService.reAuditInfo(id,status);
-           
+
         }else
         {
             resultMap.put("statusCode", 300);
     		resultMap.put("message", "该笔交易不需要复审");
-    		
+
         }
-        
+
         System.out.println("result="+resultMap);
-   
+
         return resultMap;
-    
+
     }
-    
+
     @RequestMapping(value = "/orderManagement/query_all_payorder", method = RequestMethod.GET)
     public String getAllPayOrder(@ModelAttribute("payOrderForm") PayOrderForm payOrderForm){
     	PayOrderBO payOrderBO = new PayOrderBO();
@@ -239,13 +239,13 @@ public class OrderController {
         payOrderBO.setPageSize(Integer.valueOf(pageSize));
 
         Pagination<PayOrderBO> payOrderBOPagination = orderService.getAllPayOrder(payOrderBO);
-      
+
         payOrderForm.setPagination(payOrderBOPagination);
 
         return "order/payorderlist";
 
     }
-    
+
     @RequestMapping(value = "/orderManagement/getPayOrderByPara", method = RequestMethod.POST)
     public String getPayOrderByPara(@ModelAttribute("payOrderForm") PayOrderForm payOrderForm){
     	PayOrderBO payOrderBO = new PayOrderBO();
@@ -254,10 +254,12 @@ public class OrderController {
         String orderId = payOrderForm.getOrderId();
         String cardNo = payOrderForm.getCardNo();
         String startTime = payOrderForm.getStartTime();
-        String endTime = payOrderForm.getEndTime();     
+        String endTime = payOrderForm.getEndTime();
         payOrderBO.setPageCurrent(Integer.valueOf(pageCurrent));
         payOrderBO.setPageSize(Integer.valueOf(pageSize));
-        
+
+        String merNo=payOrderForm.getMerNo();
+
         if(StringUtils.isNotBlank(orderId)){
         	payOrderBO.setOrderId(orderId);
         }
@@ -271,8 +273,12 @@ public class OrderController {
         	payOrderBO.setEndTime(DateUtil.parseEndTime(endTime+" 24:00:00"));
         }
 
+        if(StringUtils.isNotBlank(merNo)){
+        	payOrderBO.setMerNo(merNo);
+        }
+
         Pagination<PayOrderBO> payOrderBOPagination = orderService.getPayOrderByPara(payOrderBO);
-        
+
         payOrderForm.setPagination(payOrderBOPagination);
 
         return "order/payorderlist";

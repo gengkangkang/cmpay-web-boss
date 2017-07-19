@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>修改IP</title>
+    
 </head>
 <body>
 
@@ -15,8 +16,8 @@
       </div>
       <div class="form-group" style="margin: 20px 0 20px; ">
        <label class="control-label x85">接入渠道：</label> 
-       <select data-toggle="selectpicker" value="<c:out value="${ipManageForm.inchannel}"/>"  name="inchannel" data-width="120" style="width:60%;" data-rule="required;" >
-	            <option value=null selected = "selected" disabled="disabled" >请选择</option>
+       <select data-toggle="selectpicker" id="modify_ip_inchannel"  name="inchannel" data-width="120" style="width:60%;" data-rule="required;" >
+	            <option value="" >请选择</option>
 	            <option value="0000" >中民i投</option>
 	            <option value="0001">核心柜面</option>
 	            <option value="0002">O2O</option>
@@ -30,6 +31,8 @@
 	            <option value="0010">三方支付</option>
 	            <option value="0012">UMP</option>
 	            <option value="0013" >CMPAY</option>
+	            <option value="0014" >小贷</option>
+	            <option value="0015" >中民居家网</option>
 	            <option value="9999">一账通</option>        
        </select> 
      </div>
@@ -59,7 +62,7 @@
       </div>
 
       <div class="form-group" style="margin: 30px auto; ">
-      <button type="submit" class="btn-green" data-icon="save" style="width:50%; margin-left: 21%;margin-top: 30px">新&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;增</button>&nbsp;
+      <button type="submit" class="btn-green" data-icon="save" style="width:50%; margin-left: 21%;margin-top: 30px">修&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;改</button>&nbsp;
       </div>
 
     

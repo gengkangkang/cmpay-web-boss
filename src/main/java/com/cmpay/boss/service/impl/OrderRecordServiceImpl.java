@@ -18,13 +18,14 @@ import com.cmpay.boss.entity.CmpayRecordExample;
 import com.cmpay.boss.mapper.CmpayRecordMapper;
 import com.cmpay.boss.service.OrderRecordService;
 import com.cmpay.boss.util.Pagination;
+import com.cmpay.common.enums.InChannelEnum;
 import com.github.pagehelper.PageHelper;
 
 @Service
 public class OrderRecordServiceImpl implements OrderRecordService {
     private static final Logger logger = LoggerFactory.getLogger(OrderRecordServiceImpl.class);
 
-  
+
     @Autowired
     CmpayRecordMapper cmpayRecordMapper;
 
@@ -45,6 +46,13 @@ public class OrderRecordServiceImpl implements OrderRecordService {
                 logger.error("cope cmpayRecord异常！！！！！！");
                 e.printStackTrace();
             }
+            //接入渠道
+
+            String inchannel=cmpayRecord.getInchannel();
+            if(StringUtils.isNoneBlank(inchannel)){
+            	inchannel=InChannelEnum.getInchannelByCode(inchannel);
+            	orderRecBO.setInchannel(inchannel);
+            }
             orderRecordBOList.add(orderRecBO);
 
         }
@@ -56,7 +64,7 @@ public class OrderRecordServiceImpl implements OrderRecordService {
 	@Override
 	public Pagination<OrderRecordBO> getOrderRecordByPara(OrderRecordBO orderRecordBO) {
 		CmpayRecordExample cmpayRecordExample=new CmpayRecordExample();
-       
+
 		if(StringUtils.isNotBlank(orderRecordBO.getOrderId())){
 			cmpayRecordExample.or().andOrderIdEqualTo(orderRecordBO.getOrderId());
 		}
@@ -72,11 +80,14 @@ public class OrderRecordServiceImpl implements OrderRecordService {
 		if(orderRecordBO.getStartTime() !=null && orderRecordBO.getEndTime() !=null){
 			cmpayRecordExample.or().andCreateTimeBetween(orderRecordBO.getStartTime(), orderRecordBO.getEndTime());
 		}
+		if(StringUtils.isNotBlank(orderRecordBO.getMerNo())){
+			cmpayRecordExample.or().andMerNoEqualTo(orderRecordBO.getMerNo());
+		}
 
 	    int count =cmpayRecordMapper.countByExample(cmpayRecordExample);
         Pagination pagination = new Pagination(count, orderRecordBO.getPageCurrent(),orderRecordBO.getPageSize());
         PageHelper.startPage(orderRecordBO.getPageCurrent(), orderRecordBO.getPageSize());
-        
+
         cmpayRecordExample.setOrderByClause("CREATE_TIME DESC");
         List<CmpayRecord> recds=cmpayRecordMapper.selectByExample(cmpayRecordExample);
         List<OrderRecordBO> orderRecordBOList=new ArrayList<OrderRecordBO>();
@@ -87,6 +98,12 @@ public class OrderRecordServiceImpl implements OrderRecordService {
             } catch (Exception e) {
                 logger.error("cope cmpayRecord异常！！！！！！");
                 e.printStackTrace();
+            }
+
+            String inchannel=cmpayRecord.getInchannel();
+            if(StringUtils.isNoneBlank(inchannel)){
+            	inchannel=InChannelEnum.getInchannelByCode(inchannel);
+            	orderRecBO.setInchannel(inchannel);
             }
             orderRecordBOList.add(orderRecBO);
 
@@ -133,12 +150,12 @@ public class OrderRecordServiceImpl implements OrderRecordService {
 		}
 		return resultMap;
 	}
-    
-    
+
+
 
 
 	}
-   
+
 
 
 

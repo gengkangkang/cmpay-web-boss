@@ -86,7 +86,41 @@
        <td align="center"><c:out value="${record.notifyUrl}"/></td>
        <td align="center"><c:out value="${record.orderDesc}"/></td>
 
-       <td align="center"><c:out value="${record.payStatus}"/></td>
+      <%--  <td align="center"><c:out value="${record.payStatus}"/></td> --%>
+       
+          <c:choose>
+            <c:when test="${record.payStatus=='SUCC'}">
+                    <td align="center" style="color:green">成功</td>            
+            </c:when>
+            <c:when test="${record.payStatus=='DEALING'}">
+                   <td align="center" style="color:red">处理中</td>
+            </c:when>
+            <c:when test="${record.payStatus=='FAIL'}">
+                   <td align="center" style="color:red">失败</td>
+            </c:when>
+            <c:when test="${record.payStatus=='CANCEL'}">
+                   <td align="center" style="color:red">取消</td>
+            </c:when>        
+            <c:when test="${record.payStatus=='NEW'}">
+                    <td align="center" style="color:green">新建</td>            
+            </c:when>
+            <c:when test="${record.payStatus=='WAIT'}">
+                   <td align="center" style="color:red">未支付</td>
+            </c:when>
+            <c:when test="${record.payStatus=='REFUNDING'}">
+                   <td align="center" style="color:red">退款中</td>
+            </c:when>
+            <c:when test="${record.payStatus=='REFUNDSUCC'}">
+                   <td align="center" style="color:green">已退款</td>
+            </c:when>
+             <c:when test="${record.payStatus=='REFUNDFAIL'}">
+                   <td align="center" style="color:red">退款失败</td>
+            </c:when>                 
+            <c:otherwise>
+                 <td align="center"><c:out value="${record.payStatus}"/></td>
+            </c:otherwise>
+         </c:choose>
+       
     
        <td align="center"><c:out value="${record.payChannel}"/></td>                 
        <td align="center"><c:out value="${record.prov}"/></td>  

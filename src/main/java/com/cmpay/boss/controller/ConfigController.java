@@ -37,7 +37,7 @@ import com.cmpay.boss.util.Pagination;
 
 /**
  * 配置相关功能
- * @author gengkangkang wangling 
+ * @author gengkangkang wangling
  * @E-mail gengkangkang@cm-inv.com wangling@cm-inv.com
  *
  * 2016年10月11日 下午2:44:27
@@ -62,7 +62,7 @@ public class ConfigController {
         Pagination<IpBO> ipBOPagination = configService.getAllIp(ipBO);
 
         ipManageForm.setPagination(ipBOPagination);
-        
+
         return "ipmanagelist";
 
     }
@@ -77,13 +77,13 @@ public class ConfigController {
         merchantBO.setPageSize(Integer.valueOf(pageSize));
 
         Pagination<MerchantBO> merBOPagination = configService.getAllMer(merchantBO);
-        
+
         merForm.setPagination(merBOPagination);
-        
+
         return "merchant/mermanagelist";
 
     }
-    
+
     @RequestMapping(value = "/channelManagement/query_all_channelBase", method = RequestMethod.GET)
     public String getAllChannelBase(@ModelAttribute("channelBaseForm") ChannelBaseForm channelBaseForm){
     	ChannelBaseBO channelBaseBO = new ChannelBaseBO();
@@ -195,7 +195,7 @@ public class ConfigController {
         return "merchant/mermanagelist";
 
     }
-    
+
     @RequestMapping(value = "/bankManagement/getbankByPara", method = RequestMethod.POST)
     public String getbankByPara(@ModelAttribute("bankBaseForm") BankBaseForm bankBaseForm){
     	BankBaseBO bankBO=new BankBaseBO();
@@ -219,7 +219,7 @@ public class ConfigController {
         return "merchant/bankBaselist";
 
     }
-    
+
     @RequestMapping(value = "/channelManagement/getChannelByPara", method = RequestMethod.POST)
     public String getChannelByPara(@ModelAttribute("channelBaseForm") ChannelBaseForm channelBaseForm){
     	ChannelBaseBO channelBaseBO = new ChannelBaseBO();
@@ -243,7 +243,7 @@ public class ConfigController {
         return "merchant/channelBaselist";
 
     }
-    
+
     @RequestMapping(value = "/ipManagement/query_a_ip", method = RequestMethod.POST)
     public String getIpByPara(@ModelAttribute("ipManageForm") IpManageForm ipManageForm){
         IpBO ipBO = new IpBO();
@@ -263,8 +263,8 @@ public class ConfigController {
 
         return "ipmanagelist";
 
-    } 
-    
+    }
+
     @RequestMapping(value = "/ipManagement/addIp", method = RequestMethod.GET)
     public String goAddNewPage(@ModelAttribute("ipManageForm") IpManageForm ipManageForm) {
 
@@ -284,12 +284,12 @@ public class ConfigController {
             resultMap.put("message", "ip地址不能为空");
             return resultMap;
         }
-        
+
         resultMap = configService.addNewIp(ip, inchannel, remark);
 
         return resultMap;
     }
-  
+
     @RequestMapping(value = "/merchantManagement/addMer", method = RequestMethod.GET)
     public String goAddNewMerPage(@ModelAttribute("merForm") MerchantForm merForm) {
 
@@ -324,7 +324,7 @@ public class ConfigController {
 
         return resultMap;
     }
-	  
+
     @RequestMapping(value = "/channelManagement/addChannel", method = RequestMethod.GET)
     public String goAddNewChannelPage(HttpServletRequest request,@ModelAttribute("payChannelForm") PayChannelForm payChannelForm) {
 
@@ -333,7 +333,7 @@ public class ConfigController {
     	payChannelForm.setMerchNo(merchantId);
         return "merchant/addChannel";
     }
-	
+
     @ResponseBody
     @RequestMapping(value = "/channelManagement/addNewChannel", method = RequestMethod.POST)
     public Map addNewChannel(@ModelAttribute("payChannelForm") PayChannelForm payChannelForm) {
@@ -367,7 +367,7 @@ public class ConfigController {
     	suppBankForm.setPayChannelCode(payChannelId);
         return "merchant/addSuppBank";
     }
-    
+
     @ResponseBody
     @RequestMapping(value = "/channelManagement/addNewSuppBank", method = RequestMethod.POST)
     public Map addNewSuppBank(@ModelAttribute("suppBankForm") SuppBankForm suppBankForm) {
@@ -392,13 +392,13 @@ public class ConfigController {
     	return resultMap;
     }
 
-	
+
     @RequestMapping(value = "/channelManagement/addChannelBase", method = RequestMethod.GET)
     public String goAddNewChannelBasePage(@ModelAttribute("channelBaseForm") ChannelBaseForm channelBaseForm) {
 
         return "merchant/addCB";
     }
-    
+
     @ResponseBody
     @RequestMapping(value = "/channelManagement/addNewCB", method = RequestMethod.POST)
     public Map addNewCB(@ModelAttribute("channelBaseForm") ChannelBaseForm channelBaseForm) {
@@ -417,13 +417,13 @@ public class ConfigController {
     	return resultMap;
     }
 
-    
+
     @RequestMapping(value = "/bankManagement/addBankBase", method = RequestMethod.GET)
     public String goAddNewBankBasePage(@ModelAttribute("bankBaseForm") BankBaseForm bankBaseForm) {
 
         return "merchant/addBB";
     }
-    
+
     @ResponseBody
     @RequestMapping(value = "/bankManagement/addNewBB", method = RequestMethod.POST)
     public Map addNewBB(@ModelAttribute("bankBaseForm") BankBaseForm bankBaseForm) {
@@ -518,10 +518,11 @@ public class ConfigController {
         ipManageForm.setStatus(ipBO.getStatus());
         ipManageForm.setCreatetime(ipBO.getCreatetime());
         ipManageForm.setOperator(ipBO.getOperator());
+        ipManageForm.setRemark(ipBO.getRemark());
 
         return "modifyipdetails";
     }
-    
+
     @ResponseBody
     @RequestMapping(value = "/ipManagement/updateIp", method = RequestMethod.POST)
     public Map updateFuncDetails(@ModelAttribute("ipManageForm") IpManageForm ipManageForm) {
@@ -566,7 +567,7 @@ public class ConfigController {
 
         return "merchant/updmer";
     }
-    
+
     @ResponseBody
     @RequestMapping(value = "/merchantManagement/updateMer", method = RequestMethod.POST)
     public Map updateMer(@ModelAttribute("merForm") MerchantForm merForm) {
@@ -691,7 +692,7 @@ public class ConfigController {
         return resultMap;
 
     }
-    
+
     @RequestMapping(value = "/channelConfigManagement/query_all_channelconfig", method = RequestMethod.GET)
     public String getAllChannelConfig(@ModelAttribute("channelConfigForm") ChannelConfigForm channelConfigForm){
     	ChannelConfigBO channelConfigBO = new ChannelConfigBO();
@@ -734,7 +735,7 @@ public class ConfigController {
         return "channelconfig/channelconfiglist";
 
     }
-   
+
     @ResponseBody
     @RequestMapping(value = "/channelConfigManagement/addNewconfig", method = RequestMethod.POST)
     public Map addNewChannelConfig(@ModelAttribute("configaddForm") ChannelConfigForm configaddForm) {
@@ -751,7 +752,7 @@ public class ConfigController {
 
         return resultMap;
     }
-    
+
     @RequestMapping(value = "/channelConfigManagement/edit", method = RequestMethod.GET)
     public String modifyChannelConfigDetails(HttpServletRequest request,
     		@ModelAttribute("channelConfigForm") ChannelConfigForm channelConfigForm) {
@@ -767,7 +768,7 @@ public class ConfigController {
 
         return "channelconfig/updchannelconfig";
     }
-    
+
     @ResponseBody
     @RequestMapping(value = "/channelConfigManagement/updateChanneConfig", method = RequestMethod.POST)
     public Map updateChanneConfig(@ModelAttribute("channelConfigForm") ChannelConfigForm channelConfigForm) {
@@ -787,8 +788,8 @@ public class ConfigController {
         return resultMap;
 
     }
-    
-	
 
-	
+
+
+
 }
